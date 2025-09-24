@@ -1,8 +1,8 @@
 /**
- * Manages all game sounds, including background music, effects and mute state.
+ * Handles all game audio: background tracks, sound effects, mute state, and DOM integration.
  */
 class SoundManager {
-    /** @type {Object.<string, HTMLAudioElement>} */
+    /** @type {Object.<string, HTMLAudioElement>} Preloaded game sounds. */
     static sounds = {
         music: new Audio("./audio/6_backgroundsounds/1.mp3"),
         bossMusic: new Audio("./audio/6_backgroundsounds/finalBoss.mp3"),
@@ -25,10 +25,10 @@ class SoundManager {
         endbossDead: new Audio("./audio/5_chickenBoss/chickenBossLev1.mp3")
     };
 
-    /** @type {boolean} */
+    /** @type {boolean} Tracks mute state across all sounds. */
     static isMuted = true;
 
-    /** @type {Object.<string, number>} */
+    /** @type {Object.<string, number>} Default volume levels for all sounds. */
     static volumeSettings = {
         music: 0.35, bossMusic: 0.4, walking: 0.15, jumping: 0.35, dead: 0.3,
         hurt: 0.3, collectingBottle: 0.25, whisleBottle: 0.15, smashBottle: 0.35,
@@ -37,20 +37,24 @@ class SoundManager {
         chickenDead: 0.35, endboss: 0.35, endbossDead: 0.35
     };
 
-    /** Toggles mute state and updates sounds accordingly. */
+    // ---------------------------------------------------------------------
+    // Public control methods
+    // ---------------------------------------------------------------------
+
+    /** Toggles mute state and updates all sounds accordingly. */
     static toggleSound() {
         this.isMuted = !this.isMuted;
         if (this.isMuted) this.muteAll();
         else this.unmuteAll();
     }
 
-    /** Mutes all sounds and updates the icon. */
+    /** Mutes every sound and updates the toggle icon. */
     static muteAll() {
         Object.values(this.sounds).forEach(s => { s.pause(); s.muted = true; });
         this.updateIcon(false);
     }
 
-    /** Unmutes all sounds and fades them in. */
+    /** Gradually unmutes all sounds by fading them in. */
     static unmuteAll() {
         const targets = {};
         Object.entries(this.sounds).forEach(([n, s]) => {
@@ -65,8 +69,69 @@ class SoundManager {
     }
 
     /**
-     * Gradually increases volume for given sounds.
-     * @param {Object.<string, number>} targets - Target volumes.
+     * Plays a specific sound effect by name.
+     * @param {string} name - Sound key.
+     */
+    static playSound(name) {
+        if (!this.isMuted && this.sounds[name]) {
+            const s = this.sounds[name];
+            s.volume = this.volumeSettings[name] || 0.2;
+            s.currentTime = 0;
+            s.play();
+        }
+    }
+
+    /**
+     * Pauses a specific sound effect by name.
+     * @param {string} name - Sound key.
+     */
+    static pauseSound(name) {
+        if (this.sounds[name]) this.sounds[name].pause();
+    }
+
+    /** Pauses every currently playing sound. */
+    static pauseAllSounds() {
+        Object.values(this.sounds).forEach(s => s.pause());
+    }
+
+    /** Stops all sounds and resets their playback time. */
+    static stopAllSounds() {
+        Object.values(this.sounds).forEach(s => { s.pause(); s.currentTime = 0; });
+    }
+
+    /**
+     * Starts background music or boss music.
+     * @param {"music"|"bossMusic"} [type="music"] - Track type to play.
+     */
+    static playBackground(type = "music") {
+        if (this.isMuted) return;
+        this.stopBackground();
+        const s = this.sounds[type];
+        if (s) {
+            s.loop = true;
+            s.volume = this.volumeSettings[type] || 0.3;
+            s.play().catch(() => {});
+        }
+    }
+
+    /** Stops both background and boss music. */
+    static stopBackground() {
+        ["music", "bossMusic"].forEach(n => {
+            const s = this.sounds[n];
+            if (s) {
+                s.pause();
+                s.currentTime = 0;
+            }
+        });
+    }
+
+    // ---------------------------------------------------------------------
+    // Private helpers
+    // ---------------------------------------------------------------------
+
+    /**
+     * Gradually increases volume for targeted sounds.
+     * @param {Object.<string, number>} targets - Mapping of sounds to target volumes.
      */
     static fadeIn(targets) {
         const duration = 3000, steps = 30, stepTime = duration / steps;
@@ -82,62 +147,24 @@ class SoundManager {
     }
 
     /**
-     * Updates the sound toggle icon.
-     * @param {boolean} on - True for "on" icon, false for "off".
+     * Updates the DOM sound toggle icon based on state.
+     * @param {boolean} on - True shows "on" icon, false shows "off" icon.
      */
     static updateIcon(on) {
         const icon = document.getElementById("sound-toggle");
         if (icon) icon.src = on ? "imgs/logos/musicOn.png" : "imgs/logos/musicOff.png";
     }
 
-    /**
-     * Plays a specific sound effect.
-     * @param {string} name - Sound key.
-     */
-    static playSound(name) {
-        if (!this.isMuted && this.sounds[name]) {
-            const s = this.sounds[name];
-            s.volume = this.volumeSettings[name] || 0.2;
-            s.currentTime = 0;
-            s.play();
+    // ---------------------------------------------------------------------
+    // DOM integration
+    // ---------------------------------------------------------------------
+
+    /** Initialises the DOM sound toggle and sets default state. */
+    static init() {
+        const icon = document.getElementById("sound-toggle");
+        if (icon) {
+            icon.addEventListener("click", () => this.toggleSound());
+            this.updateIcon(false); // Start in "muted" state
         }
-    }
-
-    /**
-     * Pauses a specific sound.
-     * @param {string} name - Sound key.
-     */
-    static pauseSound(name) { if (this.sounds[name]) this.sounds[name].pause(); }
-
-    /** Pauses all sounds. */
-    static pauseAllSounds() { Object.values(this.sounds).forEach(s => s.pause()); }
-
-    /** Stops all sounds and resets their time. */
-    static stopAllSounds() {
-        Object.values(this.sounds).forEach(s => { s.pause(); s.currentTime = 0; });
-    }
-
-    /**
-     * Plays background music or boss music.
-     * @param {"music"|"bossMusic"} [type="music"] - Type of background track.
-     */
-    static playBackground(type = "music") {
-        if (this.isMuted) return;
-        this.stopBackground();
-        const s = this.sounds[type];
-        if (s) {
-            s.loop = true;
-            s.volume = this.volumeSettings[type] || 0.3;
-            s.play().catch(() => {});
-        }
-    }
-
-    /** Stops background and boss music. */
-    static stopBackground() {
-        ["music", "bossMusic"].forEach(n => {
-            const s = this.sounds[n];
-            s.pause();
-            s.currentTime = 0;
-        });
     }
 }

@@ -1,16 +1,16 @@
 /**
- * Represents a background object in the game world.
- * Extends MovableObject to inherit drawable and movable behaviour.
+ * BackgroundObject represents static scenery elements (e.g. sky, mountains, ground)
+ * that move relative to the camera but are not interactive.
+ * Extends MovableObject to reuse drawing and positioning logic.
  */
 class BackgroundObject extends MovableObject {
-
     /**
-     * Creates a new BackgroundObject instance.
-     * @param {string} imagePath - Path to the image file.
-     * @param {number} xBg - The x-coordinate of the background object.
-     * @param {number} yBg - The y-coordinate of the background object.
-     * @param {number} heightBg - The height of the background object.
-     * @param {number} widthBg - The width of the background object.
+     * Constructs a background object and initialises its visual representation.
+     * @param {string} imagePath - File path to the image asset.
+     * @param {number} xBg - Horizontal position in the world.
+     * @param {number} yBg - Vertical position in the world.
+     * @param {number} heightBg - Height in pixels.
+     * @param {number} widthBg - Width in pixels.
      */
     constructor(imagePath, xBg, yBg, heightBg, widthBg) {
         super();
@@ -18,12 +18,12 @@ class BackgroundObject extends MovableObject {
     }
 
     /**
-     * Loads the image and sets the object’s dimensions and position.
-     * @param {string} imagePath - Path to the image file.
-     * @param {number} xBg - The x-coordinate of the background object.
-     * @param {number} yBg - The y-coordinate of the background object.
-     * @param {number} heightBg - The height of the background object.
-     * @param {number} widthBg - The width of the background object.
+     * Loads the given image and applies size and position to this object.
+     * @param {string} imagePath - File path to the image asset.
+     * @param {number} xBg - Horizontal position in the world.
+     * @param {number} yBg - Vertical position in the world.
+     * @param {number} heightBg - Height in pixels.
+     * @param {number} widthBg - Width in pixels.
      */
     loadAndSetImage(imagePath, xBg, yBg, heightBg, widthBg) {
         this.loadImage(imagePath, xBg, yBg, heightBg, widthBg);

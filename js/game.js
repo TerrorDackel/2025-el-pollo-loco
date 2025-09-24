@@ -1,57 +1,63 @@
+// ===============================
+// Global game state
+// ===============================
 let canvas;
 let world;
 let keyboard = new Keyboard();
 let restartTimeout;
 let gamePaused = false;
 let countdownActive = false;
-let musicOn = false;
 let intervalIds = [];
 let i = 1;
 
 /**
  * Creates a stoppable interval and stores its id.
- * @param {Function} fn - Function to execute.
- * @param {number} time - Interval time in ms.
+ * @param {Function} fn - Function to execute repeatedly.
+ * @param {number} time - Interval duration in milliseconds.
  */
 function setStoppableInterval(fn, time) {
     const id = setInterval(fn, time);
     intervalIds.push(id);
 }
 
+/**
+ * Initialises global systems once the DOM is ready.
+ */
 document.addEventListener("DOMContentLoaded", () => {
-    // Startscreen ist jetzt im HTML, also KEIN showStartScreen() mehr
-    addSoundIcon();
+    SoundManager.init();
     initMobileControls();
     checkOrientation();
     window.addEventListener("resize", checkOrientation);
     window.addEventListener("orientationchange", checkOrientation);
 });
 
-/** Initialises the game. */
+/**
+ * Initialises the game world and canvas.
+ */
 function init() {
     clearAllIntervals();
     canvas = document.getElementById("canvas");
-    const baseWidth = 720;
-    const baseHeight = 480;
-    canvas.width = baseWidth;
-    canvas.height = baseHeight;
-
-    resizeCanvas(); // gleich beim Start anpassen
+    canvas.width = 720;
+    canvas.height = 480;
+    resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
     world = new World(canvas, keyboard);
 }
 
+/**
+ * Resizes the canvas proportionally to the window.
+ */
 function resizeCanvas() {
     const scaleX = window.innerWidth / canvas.width;
     const scaleY = window.innerHeight / canvas.height;
-    const scale = Math.min(scaleX, scaleY); // proportionaler Faktor
-
-    // CSS-Größe anpassen
+    const scale = Math.min(scaleX, scaleY);
     canvas.style.width = canvas.width * scale + "px";
     canvas.style.height = canvas.height * scale + "px";
 }
 
-/** Resets the game state. */
+/**
+ * Resets the game to its initial state.
+ */
 function resetGame() {
     clearAllIntervals();
     stopAnimations();
@@ -60,7 +66,9 @@ function resetGame() {
     world = new World(canvas, keyboard);
 }
 
-/** Clears all running intervals and timeouts. */
+/**
+ * Clears all active intervals and timeouts.
+ */
 function clearAllIntervals() {
     const highestId = setTimeout(() => {}, 0);
     for (let id = 0; id <= highestId; id++) {
@@ -69,20 +77,26 @@ function clearAllIntervals() {
     }
 }
 
-/** Stops running animations of the character. */
+/**
+ * Stops character animations if active.
+ */
 function stopAnimations() {
     if (world && world.character.animationInterval) {
         clearInterval(world.character.animationInterval);
     }
 }
 
-/** Removes key event listeners. */
+/**
+ * Removes global keyboard event listeners.
+ */
 function removeEventListeners() {
     window.removeEventListener("keydown", handleKeyDown);
     window.removeEventListener("keyup", handleKeyUp);
 }
 
-/** Shows a restart prompt overlay. */
+/**
+ * Displays the restart confirmation overlay.
+ */
 function showRestartPrompt() {
     if (document.getElementById("restartPrompt")) return;
     const prompt = createRestartPrompt();
@@ -92,7 +106,10 @@ function showRestartPrompt() {
     document.addEventListener("keydown", this.handleRestartEvent);
 }
 
-/** Creates the restart prompt element. */
+/**
+ * Creates the restart overlay element.
+ * @returns {HTMLDivElement} Restart prompt element.
+ */
 function createRestartPrompt() {
     return Object.assign(document.createElement("div"), {
         id: "restartPrompt",
@@ -106,8 +123,8 @@ function createRestartPrompt() {
 
 /**
  * Handles restart key inputs.
- * @param {KeyboardEvent} event - Key event.
- * @param {object} ctx - Context object for prompt.
+ * @param {KeyboardEvent} event - The pressed key.
+ * @param {object} ctx - Context object with closeRestartPrompt.
  */
 function handleRestartKeys(event, ctx) {
     const key = event.key.toLowerCase();
@@ -115,7 +132,9 @@ function handleRestartKeys(event, ctx) {
     else if (key === "j") ctx.closeRestartPrompt();
 }
 
-/** Closes the restart prompt and reinitialises the game. */
+/**
+ * Closes restart overlay and reinitialises the game.
+ */
 function closeRestartPrompt() {
     const restartPrompt = document.getElementById("restartPrompt");
     if (restartPrompt) {
@@ -125,55 +144,17 @@ function closeRestartPrompt() {
     }
 }
 
-/** Adds a sound toggle icon to the DOM. */
-function addSoundIcon() {
-    const soundIcon = document.createElement("img");
-    soundIcon.id = "sound-toggle";
-    soundIcon.src = "imgs/logos/musicOff.png";
-    Object.assign(soundIcon.style, {
-        position: "fixed", right: "10px", width: "30px",
-        cursor: "pointer", zIndex: "100"
-    });
-    document.body.appendChild(soundIcon);
-    soundIcon.addEventListener("click", () => SoundManager.toggleSound());
-}
-
-/** Toggles game music on/off. */
-function toggleMusic() {
-    const soundIcon = document.getElementById("sound-toggle");
-    if (!musicPlay.paused) disableMusic(soundIcon);
-    else enableMusicPlay(soundIcon);
-    musicOn = !musicOn;
-}
-
 /**
- * Disables music and updates icon.
- * @param {HTMLElement} icon - Sound icon.
+ * Global keydown handler.
  */
-function disableMusic(icon) {
-    musicPlay.pause();
-    icon.src = "imgs/logos/musicOff.png";
-}
-
-/**
- * Enables music and updates icon.
- * @param {HTMLElement} icon - Sound icon.
- */
-function enableMusicPlay(icon) {
-    musicPlay.currentTime = 0;
-    musicPlay.play();
-    icon.src = "imgs/logos/musicOn.png";
-}
-
-/** Global keydown listener. */
 window.addEventListener("keydown", (e) => {
     if (gamePaused && e.keyCode !== 80) return;
     handleKeyDownEvents(e);
 });
 
 /**
- * Handles keydown events.
- * @param {KeyboardEvent} e - Key event.
+ * Processes keydown events and maps to actions.
+ * @param {KeyboardEvent} e - The keydown event.
  */
 function handleKeyDownEvents(e) {
     switch (e.keyCode) {
@@ -189,12 +170,14 @@ function handleKeyDownEvents(e) {
         case 45: keyboard.ZERO = true; break;
         case 77: keyboard.M = true; break;
         case 80: togglePause(); break;
-        case 90: if (!musicOn) toggleMusic(); break;
-        case 84: if (musicOn) toggleMusic(); break;
+        case 90: SoundManager.unmuteAll(); break;
+        case 84: SoundManager.muteAll(); break;
     }
 }
 
-/** Handles space key action (throw bottle). */
+/**
+ * Handles the space key (throwing).
+ */
 function handleSpaceKey() {
     if (!keyboard.SPACE) {
         keyboard.SPACE = true;
@@ -202,12 +185,14 @@ function handleSpaceKey() {
     }
 }
 
-/** Global keyup listener. */
+/**
+ * Global keyup handler.
+ */
 window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
 
 /**
- * Handles keyup events.
- * @param {KeyboardEvent} e - Key event.
+ * Processes keyup events and maps to actions.
+ * @param {KeyboardEvent} e - The keyup event.
  */
 function handleKeyUpEvents(e) {
     switch (e.keyCode) {
@@ -225,7 +210,9 @@ function handleKeyUpEvents(e) {
     }
 }
 
-/** Toggles game pause/resume with countdown. */
+/**
+ * Toggles game pause state.
+ */
 function togglePause() {
     if (!gamePaused) pauseGame();
     else if (!countdownActive) {
@@ -234,14 +221,18 @@ function togglePause() {
     }
 }
 
-/** Pauses the game and shows overlay. */
+/**
+ * Pauses the game and draws overlay.
+ */
 function pauseGame() {
     gamePaused = true;
     world.pauseGame();
     drawPauseScreen();
 }
 
-/** Starts countdown before resuming game. */
+/**
+ * Starts countdown to resume game.
+ */
 function startCountdown() {
     countdownActive = true;
     let count = 5;
@@ -256,7 +247,9 @@ function startCountdown() {
     countDownStep();
 }
 
-/** Resumes the game after countdown. */
+/**
+ * Resumes game after countdown.
+ */
 function resumeAfterCountdown() {
     console.log("GO!");
     speak("GO!");
@@ -266,8 +259,8 @@ function resumeAfterCountdown() {
 }
 
 /**
- * Speaks a given text using speech synthesis.
- * @param {string} text - Text to speak.
+ * Speaks given text with speech synthesis.
+ * @param {string} text - Text to pronounce.
  */
 function speak(text) {
     const speech = new SpeechSynthesisUtterance(text);
@@ -275,7 +268,9 @@ function speak(text) {
     window.speechSynthesis.speak(speech);
 }
 
-/** Draws the pause overlay. */
+/**
+ * Draws pause screen overlay.
+ */
 function drawPauseScreen() {
     const ctx = world.ctx;
     ctx.fillStyle = "rgba(0,0,0,0.9)";
@@ -287,18 +282,14 @@ function drawPauseScreen() {
     ctx.fillText("Drücke bitte P erneut.", canvas.width / 2, canvas.height / 2 + 10);
 }
 
-/** Clears pause overlay by redrawing the world. */
+/**
+ * Clears pause overlay by redrawing the world.
+ */
 function clearPauseScreen() { world.draw(); }
 
-/** Enables music playback. */
-function enableMusic() {
-    if (!musicOn) {
-        musicOn = true;
-        musicPlay.play();
-    }
-}
-
-/** Mobile Controls initialisieren */
+/**
+ * Initialises mobile controls for touch devices.
+ */
 function initMobileControls() {
     const map = [
         { id: "btn-left", key: "LEFT" },
@@ -309,43 +300,35 @@ function initMobileControls() {
     map.forEach(({ id, key }) => {
         const btn = document.getElementById(id);
         if (!btn) return;
-
         btn.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            keyboard[key] = true;
+            e.preventDefault(); keyboard[key] = true;
         }, { passive: false });
-
         btn.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            keyboard[key] = false;
+            e.preventDefault(); keyboard[key] = false;
         }, { passive: false });
     });
 
-    // Flaschenwurf → direkt Spiellogik triggern
     const throwBtn = document.getElementById("btn-throw");
     if (throwBtn) {
         throwBtn.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            handleSpaceKey();
+            e.preventDefault(); handleSpaceKey();
         }, { passive: false });
         throwBtn.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            keyboard.SPACE = false;
+            e.preventDefault(); keyboard.SPACE = false;
         }, { passive: false });
     }
 }
 
-/** Prüft, ob das Gerät im Quer- oder Hochformat ist */
+/**
+ * Checks device orientation and updates UI.
+ */
 function checkOrientation() {
     const warning = document.getElementById("rotate-warning");
     const canvasEl = document.getElementById("canvas");
-
     if (window.innerHeight > window.innerWidth) {
-        // Hochformat → Hinweis zeigen, Spiel verstecken
         warning.style.display = "flex";
         canvasEl.style.display = "none";
     } else {
-        // Querformat → Spiel zeigen
         warning.style.display = "none";
         canvasEl.style.display = "block";
     }

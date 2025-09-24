@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="./imgs/logos/faviconSmall.png" type="image/png">
         <meta name="El Pollo Loco" content="El Pollo Loco" />
-        <title>El Pollo Loco</title>
+        <title>
+            El Pollo Loco
+        </title>
         <link href="./styles.css" rel="stylesheet" />
 
         <!-- Scripts -->
@@ -32,60 +34,149 @@
     </head>
 
     <body>
-        <canvas id="canvas"></canvas>
+        <!-- 🎵 Sound Toggle Icon -->
+        <img id="sound-toggle" src="./imgs/logos/musicOff.png" alt="Sound Icon">
+
+        <canvas id="canvas">
+        </canvas>
 
         <div class="start-screen" id="startScreen">
             <div class="overlay-content">
                 <div class="header-container">
-                    <div class="header-txt">Willkommen bei:</div>
-                    <div class="header-txt">El Pollo Loco</div>
+                    <div class="header-txt">
+                        Willkommen bei:
+                    </div>
+                    <div class="header-txt">
+                        El Pollo Loco
+                    </div>
                 </div>
                 <div class="buttons-container">
-                    <button class="menu-button" onclick="startGame()">▶️ Spiel starten</button>
-                    <button class="menu-button" onclick="showRules()">🕹️ Spielregeln</button>
-                    <button class="menu-button" onclick="showImpressum()">ℹ️ Impressum</button>
+                    <button class="menu-button" onclick="startGame()">
+                        ▶️ Spiel starten
+                    </button>
+                    <button class="menu-button" onclick="showRules()">
+                        🕹️ Spielregeln
+                    </button>
+                    <button class="menu-button" onclick="showImpressum()">
+                        ℹ️ Impressum
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div id="rules-overlay" class="overlay hidden">
-            <div class="overlay-content">
-                <h2 class="header-game-controll">Spielregeln im Game:</h2>
-                <p class="game-controll-txt">⬅️ Pfeil links: Pepe läuft nach links.</p>
-                <p class="game-controll-txt">➡️ Pfeil rechts: Pepe läuft nach rechts.</p>
-                <p class="game-controll-txt">⬆️ Pfeil oben: Pepe springt.</p>
-                <p class="game-controll-txt">SPACE: Pepe wirft eine Flasche.</p>
-                <p class="game-controll-txt">🔇 T = Musik aus, 🔊 Z = Musik an.</p>
-                <p class="game-controll-txt">⏯️ P = Pause starten/beenden.</p>
-                <p class="game-controll-back">Klicke irgendwo hin, um zurückzukehren.</p>
+        <div id="rules-overlay" class="overlay overlay-hidden">
+            <div class="overlay-content-rules">
+                <h2 class="header-game-controll">
+                    Spielregeln im Game:
+                </h2>
+                <div class="rules-content-txt">
+                    <p class="game-controll-txt">
+                        ⬅️ Pfeil links: Pepe läuft nach links.
+                    </p>
+                    <p class="game-controll-txt">
+                        ➡️ Pfeil rechts: Pepe läuft nach rechts.
+                    </p>
+                    <p class="game-controll-txt">
+                        ⬆️ Pfeil oben: Pepe springt.
+                    </p>
+                    <p class="game-controll-txt">
+                        SPACE: Pepe wirft eine Flasche.
+                    </p>
+                    <p class="game-controll-txt">
+                        🔇 T = Musik aus, 🔊 Z = Musik an.
+                    </p>
+                    <p class="game-controll-txt">
+                        ⏯️ P = Pause starten/beenden.
+                    </p>
+                </div>
+                <button class="menu-button-close" onclick="returnToStart()">
+                    ⬅️ Zurück
+                </button>
             </div>
         </div>
 
-        <div id="impressum-overlay" class="overlay hidden">
-            <div class="overlay-content">
-                <h2 class="header-game-controll">Impressum</h2>
-                <p class="game-controll-txt">Kreiert von <b>TerrorDackel</b> - 2025</p>
-                <p class="game-controll-back">Klicke irgendwo hin, um zurückzukehren.</p>
+        <div id="impressum-overlay" class="overlay overlay-hidden">
+            <div class="overlay-content-impressum">
+                <div class="header-game-controll-container">
+                        <h2 class="header-game-controll">
+                        Impressum
+                    </h2>
+                </div>
+                <div class="impressum-content-txt">
+                    <p class="game-controll-header">
+                        Angaben gemäß § 5 TMG
+                    </p>
+                    <p class="game-controll-txt">
+                        Jennifer Thomas
+                        <br>
+                        Pfarrer-Müller-Str. 1
+                        <br>
+                        94431 Pilsting
+                    </p>
+                    <p class="game-controll-txt">
+                        E-Mail: contact@jennifer-thomas.de
+                    </p>
+                    <p class="game-controll-header">
+                        Hinweis zum Projekt
+                    </p>
+                    <p class="game-controll-txt">
+                        Dieses Projekt 
+                        <i>
+                            El Pollo Loco
+                        </i> 
+                        ist ein nicht-kommerzielles Lern- 
+                        und Showcase-Game, das ausschließlich zur Demonstration meiner 
+                        Fähigkeiten als Frontend Developer dient.
+                    </p>
+                    <p class="game-controll-txt">
+                        Die verwendeten Bilder, Grafiken und Vorgaben wurden von der 
+                        Developer Akademie (DA) zur Verfügung gestellt.
+                    </p>
+                    <p class="game-controll-header">
+                        Haftungsausschluss
+                    </p>
+                    <p class="game-controll-txt">
+                        Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. 
+                        Für die inhaltliche Richtigkeit, Vollständigkeit oder 
+                        Aktualität wird keine Gewähr übernommen. Eine Haftung 
+                        ist ausgeschlossen.
+                    </p>
+                </div>
+                <button class="menu-button-close" onclick="returnToStart()">
+                    ⬅️ Zurück
+                </button>
             </div>
         </div>
 
         <div id="rotate-warning">
-            <p>🔄 Drehe bitte dein Gerät ins Querformat um zu spielen!</p>
+            <p>
+                🔄 Drehe bitte dein Gerät ins Querformat um zu spielen!
+            </p>
         </div>
 
-        <div id="mobile-controls">
-            <div class="control-left">
-                <button id="btn-left"><div class="button-sign">⬅️</div></button>
-                <button id="btn-right"><div class="button-sign">➡️</div></button>
-            </div>
-            <div class="control-right">
-                <button id="btn-throw">
-                    <img class="button-sign" src="./imgs/6_salsa_bottle/2_salsa_bottle_on_ground.png" alt="Throw">
+        <div id="mobile-controls" class="mobile-controls-buttons-container overlay-hidden">
+            <div class="control-left-right">
+                <button id="btn-left" class="btn-left">
+                    <div class="button-sign-left">
+                        ⬅️
+                    </div>
                 </button>
-                <button id="btn-jump"><div class="button-sign">⬆️</div></button>
+                <button id="btn-right" class="btn-right">
+                    <div class="button-sign-right">
+                        ➡️
+                    </div>
+                </button>
+            </div>
+            <div class="control-throw-jump">
+                <button id="btn-throw" class="btn-throw">
+                    <img class="button-sign-throw" src="./imgs/6_salsa_bottle/2_salsa_bottle_on_ground.png" alt="Throw">
+                </button>
+                <button id="btn-jump" class="btn-jump">
+                    <div class="button-sign-jump">
+                        ⬆️
+                    </div>
+                </button>
             </div>
         </div>
-            
-        
     </body>
 </html>
