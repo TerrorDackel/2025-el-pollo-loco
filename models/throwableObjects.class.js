@@ -19,7 +19,13 @@ class ThrowableObjects extends MovableObject {
         "./imgs/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png"
     ];
 
-    constructor(x, y, world) {
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {object} world
+     * @param {boolean} facingLeft - true → throw left
+     */
+    constructor(x, y, world, facingLeft = false) {
         super();
         this.loadImages(this.IMAGES_THROWBOTTLES);
         this.loadImages(this.IMAGES_SMASHINGBOTTLES);
@@ -30,15 +36,19 @@ class ThrowableObjects extends MovableObject {
         this.debugMode = true;
         this.world = world;
         this.hasHit = false;
+
+        /* Horizontal velocity depends on facing */
+        this.vx = facingLeft ? -10 : 10;
+
         this.animate();
         this.throw();
     }
 
-    /** Sicherstellen, dass Bottles IMMER oben sichtbar sind */
+    /** Isolate drawing to avoid leaked canvas state */
     draw(ctx) {
-        ctx.save()
-        super.draw(ctx)  // MovableObject.draw() verwenden
-        ctx.restore()
+        ctx.save();
+        super.draw(ctx);
+        ctx.restore();
     }
 
     isAboveGround() { return this.y < 330; }
@@ -72,10 +82,13 @@ class ThrowableObjects extends MovableObject {
         if (index !== -1) this.world.throwableObjects.splice(index, 1);
     }
 
+    /** Apply gravity and horizontal movement */
     throw() {
         this.speedY = 10;
         this.applyGravity();
-        setInterval(() => { if (this.isAboveGround()) this.x += 10; }, 1000 / 50);
+        setInterval(() => {
+            if (this.isAboveGround()) this.x += this.vx;
+        }, 1000 / 50);
     }
 
     checkBottleEnemyCollision() {

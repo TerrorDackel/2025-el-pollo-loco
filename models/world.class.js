@@ -35,9 +35,6 @@ class World {
         this.character.world = this
         this.enemies = this.level.enemies
 
-        // WICHTIG: Nach dem globalen clearAllIntervals() beim init()
-        // müssen die bereits instanziierten Gegner ihre AI/Intervals
-        // neu starten. Guard verhindert doppelte Starts.
         this.enemies.forEach(e => {
             e.setWorld?.(this)
             if (!e._aiStarted && typeof e.animate === "function") {
@@ -104,7 +101,10 @@ class World {
 
     tryThrowObject() {
         if (this.character.collectedBottles > 0) {
-            let bottle = new ThrowableObjects(this.character.x + 100, this.character.y + 100, this)
+            const facingLeft = this.character.otherDirection === true
+            const offsetX = facingLeft ? -20 : 100
+            const offsetY = 100
+            let bottle = new ThrowableObjects(this.character.x + offsetX, this.character.y + offsetY, this, facingLeft)
             this.throwableObjects.push(bottle)
             SoundManager.playSound("whisleBottle")
             this.character.collectedBottles--
@@ -162,30 +162,25 @@ class World {
     draw() {
         if (!this.running) return
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-        this.ctx.translate(this.camera_x, 0)
 
-        // Hintergrund
+        this.ctx.translate(this.camera_x, 0)
         this.addObjectsToMap(this.level.backgroundObjects)
-
         this.ctx.translate(-this.camera_x, 0)
-        this.statusBar.drawStatusBars(this.ctx)
-        this.ctx.translate(this.camera_x, 0)
 
-        // Spielfiguren und Objekte in richtiger Reihenfolge
+        this.statusBar.drawStatusBars(this.ctx)
+
+        this.ctx.translate(this.camera_x, 0)
         this.addToMap(this.character)
         this.addObjectsToMap(this.level.clouds)
         this.addObjectsToMap(this.level.enemies)
         this.addObjectsToMap(this.coins)
 
-        // Boss zuerst
         if (this.level.boss) this.addToMap(this.level.boss)
 
-        // Dann die Flaschen VORNE
+        /* Thrown bottles render after boss → on top */
         this.addObjectsToMap(this.throwableObjects)
 
-        // Am Ende die am Boden liegenden Flaschen
         this.addObjectsToMap(this.bottles)
-
         this.ctx.translate(-this.camera_x, 0)
         requestAnimationFrame(() => this.draw())
     }
@@ -196,10 +191,13 @@ class World {
     }
 
     addToMap(obj) {
-        if (obj.otherDirection) this.flipImage(obj)
+        const isThrowable = obj instanceof ThrowableObjects
+        const needFlip = obj.otherDirection && !isThrowable
+
+        if (needFlip) this.flipImage(obj); else this.ctx.save()
         obj.draw(this.ctx)
         if (obj.drawFrame) obj.drawFrame(this.ctx)
-        if (obj.otherDirection) this.flipImageBack(obj)
+        if (needFlip) this.flipImageBack(obj); else this.ctx.restore()
     }
 
     flipImage(obj) {
