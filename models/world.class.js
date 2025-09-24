@@ -163,17 +163,29 @@ class World {
         if (!this.running) return
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         this.ctx.translate(this.camera_x, 0)
+
+        // Hintergrund
         this.addObjectsToMap(this.level.backgroundObjects)
+
         this.ctx.translate(-this.camera_x, 0)
         this.statusBar.drawStatusBars(this.ctx)
         this.ctx.translate(this.camera_x, 0)
+
+        // Spielfiguren und Objekte in richtiger Reihenfolge
         this.addToMap(this.character)
         this.addObjectsToMap(this.level.clouds)
         this.addObjectsToMap(this.level.enemies)
-        if (this.level.boss) this.addToMap(this.level.boss)
-        this.addObjectsToMap(this.throwableObjects)
         this.addObjectsToMap(this.coins)
+
+        // Boss zuerst
+        if (this.level.boss) this.addToMap(this.level.boss)
+
+        // Dann die Flaschen VORNE
+        this.addObjectsToMap(this.throwableObjects)
+
+        // Am Ende die am Boden liegenden Flaschen
         this.addObjectsToMap(this.bottles)
+
         this.ctx.translate(-this.camera_x, 0)
         requestAnimationFrame(() => this.draw())
     }

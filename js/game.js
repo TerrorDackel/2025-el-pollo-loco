@@ -31,7 +31,24 @@ document.addEventListener("DOMContentLoaded", () => {
 function init() {
     clearAllIntervals();
     canvas = document.getElementById("canvas");
+    const baseWidth = 720;
+    const baseHeight = 480;
+    canvas.width = baseWidth;
+    canvas.height = baseHeight;
+
+    resizeCanvas(); // gleich beim Start anpassen
+    window.addEventListener("resize", resizeCanvas);
     world = new World(canvas, keyboard);
+}
+
+function resizeCanvas() {
+    const scaleX = window.innerWidth / canvas.width;
+    const scaleY = window.innerHeight / canvas.height;
+    const scale = Math.min(scaleX, scaleY); // proportionaler Faktor
+
+    // CSS-Größe anpassen
+    canvas.style.width = canvas.width * scale + "px";
+    canvas.style.height = canvas.height * scale + "px";
 }
 
 /** Resets the game state. */

@@ -3,11 +3,12 @@
     src: url('./fonts/zabars.ttf') format('truetype');
 }
 
-.headline-gamename {
-    text-align: center;
-}
-
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100dvw;
+    height: 100dvh;
     background-color: black;
     background-image: url('./imgs/5_background/desert.png');
     background-size: cover;
@@ -15,54 +16,94 @@ body {
     font-family: 'zabras', Arial, Helvetica, sans-serif;
     font-size: 50px;
     letter-spacing: 5px;
-    margin: 0; /* wichtig für 100vh Overlays */
+    margin: 0;
 }
 
 canvas {
-    background-color: black;
-    display: block;
-    margin: auto;
-    padding: 0;
-    height: 480px;
     position: absolute;
-    top: 0; bottom: 0; left: 0; right: 0;
-    border-radius: 30px;
-}
-
-#startScreen {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transform: scale(0.9);
-    transition: opacity 2.5s ease-out, transform 2.5s ease-out;
-    animation: fadeIn 2.5s forwards;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0);
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: black;
+    max-height: 480px;
+    height: 100%;
+    max-width: 720px;
+    width: 100%;
+    z-index: 1000;
+}
+
+#startScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: calc(480px - 2rem);
+    height: 90%;
+    max-width: calc(720px - 2rem);
+    width: 90%;
+    inset: 0;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 2.5s ease-out, transform 2s ease-out;
+    animation: fadeIn 2.5s forwards;
+    background: rgba(0,0,0,0);
     z-index: 1500;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.5); }
-    to { opacity: 1; transform: scale(1); }
+.overlay-content {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc( 100% / 2 - 1rem );
+    max-height: 50%;
+    padding: 1rem;
+}
+
+.header-txt {
+    font-size: 50px;
+    color: #f3a71a;
+    padding: 0.5rem;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: calc( 100% / 2 - 1rem );
+    max-height: 50%;
+    padding: 1rem;
 }
 
 .menu-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15rem;
+    height: 2.5rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 18px;
     font-weight: bold;
     background: #f7c25f;
     color: black;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
 }
@@ -75,6 +116,7 @@ canvas {
     perspective: 1000px;
 }
 
+/* Overlays */
 #overlay {
     position: fixed;
     inset: 0;
@@ -85,13 +127,12 @@ canvas {
     z-index: 1000;
 }
 
-/* Generisches Overlay */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: rgba(0,0,0,0.9);
     display: flex;
     justify-content: center;
@@ -99,37 +140,8 @@ canvas {
     z-index: 2000;
 }
 
-/* Unsichtbar */
 .hidden {
-    display: none;
-}
-
-
-.overlay-content {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-    width: 600px;
-}
-
-.header-game-elpolloloco {
-    font-size: 60px;
-    color: #ffaa00;
-    text-shadow: #ffaa00;
-    background-color: black;
-}
-
-.header-game-controll {
-    font-size: 40px;
-    color: #f3a71a;
-    letter-spacing: 8px;
-    font-family: Impact, Helvetica, 'Arial Narrow Bold', sans-serif;
-    background-color: black;
+    display: none !important;
 }
 
 .game-controll-txt,
@@ -141,61 +153,48 @@ canvas {
     background-color: black;
 }
 
-@media only screen and (max-width: 720px) {
-    canvas { width: 100%; }
-}
-
-@media only screen and (max-height: 480px) {
-    canvas { height: 100vh; }
-}
-
-.background-el-poll-loco {
-    display: flex;
-    background-color: darkgreen;
-}
-
-/* Rotate-Warnung: vollflächig schwarz */
+/* Rotate-Warnung */
 #rotate-warning {
     display: none;
     position: fixed;
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background: #000;           /* voll schwarz */
+    background: #000;
     color: white;
     padding: 20px;
     text-align: center;
     font-size: 20px;
-    border-radius: 0;           /* keine Rundung für Vollfläche */
+    border-radius: 0;
     z-index: 3000;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Mobile Controls: standardmäßig versteckt */
+/* Mobile Controls */
 #mobile-controls {
     display: none;
 }
 
-/* Nur auf Touch-Geräten UND im Querformat anzeigen */
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
     #mobile-controls {
         position: fixed;
-        bottom: 1rem;             /* gewünschter Abstand */
-        left: 0; right: 0;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
         display: flex;
-        justify-content: center;  /* mittig zentriert */
+        justify-content: center;
         align-items: center;
-        gap: 3rem;                /* Abstand zwischen links/rechts Gruppe */
+        gap: 3rem;
         z-index: 2000;
-        pointer-events: none;     /* Container klickt nicht, nur Buttons */
+        pointer-events: none;
     }
 
     .control-group {
         display: flex;
         gap: 10px;
-        pointer-events: auto;     /* Buttons klickbar */
+        pointer-events: auto;
     }
 
     #mobile-controls button {
@@ -204,10 +203,10 @@ canvas {
         margin: 0 5px;
         border: none;
         border-radius: 16px;
-        background: none;         /* kein transparenter Hintergrund */
+        background: none;
         font-size: 28px;
         cursor: pointer;
-        touch-action: none;       /* verhindert Scroll/Pinch bei Touch */
+        touch-action: none;
     }
 
     .button-sign {
@@ -218,7 +217,7 @@ canvas {
         height: 64px;
         user-select: none;
         -webkit-user-select: none;
-        pointer-events: none;     /* Bild/Emoji blockiert Touch nicht */
+        pointer-events: none;
     }
 
     #mobile-controls img.button-sign {
@@ -226,4 +225,34 @@ canvas {
         height: 64px;
         object-fit: contain;
     }
+}
+
+/* Animationen */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: scale(0.5); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+/* Media Queries */
+@media only screen and (max-width: 720px) {
+    canvas { 
+        width: 100%; 
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas { 
+        height: 100vh; 
+    }
+}
+
+.background-el-poll-loco {
+    display: flex;
+    background-color: darkgreen;
 }

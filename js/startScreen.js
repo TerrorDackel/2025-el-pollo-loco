@@ -1,8 +1,19 @@
 /** Startet das Spiel */
 function startGame() {
     const startScreen = document.getElementById("startScreen");
+
     if (startScreen) startScreen.remove();
+    
     init();
+
+    const controls = document.getElementById("mobile-controls");
+    if (controls) {
+        if (window.matchMedia("(hover: none) and (pointer: coarse) and (orientation: landscape)").matches) {
+            controls.classList.remove("hidden"); // Mobile-Controls einblenden (Querformat)
+        } else {
+            controls.classList.add("hidden"); // Ansonsten versteckt lassen
+        }
+    }
 }
 
 /** Zeigt Regeln */
