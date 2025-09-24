@@ -1,214 +1,262 @@
-class World {  
-    character = new Character()
-    level = level1
-    canvas
-    ctx
-    keyboard
-    camera_x = 0
-    statusBar = new StatusBar()
-    throwableObjects = []
-    running = true
-    coins = []
-    score = 0
-    bottles = []
+/**
+ * Central game world containing character, enemies, items and logic.
+ * Responsible for collisions, drawing and game loop.
+ */
+class World {
+    character = new Character();
+    level = level1;
+    canvas;
+    ctx;
+    keyboard;
+    camera_x = 0;
+    statusBar = new StatusBar();
+    throwableObjects = [];
+    running = true;
+    coins = [];
+    score = 0;
+    bottles = [];
 
+    /**
+     * Initializes the game world with canvas and keyboard input.
+     * @param {HTMLCanvasElement} canvas - Rendering surface.
+     * @param {Keyboard} keyboard - Keyboard input handler.
+     */
     constructor(canvas, keyboard) {
-        this.canvas = canvas
-        this.ctx = canvas.getContext("2d")
-        this.keyboard = keyboard
-        this.statusBar = new StatusBar()
-        this.level = level1
-        this.setWorld()
-        this.spawnCoins()
-        this.spawnBottles()
-        this.run()
-        this.draw()
-
-        this.character.animate()
+        this.canvas = canvas;
+        this.ctx = canvas.getContext("2d");
+        this.keyboard = keyboard;
+        this.statusBar = new StatusBar();
+        this.level = level1;
+        this.setWorld();
+        this.spawnCoins();
+        this.spawnBottles();
+        this.run();
+        this.draw();
+        this.character.animate();
 
         if (!SoundManager.isMuted) {
-            SoundManager.playBackground("music")
+            SoundManager.playBackground("music");
         }
     }
 
+    /** Links world with character and all enemies. */
     setWorld() {
-        this.character.world = this
-        this.enemies = this.level.enemies
+        this.character.world = this;
+        this.enemies = this.level.enemies;
 
         this.enemies.forEach(e => {
-            e.setWorld?.(this)
+            e.setWorld?.(this);
             if (!e._aiStarted && typeof e.animate === "function") {
-                e._aiStarted = true
-                e.animate()
+                e._aiStarted = true;
+                e.animate();
             }
-        })
+        });
 
         if (this.level.boss) {
-            const b = this.level.boss
-            b.setWorld(this)
+            const b = this.level.boss;
+            b.setWorld(this);
             if (!b._aiStarted && typeof b.animate === "function") {
-                b._aiStarted = true
-                b.animate()
+                b._aiStarted = true;
+                b.animate();
             }
         }
     }
 
+    /** Starts the main game loop with collision checks. */
     run() {
         this.interval = setInterval(() => {
-            if (!this.running) return
-            this.checkCollisionCoins()
-            this.checkCollisionBottles()
-            if (this.character && typeof this.character.checkCollisionWithEnemies === "function") {
-                this.character.checkCollisionWithEnemies()
+            if (!this.running) return;
+            this.checkCollisionCoins();
+            this.checkCollisionBottles();
+            if (this.character?.checkCollisionWithEnemies) {
+                this.character.checkCollisionWithEnemies();
             }
-
-            if (this.level.boss) {
-                const boss = this.level.boss
-                const d = Math.abs(this.character.x - boss.x)
-
-                if (d < 600 && !boss.contactWithCharacter) {
-                    boss.letEndbossTouch()
-                }
-
-                if (d >= 800 && boss.contactWithCharacter && !boss.isDead) {
-                    boss.contactWithCharacter = false
-                    SoundManager.stopBackground()
-                    SoundManager.playBackground("music")
-                }
-            }
-        }, 50)
+            this.handleBossLogic();
+        }, 50);
     }
 
-    pauseGame() {
-        this.running = false
-        this.character.pauseAnimation()
-    }
+    /** Handles boss proximity logic and music switching. */
+    handleBossLogic() {
+        if (!this.level.boss) return;
+        const boss = this.level.boss;
+        const d = Math.abs(this.character.x - boss.x);
 
-    resumeGame() {
-        this.running = true
-        this.character.resumeAnimation()
-        this.draw()
-    }
+        if (d < 600 && !boss.contactWithCharacter) {
+            boss.letEndbossTouch();
+        }
 
-    restartGame() {
-        clearAllIntervals()
-        Object.assign(this, new World(this.canvas, this.keyboard))
-    }
-
-    createEnemies() {
-        return [new Chicken(), new ChickenBig(), new Chickensmall()]
-    }
-
-    tryThrowObject() {
-        if (this.character.collectedBottles > 0) {
-            const facingLeft = this.character.otherDirection === true
-            const offsetX = facingLeft ? -20 : 100
-            const offsetY = 100
-            let bottle = new ThrowableObjects(this.character.x + offsetX, this.character.y + offsetY, this, facingLeft)
-            this.throwableObjects.push(bottle)
-            SoundManager.playSound("whisleBottle")
-            this.character.collectedBottles--
-            this.statusBar.setPersentageBottles(this.character.collectedBottles)
-            if (this.level.boss && bottle.isBottleColliding(this.level.boss)) {
-                this.level.boss.hitByBottle()
-            }
+        if (d >= 800 && boss.contactWithCharacter && !boss.isDead) {
+            boss.contactWithCharacter = false;
+            SoundManager.stopBackground();
+            SoundManager.playBackground("music");
         }
     }
 
+    /** Pauses all game updates. */
+    pauseGame() {
+        this.running = false;
+        this.character.pauseAnimation();
+    }
+
+    /** Resumes game updates. */
+    resumeGame() {
+        this.running = true;
+        this.character.resumeAnimation();
+        this.draw();
+    }
+
+    /** Restarts the game by reinitializing world. */
+    restartGame() {
+        clearAllIntervals();
+        Object.assign(this, new World(this.canvas, this.keyboard));
+    }
+
+    /**
+     * Creates enemies for the level.
+     * @returns {MovableObject[]} Enemy array.
+     */
+    createEnemies() {
+        return [new Chicken(), new ChickenBig(), new Chickensmall()];
+    }
+
+    /** Throws a bottle if available in inventory. */
+    tryThrowObject() {
+        if (this.character.collectedBottles <= 0) return;
+
+        const facingLeft = this.character.otherDirection === true;
+        const offsetX = facingLeft ? -20 : 100;
+        const offsetY = 100;
+        let bottle = new ThrowableObjects(
+            this.character.x + offsetX,
+            this.character.y + offsetY,
+            this,
+            facingLeft
+        );
+        this.throwableObjects.push(bottle);
+        SoundManager.playSound("whisleBottle");
+        this.character.collectedBottles--;
+        this.statusBar.setPersentageBottles(this.character.collectedBottles);
+
+        if (this.level.boss && bottle.isBottleColliding(this.level.boss)) {
+            this.level.boss.hitByBottle();
+        }
+    }
+
+    /** Checks collisions between character and bottles. */
     checkCollisionBottles() {
         this.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
-                SoundManager.playSound("collectingBottle")
-                this.bottles.splice(index, 1)
-                this.character.collectedBottles++
-                this.statusBar.setPersentageBottles(this.character.collectedBottles)
+                SoundManager.playSound("collectingBottle");
+                this.bottles.splice(index, 1);
+                this.character.addBottle();
+                this.statusBar.setPersentageBottles(this.character.collectedBottles);
             }
-        })
+        });
     }
 
+    /** Checks collisions between character and coins. */
     checkCollisionCoins() {
         this.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
-                SoundManager.playSound("coin")
-                this.score++
-                this.statusBar.setPersentageCoins(this.score)
-                this.coins.splice(index, 1)
+                SoundManager.playSound("coin");
+                this.score++;
+                this.statusBar.setPersentageCoins(this.score);
+                this.coins.splice(index, 1);
             }
-        })
+        });
     }
 
+    /** Spawns random coins in the level. */
     spawnCoins() {
         for (let i = 0; i < 20; i++) {
-            let x = 100 + Math.random() * 3000
-            let y = 100 + Math.random() * 150
-            let coin = new Coins()
-            coin.x = x
-            coin.y = y
-            this.coins.push(coin)
+            let x = 100 + Math.random() * 3000;
+            let y = 100 + Math.random() * 150;
+            let coin = new Coins();
+            coin.x = x;
+            coin.y = y;
+            this.coins.push(coin);
         }
     }
 
+    /** Spawns random bottles in the level. */
     spawnBottles() {
         for (let i = 0; i < 10; i++) {
-            let x = 1000 + Math.random() * 2000
-            let y = 300
-            let bottle = new Bottle()
-            bottle.x = x
-            bottle.y = y
-            this.bottles.push(bottle)
+            let x = 1000 + Math.random() * 2000;
+            let y = 300;
+            let bottle = new Bottle();
+            bottle.x = x;
+            bottle.y = y;
+            this.bottles.push(bottle);
         }
     }
 
+    /** Draws all objects in the world. */
     draw() {
-        if (!this.running) return
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        if (!this.running) return;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.translate(this.camera_x, 0)
-        this.addObjectsToMap(this.level.backgroundObjects)
-        this.ctx.translate(-this.camera_x, 0)
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.ctx.translate(-this.camera_x, 0);
 
-        this.statusBar.drawStatusBars(this.ctx)
+        this.statusBar.drawStatusBars(this.ctx);
 
-        this.ctx.translate(this.camera_x, 0)
-        this.addToMap(this.character)
-        this.addObjectsToMap(this.level.clouds)
-        this.addObjectsToMap(this.level.enemies)
-        this.addObjectsToMap(this.coins)
+        this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.coins);
 
-        if (this.level.boss) this.addToMap(this.level.boss)
+        if (this.level.boss) this.addToMap(this.level.boss);
 
         /* Thrown bottles render after boss → on top */
-        this.addObjectsToMap(this.throwableObjects)
+        this.addObjectsToMap(this.throwableObjects);
 
-        this.addObjectsToMap(this.bottles)
-        this.ctx.translate(-this.camera_x, 0)
-        requestAnimationFrame(() => this.draw())
+        this.addObjectsToMap(this.bottles);
+        this.ctx.translate(-this.camera_x, 0);
+        requestAnimationFrame(() => this.draw());
     }
 
+    /**
+     * Adds an array of objects to the map.
+     * @param {DrawableObject[]} objects - Objects to render.
+     */
     addObjectsToMap(objects) {
-        if (!objects || objects.length === 0) return
-        objects.forEach((o) => this.addToMap(o))
+        if (!objects || objects.length === 0) return;
+        objects.forEach((o) => this.addToMap(o));
     }
 
+    /**
+     * Adds a single object to the map with flipping if needed.
+     * @param {DrawableObject} obj - Object to render.
+     */
     addToMap(obj) {
-        const isThrowable = obj instanceof ThrowableObjects
-        const needFlip = obj.otherDirection && !isThrowable
+        const isThrowable = obj instanceof ThrowableObjects;
+        const needFlip = obj.otherDirection && !isThrowable;
 
-        if (needFlip) this.flipImage(obj); else this.ctx.save()
-        obj.draw(this.ctx)
-        if (obj.drawFrame) obj.drawFrame(this.ctx)
-        if (needFlip) this.flipImageBack(obj); else this.ctx.restore()
+        if (needFlip) this.flipImage(obj); else this.ctx.save();
+        obj.draw(this.ctx);
+        if (obj.drawFrame) obj.drawFrame(this.ctx);
+        if (needFlip) this.flipImageBack(obj); else this.ctx.restore();
     }
 
+    /**
+     * Flips image horizontally for rendering.
+     * @param {DrawableObject} obj - Object to flip.
+     */
     flipImage(obj) {
-        this.ctx.save()
-        this.ctx.translate(obj.width, 0)
-        this.ctx.scale(-1, 1)
-        obj.x = obj.x * -1
+        this.ctx.save();
+        this.ctx.translate(obj.width, 0);
+        this.ctx.scale(-1, 1);
+        obj.x = obj.x * -1;
     }
 
+    /**
+     * Restores image orientation after flip.
+     * @param {DrawableObject} obj - Object to restore.
+     */
     flipImageBack(obj) {
-        obj.x = obj.x * -1
-        this.ctx.restore()
+        obj.x = obj.x * -1;
+        this.ctx.restore();
     }
 }

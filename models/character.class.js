@@ -9,6 +9,10 @@ class Character extends MovableObject {
     y = 110;
     speed = 12;
 
+    /**
+     * Image paths for idle animation.
+     * @type {string[]}
+     */
     IMAGES_IDLE = [
         "./imgs/2_character_pepe/1_idle/idle/I-1.png",
         "./imgs/2_character_pepe/1_idle/idle/I-2.png",
@@ -32,6 +36,10 @@ class Character extends MovableObject {
         "./imgs/2_character_pepe/1_idle/long_idle/I-20.png"
     ];
 
+    /**
+     * Image paths for walking animation.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         "./imgs/2_character_pepe/2_walk/W-21.png",
         "./imgs/2_character_pepe/2_walk/W-22.png",
@@ -41,6 +49,10 @@ class Character extends MovableObject {
         "./imgs/2_character_pepe/2_walk/W-26.png"
     ];
 
+    /**
+     * Image paths for jumping animation.
+     * @type {string[]}
+     */
     IMAGES_JUMPING = [
         "./imgs/2_character_pepe/3_jump/J-31.png",
         "./imgs/2_character_pepe/3_jump/J-32.png",
@@ -54,12 +66,20 @@ class Character extends MovableObject {
         "./imgs/2_character_pepe/2_walk/W-26.png"
     ];
 
+    /**
+     * Image paths for hurt animation.
+     * @type {string[]}
+     */
     IMAGES_HURT = [
         "./imgs/2_character_pepe/4_hurt/H-41.png",
         "./imgs/2_character_pepe/4_hurt/H-42.png",
         "./imgs/2_character_pepe/4_hurt/H-43.png"
     ];
 
+    /**
+     * Image paths for death animation.
+     * @type {string[]}
+     */
     IMAGES_DEAD = [
         "./imgs/2_character_pepe/5_dead/D-51.png",
         "./imgs/2_character_pepe/5_dead/D-52.png",
@@ -70,10 +90,18 @@ class Character extends MovableObject {
         "./imgs/2_character_pepe/5_dead/D-57.png"
     ];
 
+    /** @type {number} Interval ID for animation loop. */
     animationInterval;
+
+    /** @type {number} Number of collected bottles. */
     collectedBottles = 0;
+
+    /** @type {number} Stores the previous bottom position for stomp detection. */
     prevBottom = 0;
 
+    /**
+     * Creates a new Character instance.
+     */
     constructor() {
         super();
         this.initImages();
@@ -83,6 +111,7 @@ class Character extends MovableObject {
         this.prevBottom = this.getBox(this).bottom;
     }
 
+    /** Load all sprite images for the character. */
     initImages() {
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -92,6 +121,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
     }
 
+    /** Sets collision offsets for the character. */
     setOffsets() {
         this.offsetTop = 100;
         this.offsetBottom = 10;
@@ -99,8 +129,16 @@ class Character extends MovableObject {
         this.offsetRight = 10;
     }
 
+    /**
+     * Connects the character with the game world.
+     * @param {World} world - The game world instance.
+     */
     setWorld(world) { this.world = world; }
 
+    /** Adds a collected bottle to the character’s inventory. */
+    addBottle() { this.collectedBottles++; }
+
+    /** Starts the main animation loop. */
     animate() {
         this.animationInterval = setInterval(() => {
             SoundManager.pauseSound("walking");
@@ -112,15 +150,20 @@ class Character extends MovableObject {
         }, 1000 / 30);
     }
 
+    /** Pauses the animation loop. */
     pauseAnimation() { clearInterval(this.animationInterval); }
+
+    /** Resumes the animation loop. */
     resumeAnimation() { this.animate(); }
 
+    /** Handles player movement based on input. */
     handleMovement() {
         this.handleRightMovement();
         this.handleLeftMovement();
         this.handleJump();
     }
 
+    /** Handles movement to the right. */
     handleRightMovement() {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
@@ -129,6 +172,7 @@ class Character extends MovableObject {
         }
     }
 
+    /** Handles movement to the left. */
     handleLeftMovement() {
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
@@ -137,6 +181,7 @@ class Character extends MovableObject {
         }
     }
 
+    /** Handles jump movement. */
     handleJump() {
         if (this.world.keyboard.UP && !this.isAboveGround()) {
             this.jump();
@@ -144,8 +189,10 @@ class Character extends MovableObject {
         }
     }
 
+    /** Updates the camera position relative to the character. */
     updateCamera() { this.world.camera_x = -this.x + 100; }
 
+    /** Updates character animation based on state. */
     updateAnimation() {
         if (this.isDead()) this.handleDeath();
         else if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
@@ -153,12 +200,14 @@ class Character extends MovableObject {
         else this.handleWalkingAnimation();
     }
 
+    /** Plays walking animation when moving horizontally. */
     handleWalkingAnimation() {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING);
         }
     }
 
+    /** Handles the death sequence of the character. */
     handleDeath() {
         if (!this.deadAnimationPlayed) {
             this.playAnimation(this.IMAGES_DEAD);
@@ -170,8 +219,14 @@ class Character extends MovableObject {
         }
     }
 
+    /** Initiates a jump. */
     jump() { this.speedY = 33; }
 
+    /**
+     * Returns collision box of an object.
+     * @param {MovableObject} o - The object to get the box for.
+     * @returns {{left: number, right: number, top: number, bottom: number}}
+     */
     getBox(o) {
         return {
             left: o.x + (o.offsetLeft || 0),
@@ -183,22 +238,19 @@ class Character extends MovableObject {
 
     /**
      * Determines if the character stomps an enemy.
-     * Character must have been above the enemy in the previous frame
-     * and now collide with the top edge of the enemy.
-     * @param {MovableObject} enemy
-     * @returns {boolean}
+     * @param {MovableObject} enemy - The enemy to check against.
+     * @returns {boolean} True if stomping, false otherwise.
      */
     isStomping(enemy) {
         const meNow = this.getBox(this);
         const en = this.getBox(enemy);
-
         const xOverlap = meNow.right > en.left && meNow.left < en.right;
         const wasAbove = this.prevBottom <= en.top;
         const hitTop = meNow.bottom >= en.top; 
-
         return xOverlap && wasAbove && hitTop;
     }
 
+    /** Checks collision with all enemies in the world. */
     checkCollisionWithEnemies() {
         this.world.enemies.forEach((enemy, i) => {
             if (this.isStomping(enemy)) this.handleStomp(enemy, i);
@@ -209,11 +261,20 @@ class Character extends MovableObject {
         if (boss) this.checkCollisionWithBoss(boss);
     }
 
+    /**
+     * Checks collision with the boss.
+     * @param {MovableObject} boss - The boss enemy.
+     */
     checkCollisionWithBoss(boss) {
         if (this.isStomping(boss)) this.handleBossStomp(boss);
         else if (this.isColliding(boss) && !this.isHurt()) this.takeDamage();
     }
 
+    /**
+     * Handles stomping a normal enemy.
+     * @param {MovableObject} enemy - The enemy that was stomped.
+     * @param {number} index - Index of the enemy in the array.
+     */
     handleStomp(enemy, index) {
         if (typeof enemy.die === "function") enemy.die();
         this.world.enemies.splice(index, 1);
@@ -221,12 +282,17 @@ class Character extends MovableObject {
         this.y = enemy.y - this.height;
     }
 
+    /**
+     * Handles stomping the boss.
+     * @param {MovableObject} boss - The boss enemy.
+     */
     handleBossStomp(boss) {
         if (typeof boss.hitByBottle === "function") boss.hitByBottle();
         this.speedY = 20;
         this.y = boss.y - this.height;
     }
 
+    /** Handles character taking damage. */
     takeDamage() {
         this.hit();
         this.world.statusBar.setPersentageHealth(this.energy);
