@@ -7,16 +7,27 @@ class Chickensmall extends MovableObject {
     width = 50;
     isDead = false;
 
+    /**
+     * Sprite images used for the walking animation of the small chicken.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         "imgs/3_enemies_chicken/chicken_small/1_walk/1_w.png",
         "imgs/3_enemies_chicken/chicken_small/1_walk/2_w.png",
         "imgs/3_enemies_chicken/chicken_small/1_walk/3_w.png"
     ];
 
-    IMAGES_DEAD = ["./imgs/3_enemies_chicken/chicken_small/2_dead/dead.png"];
+    /**
+     * Sprite image used for the dead state of the small chicken.
+     * @type {string[]}
+     */
+    IMAGES_DEAD = [
+        "./imgs/3_enemies_chicken/chicken_small/2_dead/dead.png"
+    ];
 
     /**
      * Creates a new Chickensmall instance.
+     * Initializes images, spawn position, speed, offsets and animation.
      */
     constructor() {
         super();
@@ -28,23 +39,35 @@ class Chickensmall extends MovableObject {
         this.animate();
     }
 
-    /** Loads images for walking and dead states. */
+    /**
+     * Loads all images required for walking and dead states.
+     */
     initImages() {
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
     }
 
-    /** Sets the initial spawn position of the small chicken. */
+    /**
+     * Sets the initial spawn position of the small chicken on the game map.
+     * Uses a randomized horizontal position for variability.
+     */
     setInitialPosition() {
         this.x = 600 + Math.random() * 3500;
         this.y = 340;
     }
 
-    /** Assigns a random movement speed. */
-    setRandomSpeed() { this.speed = 0.9 + Math.random() * 0.9; }
+    /**
+     * Assigns a random movement speed for the small chicken.
+     * Speed is higher compared to normal chickens to increase difficulty.
+     */
+    setRandomSpeed() {
+        this.speed = 0.9 + Math.random() * 0.9;
+    }
 
-    /** Configures hitbox offsets. */
+    /**
+     * Configures the hitbox offsets of the small chicken for collisions.
+     */
     setOffsets() {
         this.offsetTop = -10;
         this.offsetBottom = -10;
@@ -53,12 +76,17 @@ class Chickensmall extends MovableObject {
     }
 
     /**
-     * Assigns the game world reference.
-     * @param {object} world - The current game world instance.
+     * Assigns the game world reference to the small chicken.
+     * @param {World} world - The current game world instance.
      */
-    setWorld(world) { this.world = world; }
+    setWorld(world) {
+        this.world = world;
+    }
 
-    /** Kills the small chicken and triggers death animation. */
+    /**
+     * Kills the small chicken and triggers the death animation.
+     * Plays sound effect and removes the small chicken after a short delay.
+     */
     die() {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
@@ -66,19 +94,26 @@ class Chickensmall extends MovableObject {
         setTimeout(() => this.removeFromGame(), 500);
     }
 
-    /** Removes the chicken from the game world. */
+    /**
+     * Removes the small chicken instance from the game world enemy array.
+     */
     removeFromGame() {
         const index = this.world?.level?.enemies.indexOf(this);
         if (index > -1) this.world.level.enemies.splice(index, 1);
     }
 
-    /** Starts both walking and animation loops. */
+    /**
+     * Starts both the walking and animation loops of the small chicken.
+     */
     animate() {
         this.startWalkingLoop();
         this.startAnimationLoop();
     }
 
-    /** Handles continuous walking movement and animation. */
+    /**
+     * Handles continuous walking movement and animation playback.
+     * Runs at a slower interval compared to big chicken.
+     */
     startWalkingLoop() {
         this.walkingInterval = setInterval(() => {
             if (!this.isDead) {
@@ -88,7 +123,9 @@ class Chickensmall extends MovableObject {
         }, 100);
     }
 
-    /** Handles switching between walking and dead animations. */
+    /**
+     * Handles animation frame switching depending on the state (alive or dead).
+     */
     startAnimationLoop() {
         this.animationInterval = setInterval(() => {
             if (this.isDead) this.playAnimation(this.IMAGES_DEAD);

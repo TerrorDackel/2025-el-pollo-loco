@@ -1,8 +1,9 @@
 /**
- * Represents the status bar of the game, displaying health, coins, bottles and endboss state.
- * Extends DrawableObject to be drawable on canvas.
+ * Represents the status bar of the game, displaying health, coins, bottles and endboss health.
+ * Extends {@link DrawableObject} so it can be drawn on the canvas.
  */
 class StatusBar extends DrawableObject {
+    /** @type {string[]} Image set for player health (0–100%). */
     IMAGES_HEALTHBAR = [
         "./imgs/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png",
         "./imgs/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png",
@@ -12,6 +13,7 @@ class StatusBar extends DrawableObject {
         "./imgs/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png"
     ];
 
+    /** @type {string[]} Image set for collected coins (0–100%). */
     IMAGES_COINSBAR = [
         "./imgs/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png",
         "./imgs/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png",
@@ -21,6 +23,7 @@ class StatusBar extends DrawableObject {
         "./imgs/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png"
     ];
 
+    /** @type {string[]} Image set for collected bottles (0–100%). */
     IMAGES_BOTTLESBAR = [
         "./imgs/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png",
         "./imgs/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png",
@@ -30,6 +33,7 @@ class StatusBar extends DrawableObject {
         "./imgs/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png"
     ];
 
+    /** @type {string[]} Image set for endboss health (0–100%). */
     IMAGES_ENDBOSSBAR = [
         "./imgs/7_statusbars/2_statusbar_endboss/blue/blue0.png",
         "./imgs/7_statusbars/2_statusbar_endboss/blue/blue20.png",
@@ -39,18 +43,32 @@ class StatusBar extends DrawableObject {
         "./imgs/7_statusbars/2_statusbar_endboss/blue/blue100.png"
     ];
 
+    /** @type {number} Current player health (0–5 hearts). */
     persentageHealth = 5;
+
+    /** @type {number} Current collected coins (0–5). */
     amountCoins = 0;
+
+    /** @type {number} Current collected bottles (0–5). */
     amountBottles = 0;
+
+    /** @type {number} Current endboss health (0–5 hearts). */
     endbossHealth = 5;
 
+    /** @type {Record<string,HTMLImageElement>} Cache for health images. */
     imageCacheHealth = {};
+
+    /** @type {Record<string,HTMLImageElement>} Cache for coin images. */
     imageCacheCoins = {};
+
+    /** @type {Record<string,HTMLImageElement>} Cache for bottle images. */
     imageCacheBottles = {};
+
+    /** @type {Record<string,HTMLImageElement>} Cache for endboss images. */
     imageCacheEndboss = {};
 
     /**
-     * Creates a new StatusBar instance and loads all bar images.
+     * Creates a new StatusBar instance and loads all status bar images.
      */
     constructor() {
         super();
@@ -71,9 +89,9 @@ class StatusBar extends DrawableObject {
     }
 
     /**
-     * Loads images into the correct cache based on category.
+     * Loads a set of images into the cache based on category.
      * @param {string[]} imageArray - Array of image paths.
-     * @param {string} category - One of health, coins, bottles, endboss.
+     * @param {"health"|"coins"|"bottles"|"endboss"} category - Target cache.
      */
     loadImages(imageArray, category) {
         imageArray.forEach((path) => {
@@ -87,8 +105,8 @@ class StatusBar extends DrawableObject {
     }
 
     /**
-     * Draws all status bars on the canvas.
-     * @param {CanvasRenderingContext2D} ctx - The drawing context.
+     * Draws all status bars (health, coins, bottles, endboss) on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - Canvas rendering context.
      */
     drawStatusBars(ctx) {
         this.drawBar(ctx, this.imgHealth, this.x, this.y);
@@ -98,17 +116,19 @@ class StatusBar extends DrawableObject {
     }
 
     /**
-     * Draws a single bar on the canvas.
-     * @param {CanvasRenderingContext2D} ctx - The drawing context.
-     * @param {HTMLImageElement} img - The bar image.
+     * Draws a single bar image on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - Canvas rendering context.
+     * @param {HTMLImageElement} img - Bar image.
      * @param {number} x - X position.
      * @param {number} y - Y position.
      */
-    drawBar(ctx, img, x, y) { ctx.drawImage(img, x, y, this.width, this.height); }
+    drawBar(ctx, img, x, y) {
+        ctx.drawImage(img, x, y, this.width, this.height);
+    }
 
     /**
-     * Sets health percentage and updates image.
-     * @param {number} persentageHealth - Current health (0–5).
+     * Updates health bar according to current hearts (0–5).
+     * @param {number} persentageHealth - Player health.
      */
     setPersentageHealth(persentageHealth) {
         this.persentageHealth = persentageHealth;
@@ -117,18 +137,18 @@ class StatusBar extends DrawableObject {
     }
 
     /**
-     * Sets coin amount and updates image.
-     * @param {number} amountCoins - Current number of coins (0–5).
+     * Updates coin bar according to collected coins (0–5).
+     * @param {number} amountCoins - Number of coins.
      */
     setPersentageCoins(amountCoins) {
         this.amountCoins = amountCoins;
-        const index = this.resolveIndex(amountCoins);
+        const index = this.resolveIndex(Math.floor(amountCoins / 4));
         this.imgCoins = this.imageCacheCoins[this.IMAGES_COINSBAR[index]];
     }
 
     /**
-     * Sets bottle amount and updates image.
-     * @param {number} amountBottles - Current number of bottles (0–5).
+     * Updates bottle bar according to collected bottles (0–5).
+     * @param {number} amountBottles - Number of bottles.
      */
     setPersentageBottles(amountBottles) {
         this.amountBottles = amountBottles;
@@ -137,8 +157,8 @@ class StatusBar extends DrawableObject {
     }
 
     /**
-     * Sets endboss health and updates image.
-     * @param {number} hearts - Current boss health (0–5).
+     * Updates endboss bar according to current hearts (0–5).
+     * @param {number} hearts - Endboss health.
      */
     setPersentageEndboss(hearts) {
         this.endbossHealth = hearts;
@@ -146,9 +166,9 @@ class StatusBar extends DrawableObject {
     }
 
     /**
-     * Resolves value to correct image index.
+     * Resolves a numeric value (0–5) into the correct image index.
      * @param {number} value - Input value.
-     * @returns {number} Index for image arrays.
+     * @returns {number} Index for image arrays (0–5).
      */
     resolveIndex(value) {
         if (value >= 5) return 5;

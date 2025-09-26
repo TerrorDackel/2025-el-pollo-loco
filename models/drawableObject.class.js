@@ -3,21 +3,46 @@
  * Provides basic image loading, drawing and debugging utilities.
  */
 class DrawableObject {
+    /** @type {number} X-coordinate of the object on the canvas. */
     x = 120;
+
+    /** @type {number} Y-coordinate of the object on the canvas. */
     y = 280;
+
+    /** @type {number} Height of the object. */
     height = 200;
+
+    /** @type {number} Width of the object. */
     width = 100;
+
+    /** @type {HTMLImageElement | undefined} The current image of the object. */
     img;
 
+    /** @type {number} Top offset for collision box. */
     offsetTop = 40;
+
+    /** @type {number} Bottom offset for collision box. */
     offsetBottom = -20;
+
+    /** @type {number} Right offset for collision box. */
     offsetRight = 40;
+
+    /** @type {number} Left offset for collision box. */
     offsetLeft = 15;
 
+    /** @type {Object.<string, HTMLImageElement>} Cache for health bar images. */
     imageCacheHealth = {};
+
+    /** @type {Object.<string, HTMLImageElement>} Cache for coin images. */
     imageCacheCoins = {};
+
+    /** @type {Object.<string, HTMLImageElement>} Cache for bottle images. */
     imageCacheBottles = {};
+
+    /** @type {Object.<string, HTMLImageElement>} General image cache for animations. */
     imageCache = {};
+
+    /** @type {number} Index of the current animation frame. */
     currentImage = 0;
 
     /**
@@ -67,6 +92,7 @@ class DrawableObject {
 
     /**
      * Draws the object and optional debug frames.
+     * Automatically adds debug outlines for certain object types.
      * @param {CanvasRenderingContext2D} ctx - The drawing context.
      */
     draw(ctx) {

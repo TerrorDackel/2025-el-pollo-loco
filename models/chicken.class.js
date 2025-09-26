@@ -7,16 +7,27 @@ class Chicken extends MovableObject {
     width = 70;
     isDead = false;
 
+    /**
+     * Sprite images used for the walking animation of the chicken.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         "imgs/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
         "imgs/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
         "imgs/3_enemies_chicken/chicken_normal/1_walk/3_w.png"
     ];
 
-    IMAGES_DEAD = ["./imgs/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
+    /**
+     * Sprite image used for the dead state of the chicken.
+     * @type {string[]}
+     */
+    IMAGES_DEAD = [
+        "./imgs/3_enemies_chicken/chicken_normal/2_dead/dead.png"
+    ];
 
     /**
      * Creates a new Chicken instance.
+     * Initializes images, position, movement and animation.
      */
     constructor() {
         super();
@@ -28,23 +39,35 @@ class Chicken extends MovableObject {
         this.setOffsets();
     }
 
-    /** Loads chicken images for walking and dead states. */
+    /**
+     * Loads all images required for walking and dead states.
+     */
     initImages() {
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
     }
 
-    /** Sets the initial spawn position of the chicken. */
+    /**
+     * Sets the initial spawn position of the chicken on the game map.
+     * X is randomized to distribute chickens across the level.
+     */
     setInitialPosition() {
         this.x = 500 + Math.random() * 3000;
         this.y = 310;
     }
 
-    /** Assigns a random speed for the chicken. */
-    setRandomSpeed() { this.speed = 0.3 + Math.random() * 0.5; }
+    /**
+     * Assigns a random movement speed to the chicken.
+     * Ensures variety in enemy behavior.
+     */
+    setRandomSpeed() {
+        this.speed = 0.3 + Math.random() * 0.5;
+    }
 
-    /** Configures hitbox offsets. */
+    /**
+     * Configures the hitbox offsets of the chicken for collisions.
+     */
     setOffsets() {
         this.offsetTop = -10;
         this.offsetBottom = -10;
@@ -52,7 +75,10 @@ class Chicken extends MovableObject {
         this.offsetRight = -10;
     }
 
-    /** Starts the walking animation loop. */
+    /**
+     * Starts the walking animation loop for the chicken.
+     * Moves the chicken continuously to the left and cycles walking frames.
+     */
     animate() {
         this.walkingInterval = setInterval(() => {
             if (!this.isDead) {
@@ -62,7 +88,10 @@ class Chicken extends MovableObject {
         }, 1000 / 60);
     }
 
-    /** Kills the chicken and starts death animation. */
+    /**
+     * Kills the chicken and starts the death animation.
+     * Plays sound effect and removes the chicken after a short delay.
+     */
     die() {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
@@ -70,7 +99,9 @@ class Chicken extends MovableObject {
         setTimeout(() => this.removeFromGame(), 500);
     }
 
-    /** Removes the chicken from the game world. */
+    /**
+     * Removes the chicken instance from the game world enemy array.
+     */
     removeFromGame() {
         const index = this.world?.level?.enemies.indexOf(this);
         if (index > -1) this.world.level.enemies.splice(index, 1);

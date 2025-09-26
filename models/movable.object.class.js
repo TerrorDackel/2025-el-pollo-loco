@@ -1,17 +1,30 @@
 /**
  * Represents a movable object in the game world.
- * Extends DrawableObject to provide movement, gravity, collision and states.
+ * Extends {@link DrawableObject} to provide movement, gravity, collision detection, 
+ * energy states (hit, hurt, dead) and idle behavior.
  */
 class MovableObject extends DrawableObject {
+    /** @type {number} Horizontal movement speed. */
     speed = 0.25;
+
+    /** @type {boolean} Whether the object is facing the opposite direction (mirrored). */
     otherDirection = false;
+
+    /** @type {number} Vertical speed for jumps and gravity. */
     speedY = 20;
+
+    /** @type {number} Acceleration applied to vertical speed (gravity). */
     acceleration = 3;
+
+    /** @type {number} Remaining energy (health points). */
     energy = 5;
+
+    /** @type {number} Timestamp of the last hit in ms since epoch. */
     lastHit = 0;
 
     /**
      * Applies gravity to the object with continuous updates.
+     * Decreases {@link speedY} until the object reaches the ground.
      */
     applyGravity() {
         setInterval(() => {
@@ -23,7 +36,8 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * Checks if the object is above ground.
+     * Checks if the object is above ground level.
+     * ThrowableObjects are always treated as above ground.
      * @returns {boolean} True if above ground, otherwise false.
      */
     isAboveGround() {
@@ -33,7 +47,8 @@ class MovableObject extends DrawableObject {
 
     /**
      * Checks collision between this object and another.
-     * @param {MovableObject} mo - The other object.
+     * Uses object offsets to improve hitbox accuracy.
+     * @param {MovableObject} mo - The other movable object.
      * @returns {boolean} True if colliding, otherwise false.
      */
     isColliding(mo) {
@@ -47,6 +62,7 @@ class MovableObject extends DrawableObject {
 
     /**
      * Checks if the object is idle (no movement for >3s).
+     * If idle is detected, {@link startIdleMode} is triggered.
      * @returns {boolean} True if idle, otherwise false.
      */
     isIdle() {
@@ -57,7 +73,10 @@ class MovableObject extends DrawableObject {
         return false;
     }
 
-    /** Starts idle mode and animation. */
+    /** 
+     * Starts idle mode and triggers idle animation + sound. 
+     * Automatically stops on the next key press.
+     */
     startIdleMode() {
         if (!this.idleTriggered) {
             this.idleTriggered = true;
@@ -67,14 +86,17 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    /** Stops idle mode and resets sound. */
+    /** Stops idle mode, pauses sound and resets state. */
     stopIdleMode() {
         SoundManager.pause("idle");
         this.idle_sound.currentTime = 0;
         this.idleTriggered = false;
     }
 
-    /** Handles the object being hit and reduces energy. */
+    /** 
+     * Handles the object being hit and reduces energy by 1.
+     * Sets {@link lastHit} for later {@link isHurt} checks.
+     */
     hit() {
         this.energy -= 1;
         if (this.energy < 0) this.energy = 0;
@@ -82,8 +104,8 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * Checks if the object was recently hurt.
-     * @returns {boolean} True if hurt within 3s.
+     * Checks if the object was recently hurt (within 3 seconds).
+     * @returns {boolean} True if hurt recently.
      */
     isHurt() {
         const timepassed = (Date.now() - this.lastHit) / 3000;
@@ -91,13 +113,13 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * Checks if the object has no energy left.
+     * Checks if the object is dead (no energy left).
      * @returns {boolean} True if dead.
      */
     isDead() { return this.energy === 0; }
 
     /**
-     * Loads multiple images and stores them in the cache.
+     * Loads multiple images and stores them in the cache for animations.
      * @param {string[]} arr - Array of image paths.
      */
     loadImages(arr) {
@@ -109,7 +131,8 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * Plays an animation by cycling through images.
+     * Plays an animation by cycling through the given images.
+     * Sets {@link img} to the current frame and advances {@link currentImage}.
      * @param {string[]} images - Array of image paths.
      */
     playAnimation(images) {
@@ -119,12 +142,12 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-    /** Moves the object right. */
+    /** Moves the object right by increasing {@link x}. */
     moveRight() { this.x += this.speed; }
 
-    /** Moves the object left. */
+    /** Moves the object left by decreasing {@link x}. */
     moveLeft() { this.x -= this.speed; }
 
-    /** Makes the object jump. */
+    /** Makes the object jump by setting {@link speedY} to a positive value. */
     jump() { this.speedY = 35; }
 }

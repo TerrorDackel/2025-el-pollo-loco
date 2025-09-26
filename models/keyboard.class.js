@@ -3,60 +3,60 @@
  * Each property indicates whether a specific key is currently pressed.
  */
 class Keyboard {
-    /** @type {boolean} Move left */
+    /** @type {boolean} Whether the Left Arrow key is pressed (move left). */
     LEFT = false;
 
-    /** @type {boolean} Move right */
+    /** @type {boolean} Whether the Right Arrow key is pressed (move right). */
     RIGHT = false;
 
-    /** @type {boolean} Jump */
+    /** @type {boolean} Whether the Up Arrow key is pressed (jump). */
     UP = false;
 
-    /** @type {boolean} Down (unused) */
+    /** @type {boolean} Whether the Down Arrow key is pressed (currently unused). */
     DOWN = false;
 
-    /** @type {boolean} Throw bottle */
+    /** @type {boolean} Whether the Space key is pressed (throw bottle). */
     SPACE = false;
 
-    /** @type {boolean} Prevents autofire for SPACE */
+    /** @type {boolean} Prevents bottle-throw autofire when SPACE is held down. */
     SPACE_PRESSED = false;
 
-    /** @type {boolean} Key D (custom use) */
+    /** @type {boolean} Whether the D key is pressed (custom use). */
     D = false;
 
-    /** @type {boolean} Toggle fullscreen */
+    /** @type {boolean} Whether the F key is pressed (toggle fullscreen). */
     F = false;
 
-    /** @type {boolean} Pause key (P) */
+    /** @type {boolean} Whether the P key is pressed (pause game). */
     P = false;
 
-    /** @type {boolean} Pause flag */
+    /** @type {boolean} Indicates current pause state (true = paused). */
     PAUSE = false;
 
-    /** @type {boolean} Turn music off (T) */
+    /** @type {boolean} Whether the T key is pressed (turn music off). */
     T = false;
 
-    /** @type {boolean} Turn music on (Z) */
+    /** @type {boolean} Whether the Z key is pressed (turn music on). */
     Z = false;
 
-    /** @type {boolean} Show information (also triggers pause) */
+    /** @type {boolean} Whether the I key is pressed (show information, triggers pause). */
     INFO = false;
 
-    /** @type {boolean} Open menu */
+    /** @type {boolean} Whether the M key is pressed (open menu). */
     MENU = false;
 
-    /** @type {boolean} Enter key */
+    /** @type {boolean} Whether the Enter key is pressed (confirm / proceed). */
     ENTER = false;
 
-    /** @type {boolean} Key E (custom use) */
+    /** @type {boolean} Whether the E key is pressed (custom use). */
     E = false;
 
-    /** @type {boolean} Escape key */
+    /** @type {boolean} Whether the Escape key is pressed (exit / close dialog). */
     ESC = false;
 
-    /** @type {boolean} Play again (yes) */
+    /** @type {boolean} Whether the J key is pressed (play again: yes). */
     J = false;
 
-    /** @type {boolean} Play again (no) */
+    /** @type {boolean} Whether the N key is pressed (play again: no). */
     N = false;
 }

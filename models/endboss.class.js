@@ -1,23 +1,51 @@
 /**
  * Represents the endboss enemy in the game world.
- * Extends MovableObject to inherit movement, collision and animation.
+ * Extends MovableObject to inherit movement, collision and animation behaviour.
  */
 class Endboss extends MovableObject {
+    /** @type {number} Height of the endboss. */
     height = 260;
+
+    /** @type {number} Width of the endboss. */
     width = 260;
+
+    /** @type {number} Y-coordinate of the endboss on the canvas. */
     y = 0;
+
+    /** @type {number} Movement speed of the endboss. */
     speed = 0.45;
+
+    /** @type {number} Energy level of the endboss (health points). */
     energy = 5;
+
+    /** @type {boolean} Whether the endboss is in angry state. */
     isAngry = false;
+
+    /** @type {boolean} Whether the endboss is currently hurt. */
     isHurt = false;
+
+    /** @type {boolean} Whether the endboss has made contact with the character. */
     contactWithCharacter = false;
+
+    /** @type {boolean} Whether the endboss is dead. */
     isDead = false;
+
+    /** @type {number} Top offset of the collision box. */
     offsetTop = 50;
+
+    /** @type {number} Bottom offset of the collision box. */
     offsetBottom = 0;
+
+    /** @type {number} Left offset of the collision box. */
     offsetLeft = 50;
+
+    /** @type {number} Right offset of the collision box. */
     offsetRight = 50;
+
+    /** @type {boolean} Internal flag to prevent duplicate move intervals. */
     _moveIntervalStarted = false;
 
+    /** @type {string[]} Walk animation image paths. */
     IMAGES_WALK = [
         "./imgs/4_enemie_boss_chicken/1_walk/G1.png",
         "./imgs/4_enemie_boss_chicken/1_walk/G2.png",
@@ -25,12 +53,14 @@ class Endboss extends MovableObject {
         "./imgs/4_enemie_boss_chicken/1_walk/G4.png"
     ];
 
+    /** @type {string[]} Hurt animation image paths. */
     IMAGES_HURTING = [
         "./imgs/4_enemie_boss_chicken/4_hurt/G21.png",
         "./imgs/4_enemie_boss_chicken/4_hurt/G22.png",
         "./imgs/4_enemie_boss_chicken/4_hurt/G23.png"
     ];
 
+    /** @type {string[]} Angry animation image paths. */
     IMAGES_ANGRY = [
         "./imgs/4_enemie_boss_chicken/2_alert/G5.png",
         "./imgs/4_enemie_boss_chicken/2_alert/G6.png",
@@ -42,6 +72,7 @@ class Endboss extends MovableObject {
         "./imgs/4_enemie_boss_chicken/2_alert/G12.png"
     ];
 
+    /** @type {string[]} Dead animation image paths. */
     IMAGES_DEAD = [
         "./imgs/4_enemie_boss_chicken/5_dead/G24.png",
         "./imgs/4_enemie_boss_chicken/5_dead/G25.png",
@@ -81,7 +112,7 @@ class Endboss extends MovableObject {
      */
     setWorld(world) { this.world = world; }
 
-    /** Triggers contact with the character and switches music. */
+    /** Triggers contact with the character and switches to boss music. */
     letEndbossTouch() {
         this.contactWithCharacter = true;
         SoundManager.stopBackground();
@@ -112,7 +143,7 @@ class Endboss extends MovableObject {
         }
     }
 
-    /** Plays the hurt animation and then transitions to angry state. */
+    /** Plays the hurt animation and transitions to angry state. */
     playHurtAnimation() {
         const intervalId = setInterval(() => this.playAnimation(this.IMAGES_HURTING), 250);
         setTimeout(() => {
@@ -171,7 +202,7 @@ class Endboss extends MovableObject {
         }, 200);
     }
 
-    /** Checks distance to character to trigger anger. */
+    /** Checks distance to character and triggers angry state when close. */
     checkProximityToCharacter() {
         if (this.world?.character) {
             const distance = Math.abs(this.x - this.world.character.x);

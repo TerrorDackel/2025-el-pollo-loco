@@ -7,6 +7,10 @@ class ChickenBig extends MovableObject {
     width = 150;
     isDead = false;
 
+    /**
+     * Sprite images used for the walking animation of the big chicken.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         "/imgs/4_enemie_boss_chicken/1_walk/G1.png",
         "/imgs/4_enemie_boss_chicken/1_walk/G2.png",
@@ -14,10 +18,17 @@ class ChickenBig extends MovableObject {
         "/imgs/4_enemie_boss_chicken/1_walk/G4.png"
     ];
 
-    IMAGES_DEAD = ["imgs/4_enemie_boss_chicken/5_dead/G26.png"];
+    /**
+     * Sprite image used for the dead state of the big chicken.
+     * @type {string[]}
+     */
+    IMAGES_DEAD = [
+        "imgs/4_enemie_boss_chicken/5_dead/G26.png"
+    ];
 
     /**
      * Creates a new ChickenBig instance.
+     * Initializes images, position, movement and animation.
      */
     constructor() {
         super();
@@ -29,20 +40,27 @@ class ChickenBig extends MovableObject {
         this.setOffsets();
     }
 
-    /** Loads images for walking and dead states. */
+    /**
+     * Loads all images required for walking and dead states.
+     */
     initImages() {
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
     }
 
-    /** Sets the initial spawn position of the big chicken. */
+    /**
+     * Sets the initial spawn position of the big chicken on the game map.
+     * Position is fixed to make it a more predictable mini-boss encounter.
+     */
     setInitialPosition() {
         this.x = 3500;
         this.y = 255;
     }
 
-    /** Configures hitbox offsets. */
+    /**
+     * Configures the hitbox offsets of the big chicken for collisions.
+     */
     setOffsets() {
         this.offsetTop = -10;
         this.offsetBottom = -10;
@@ -50,7 +68,10 @@ class ChickenBig extends MovableObject {
         this.offsetRight = -10;
     }
 
-    /** Kills the big chicken and triggers death animation. */
+    /**
+     * Kills the big chicken and triggers the death animation.
+     * Plays sound effect and removes the big chicken after a short delay.
+     */
     die() {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
@@ -58,26 +79,34 @@ class ChickenBig extends MovableObject {
         setTimeout(() => this.removeFromGame(), 500);
     }
 
-    /** Removes the big chicken from the game world. */
+    /**
+     * Removes the big chicken instance from the game world enemy array.
+     */
     removeFromGame() {
         const index = this.world?.level?.enemies.indexOf(this);
         if (index > -1) this.world.level.enemies.splice(index, 1);
     }
 
-    /** Starts the movement and animation loops. */
+    /**
+     * Starts both the walking and animation loops of the big chicken.
+     */
     animate() {
         this.startWalkingLoop();
         this.startAnimationLoop();
     }
 
-    /** Handles the walking loop. */
+    /**
+     * Continuously moves the big chicken to the left while it is alive.
+     */
     startWalkingLoop() {
         this.walkingInterval = setInterval(() => {
             if (!this.isDead) this.moveLeft();
         }, 1000 / 60);
     }
 
-    /** Handles switching between walking and dead animations. */
+    /**
+     * Handles the animation frames depending on the state (alive or dead).
+     */
     startAnimationLoop() {
         this.animationInterval = setInterval(() => {
             if (this.isDead) this.playAnimation(this.IMAGES_DEAD);

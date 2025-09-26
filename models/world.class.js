@@ -1,19 +1,42 @@
 /**
  * Central game world containing character, enemies, items and logic.
- * Responsible for collisions, drawing and game loop.
+ * Responsible for collisions, rendering, animations and main game loop.
  */
 class World {
+    /** @type {Character} Main player character. */
     character = new Character();
+
+    /** @type {Level} Current level instance. */
     level = level1;
+
+    /** @type {HTMLCanvasElement} Rendering surface. */
     canvas;
+
+    /** @type {CanvasRenderingContext2D} 2D rendering context. */
     ctx;
+
+    /** @type {Keyboard} Keyboard input handler. */
     keyboard;
+
+    /** @type {number} Camera offset along the x-axis. */
     camera_x = 0;
+
+    /** @type {StatusBar} Status bar for health, coins and bottles. */
     statusBar = new StatusBar();
+
+    /** @type {ThrowableObjects[]} Active thrown bottles. */
     throwableObjects = [];
+
+    /** @type {boolean} Running state of the game loop. */
     running = true;
+
+    /** @type {Coins[]} Coins currently placed in the level. */
     coins = [];
+
+    /** @type {number} Current coin score. */
     score = 0;
+
+    /** @type {Bottle[]} Bottles currently placed in the level. */
     bottles = [];
 
     /**
@@ -92,34 +115,34 @@ class World {
         }
     }
 
-    /** Pauses all game updates. */
+    /** Pauses all game updates and animations. */
     pauseGame() {
         this.running = false;
         this.character.pauseAnimation();
     }
 
-    /** Resumes game updates. */
+    /** Resumes game updates and animations. */
     resumeGame() {
         this.running = true;
         this.character.resumeAnimation();
         this.draw();
     }
 
-    /** Restarts the game by reinitializing world. */
+    /** Restarts the game by reinitializing the world. */
     restartGame() {
         clearAllIntervals();
         Object.assign(this, new World(this.canvas, this.keyboard));
     }
 
     /**
-     * Creates enemies for the level.
-     * @returns {MovableObject[]} Enemy array.
+     * Creates default enemies for the level.
+     * @returns {MovableObject[]} Array of enemy instances.
      */
     createEnemies() {
         return [new Chicken(), new ChickenBig(), new Chickensmall()];
     }
 
-    /** Throws a bottle if available in inventory. */
+    /** Throws a bottle if available in the inventory. */
     tryThrowObject() {
         if (this.character.collectedBottles <= 0) return;
 
@@ -142,7 +165,7 @@ class World {
         }
     }
 
-    /** Checks collisions between character and bottles. */
+    /** Checks collisions between character and collectible bottles. */
     checkCollisionBottles() {
         this.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
@@ -154,7 +177,7 @@ class World {
         });
     }
 
-    /** Checks collisions between character and coins. */
+    /** Checks collisions between character and collectible coins. */
     checkCollisionCoins() {
         this.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
@@ -166,7 +189,7 @@ class World {
         });
     }
 
-    /** Spawns random coins in the level. */
+    /** Spawns random coins across the level. */
     spawnCoins() {
         for (let i = 0; i < 20; i++) {
             let x = 100 + Math.random() * 3000;
@@ -178,7 +201,7 @@ class World {
         }
     }
 
-    /** Spawns random bottles in the level. */
+    /** Spawns random bottles across the level. */
     spawnBottles() {
         for (let i = 0; i < 10; i++) {
             let x = 1000 + Math.random() * 2000;
@@ -190,7 +213,7 @@ class World {
         }
     }
 
-    /** Draws all objects in the world. */
+    /** Draws all objects in the world recursively. */
     draw() {
         if (!this.running) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -218,7 +241,7 @@ class World {
     }
 
     /**
-     * Adds an array of objects to the map.
+     * Adds an array of drawable objects to the canvas.
      * @param {DrawableObject[]} objects - Objects to render.
      */
     addObjectsToMap(objects) {
@@ -227,7 +250,7 @@ class World {
     }
 
     /**
-     * Adds a single object to the map with flipping if needed.
+     * Adds a single object to the canvas with optional flipping.
      * @param {DrawableObject} obj - Object to render.
      */
     addToMap(obj) {
@@ -252,7 +275,7 @@ class World {
     }
 
     /**
-     * Restores image orientation after flip.
+     * Restores image orientation after flipping.
      * @param {DrawableObject} obj - Object to restore.
      */
     flipImageBack(obj) {
