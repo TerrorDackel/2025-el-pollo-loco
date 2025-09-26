@@ -158,11 +158,9 @@ class Endboss extends MovableObject {
     playAngryAnimation() {
         if (this._angryAnimStarted) return;
         this._angryAnimStarted = true;
-
         this._angryAnimId = setInterval(() => {
             if (!this.isHurt && this.energy > 0 && !this.isDead) {
                 this.playAnimation(this.IMAGES_ANGRY);
-
                 if (!this._angrySoundPlaying) {
                     this._angrySoundPlaying = true;
                     setTimeout(() => this._angrySoundPlaying = false, 1000);
@@ -185,7 +183,7 @@ class Endboss extends MovableObject {
         const intervalId = setInterval(() => this.playAnimation(this.IMAGES_DEAD), 250);
         setTimeout(() => {
             clearInterval(intervalId);
-            window.location.reload();
+            if (this.world?.showEndScreen) this.world.showEndScreen();
         }, this.IMAGES_DEAD.length * 250);
     }
 

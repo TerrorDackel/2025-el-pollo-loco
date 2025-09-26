@@ -29,6 +29,7 @@
         <script src="./levels/level1.js"></script>
         <script src="./models/world.class.js"></script>
         <script src="./js/soundManager.js"></script>
+        <script src="./js/endScreen.js"></script>
         <script src="./js/game.js"></script>
         <script src="./js/startScreen.js"></script>
     </head>
@@ -176,6 +177,31 @@
                         ⬆️
                     </div>
                 </button>
+            </div>
+        </div>
+        <div id="endscreen-overlay" class="overlay overlay-hidden">
+            <div class="overlay-content-endscreen">
+                <img class="endscreen-background" src="./imgs/endscreen/victory.png" alt="Endscreen Background">
+                <div class="endscreen-stats-container">
+                    <h2 class="endscreen-title">
+                        🎉 Du hast den Endboss besiegt!
+                    </h2>
+                    <p id="stat-enemies" class="endscreen-stat">
+                        Getötete Gegner: 0
+                    </p>
+                    <p id="stat-hearts" class="endscreen-stat">
+                        Verbleibende Herzen: 5
+                    </p>
+                    <p id="stat-coins" class="endscreen-stat">
+                        Gesammelte Coins: 0
+                    </p>
+                    <p id="stat-time" class="endscreen-stat">
+                        Spielzeit: 0s
+                    </p>
+                    <button class="menu-button-close" onclick="returnToStart()">
+                        ⬅️ Zurück
+                    </button>
+                </div>
             </div>
         </div>
     </body>
