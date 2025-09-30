@@ -79,12 +79,10 @@ class StatusBar extends DrawableObject {
         this.loadImages(this.IMAGES_COINSBAR, "coins");
         this.loadImages(this.IMAGES_BOTTLESBAR, "bottles");
         this.loadImages(this.IMAGES_ENDBOSSBAR, "endboss");
-
         this.x = 30;
         this.y = 0;
         this.height = 50;
         this.width = 155;
-
         this.setPersentageHealth(5);
         this.setPersentageCoins(0);
         this.setPersentageBottles(0);
@@ -155,7 +153,6 @@ class StatusBar extends DrawableObject {
      */
     setPersentageBottles(amountBottles) {
         this.amountBottles = amountBottles;
-
         const fraction = Math.min(amountBottles / this.maxBottles, 1);
         let index;
         if (fraction >= 1) index = 5;
@@ -164,7 +161,6 @@ class StatusBar extends DrawableObject {
         else if (fraction >= 0.4) index = 2;
         else if (fraction >= 0.2) index = 1;
         else index = 0;
-
         this.imgBottles = this.imageCacheBottles[this.IMAGES_BOTTLESBAR[index]];
     }
     

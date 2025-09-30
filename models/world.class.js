@@ -166,7 +166,6 @@ class World {
         const facingLeft = this.character.otherDirection === true;
         const offsetX = facingLeft ? -20 : 100;
         const offsetY = 100;
-
         const bottle = new ThrowableObjects(
             this.character.x + offsetX,
             this.character.y + offsetY,
@@ -236,27 +235,19 @@ class World {
     draw() {
         if (!this.running) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.ctx.translate(-this.camera_x, 0);
-
         this.statusBar.drawStatusBars(this.ctx);
-
         this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.coins);
-
         if (this.level.boss) this.addToMap(this.level.boss);
-
-        /* Thrown bottles render after boss → on top */
         this.addObjectsToMap(this.throwableObjects);
-
         this.addObjectsToMap(this.bottles);
         this.ctx.translate(-this.camera_x, 0);
-
         requestAnimationFrame(() => this.draw());
     }
 
@@ -277,7 +268,6 @@ class World {
         if (!obj) return;
         const isThrowable = obj instanceof ThrowableObjects;
         const needFlip = obj.otherDirection && !isThrowable;
-
         if (needFlip) this.flipImage(obj); else this.ctx.save();
         obj.draw(this.ctx);
         if (obj.drawFrame) obj.drawFrame(this.ctx);
@@ -311,10 +301,8 @@ class World {
     showEndScreen() {
         this.running = false;
         clearAllIntervals();
-
         const endTime = Date.now();
         const playTimeSec = Math.floor((endTime - this.startTime) / 1000);
-
         const stats = {
             chickens: Number(this.killedChickens ?? 0),
             chickenBigs: Number(this.killedChickenBigs ?? 0),
@@ -332,7 +320,6 @@ class World {
      * Delegates to Endscreen.
      */
     completeLevel() {
-
     }
 
     /** Clean shutdown for manager. */

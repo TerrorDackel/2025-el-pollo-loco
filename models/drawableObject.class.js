@@ -98,9 +98,7 @@ class DrawableObject {
     draw(ctx) {
         if (!this.img) return;
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-
         if (this.debugMode) this.rectangleThrowableObject(ctx);
-
         if (this instanceof Coins || this instanceof Bottle) this.drawGreenFrame(ctx);
     }
 

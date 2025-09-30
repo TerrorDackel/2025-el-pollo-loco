@@ -30,11 +30,9 @@ class ThrowableObjects extends MovableObject {
      */
     constructor(x, y, world, facingLeft = false) {
         super();
-
         this.loadImage(this.IMAGES_THROWBOTTLES[0]);   // ✅ fixes undefined img
         this.loadImages(this.IMAGES_THROWBOTTLES);
         this.loadImages(this.IMAGES_SMASHINGBOTTLES);
-
         this.x = x;
         this.y = y;
         this.height = 60;
@@ -42,10 +40,8 @@ class ThrowableObjects extends MovableObject {
         this.debugMode = true;
         this.world = world;
         this.hasHit = false;
-
         /** @type {number} Horizontal velocity (depends on facing). */
         this.vx = facingLeft ? -10 : 10;
-
         this.animate();
         this.throw();
     }
@@ -135,7 +131,6 @@ class ThrowableObjects extends MovableObject {
         const boss = this.world.level?.boss;
         if (boss && this.isBottleColliding(boss)) {
             this.hasHit = true;
-
             boss.hitByBottle();
             this.removeBottle();
             return true;

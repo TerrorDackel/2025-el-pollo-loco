@@ -125,10 +125,6 @@ class SoundManager {
         });
     }
 
-    // ---------------------------------------------------------------------
-    // Private helpers
-    // ---------------------------------------------------------------------
-
     /**
      * Gradually increases volume for targeted sounds.
      * @param {Object.<string, number>} targets - Mapping of sounds to target volumes.
@@ -154,10 +150,6 @@ class SoundManager {
         const icon = document.getElementById("sound-toggle");
         if (icon) icon.src = on ? "imgs/logos/musicOn.png" : "imgs/logos/musicOff.png";
     }
-
-    // ---------------------------------------------------------------------
-    // DOM integration
-    // ---------------------------------------------------------------------
 
     /** Initialises the DOM sound toggle and sets default state. */
     static init() {
