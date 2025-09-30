@@ -281,44 +281,54 @@ canvas {
 }
 
 /* Endscreen Overlay */
-.overlay-content-endscreen {
-    position: relative;
-    width: 80%;
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-    color: white;
-}
-
-.endscreen-background {
-    width: 100%;
-    opacity: 0.7;
-    border-radius: 10px;
-}
-
-.endscreen-stats-container {
+#endscreen-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background: rgba(0, 0, 0, 0.95);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,0.5); /* halbtransparent schwarz */
-    border-radius: 10px;
+    justify-content: center;
+    color: white;
+}
+
+.endscreen-content {
+    text-align: center;
 }
 
 .endscreen-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 20px;
 }
 
 .endscreen-stat {
     font-size: 1.2rem;
     margin: 5px 0;
+}
+
+/* Container für die Buttons */
+.endscreen-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Styles für die Buttons (Zurück & Nächstes Level) */
+.endscreen-button {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.endscreen-button:hover {
+    background-color: #444;
 }
 
 
@@ -373,9 +383,7 @@ canvas {
     font-size: 20px;
     border-radius: 0;
     z-index: 30;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
 }
 
 /**

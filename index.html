@@ -1,208 +1,129 @@
 <!DOCTYPE html>
 <html lang="de">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="./imgs/logos/faviconSmall.png" type="image/png">
-        <meta name="El Pollo Loco" content="El Pollo Loco" />
-        <title>
-            El Pollo Loco
-        </title>
-        <link href="./styles.css" rel="stylesheet" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./imgs/logos/faviconSmall.png" type="image/png">
+    <meta name="El Pollo Loco" content="El Pollo Loco" />
+    <title> El Pollo Loco </title>
+    <link href="./styles.css" rel="stylesheet" />
 
-        <!-- Scripts -->
-        <script src="./models/keyboard.class.js"></script>
-        <script src="./models/drawableObject.class.js"></script>
-        <script src="./models/movable.object.class.js"></script>
-        <script src="./models/character.class.js"></script>
-        <script src="./models/throwableObjects.class.js"></script>
-        <script src="./models/chicken.class.js"></script>
-        <script src="./models/chickensmall.class.js"></script>
-        <script src="./models/chickenBig.class.js"></script>
-        <script src="./models/cloud.class.js"></script>
-        <script src="./models/backgroundobjects.class.js"></script>
-        <script src="./models/coins.class.js"></script>
-        <script src="./models/bottles.class.js"></script>
-        <script src="./models/endboss.class.js"></script>
-        <script src="./models/statusBar.class.js"></script>
-        <script src="./models/level.class.js"></script>
-        <script src="./levels/level1.js"></script>
-        <script src="./models/world.class.js"></script>
-        <script src="./js/soundManager.js"></script>
-        <script src="./js/endScreen.js"></script>
-        <script src="./js/game.js"></script>
-        <script src="./js/startScreen.js"></script>
-    </head>
+    <script src="./models/keyboard.class.js"></script>
+    <script src="./models/drawableObject.class.js"></script>
+    <script src="./models/movable.object.class.js"></script>
+    <script src="./models/character.class.js"></script>
+    <script src="./models/throwableObjects.class.js"></script>
+    <script src="./models/chicken.class.js"></script>
+    <script src="./models/chickensmall.class.js"></script>
+    <script src="./models/chickenBig.class.js"></script>
+    <script src="./models/cloud.class.js"></script>
+    <script src="./models/backgroundobjects.class.js"></script>
+    <script src="./models/coins.class.js"></script>
+    <script src="./models/bottles.class.js"></script>
+    <script src="./models/endboss.class.js"></script>
+    <script src="./models/statusBar.class.js"></script>
+    <script src="./models/level.class.js"></script>
+    <script src="./levels/level1.js"></script>
+    <script src="./models/world.class.js"></script>
+    <script src="./js/soundManager.js"></script>
+    <script src="./js/startScreen.js"></script>
+    <script src="./js/endScreen.js"></script>
+    <script src="./js/game.js"></script>
+</head>
+<body>
+    <img id="sound-toggle" src="./imgs/logos/musicOff.png" alt="Sound Icon">
+    <canvas id="canvas"></canvas>
 
-    <body>
-        <!-- 🎵 Sound Toggle Icon -->
-        <img id="sound-toggle" src="./imgs/logos/musicOff.png" alt="Sound Icon">
-
-        <canvas id="canvas">
-        </canvas>
-
-        <div class="start-screen" id="startScreen">
-            <div class="overlay-content">
-                <div class="header-container">
-                    <div class="header-txt">
-                        Willkommen bei:
-                    </div>
-                    <div class="header-txt">
-                        El Pollo Loco
-                    </div>
-                </div>
-                <div class="buttons-container">
-                    <button class="menu-button" onclick="startGame()">
-                        ▶️ Spiel starten
-                    </button>
-                    <button class="menu-button" onclick="showRules()">
-                        🕹️ Spielregeln
-                    </button>
-                    <button class="menu-button" onclick="showImpressum()">
-                        ℹ️ Impressum
-                    </button>
-                </div>
+    <!-- Start Screen -->
+    <div class="start-screen" id="startScreen">
+        <div class="overlay-content">
+            <div class="header-container">
+                <div class="header-txt"> Willkommen bei: </div>
+                <div class="header-txt"> El Pollo Loco </div>
+            </div>
+            <div class="buttons-container">
+                <button class="menu-button" onclick="startGame()"> ▶️ Spiel starten </button>
+                <button class="menu-button" onclick="showRules()"> 🕹️ Spielregeln </button>
+                <button class="menu-button" onclick="showImpressum()"> ℹ️ Impressum </button>
             </div>
         </div>
+    </div>
 
-        <div id="rules-overlay" class="overlay overlay-hidden">
-            <div class="overlay-content-rules">
-                <h2 class="header-game-controll">
-                    Spielregeln im Game:
-                </h2>
-                <div class="rules-content-txt">
-                    <p class="game-controll-txt">
-                        ⬅️ Pfeil links: Pepe läuft nach links.
-                    </p>
-                    <p class="game-controll-txt">
-                        ➡️ Pfeil rechts: Pepe läuft nach rechts.
-                    </p>
-                    <p class="game-controll-txt">
-                        ⬆️ Pfeil oben: Pepe springt.
-                    </p>
-                    <p class="game-controll-txt">
-                        SPACE: Pepe wirft eine Flasche.
-                    </p>
-                    <p class="game-controll-txt">
-                        🔇 T = Musik aus, 🔊 Z = Musik an.
-                    </p>
-                    <p class="game-controll-txt">
-                        ⏯️ P = Pause starten/beenden.
-                    </p>
-                </div>
-                <button class="menu-button-close" onclick="returnToStart()">
-                    ⬅️ Zurück
-                </button>
+    <!-- Rules Overlay -->
+    <div id="rules-overlay" class="overlay overlay-hidden">
+        <div class="overlay-content-rules">
+            <h2 class="header-game-controll"> Spielregeln im Game: </h2>
+            <div class="rules-content-txt">
+                <p class="game-controll-txt"> ⬅️ Pfeil links: Pepe läuft nach links. </p>
+                <p class="game-controll-txt"> ➡️ Pfeil rechts: Pepe läuft nach rechts. </p>
+                <p class="game-controll-txt"> ⬆️ Pfeil oben: Pepe springt. </p>
+                <p class="game-controll-txt"> SPACE: Pepe wirft eine Flasche. </p>
+                <p class="game-controll-txt"> 🔇 T = Musik aus, 🔊 Z = Musik an. </p>
+                <p class="game-controll-txt"> ⏯️ P = Pause starten/beenden. </p>
             </div>
+            <button class="menu-button-close" onclick="returnToStart()"> ⬅️ Zurück </button>
         </div>
+    </div>
 
-        <div id="impressum-overlay" class="overlay overlay-hidden">
-            <div class="overlay-content-impressum">
-                <div class="header-game-controll-container">
-                        <h2 class="header-game-controll">
-                        Impressum
-                    </h2>
-                </div>
-                <div class="impressum-content-txt">
-                    <p class="game-controll-header">
-                        Angaben gemäß § 5 TMG
-                    </p>
-                    <p class="game-controll-txt">
-                        Jennifer Thomas
-                        <br>
-                        Pfarrer-Müller-Str. 1
-                        <br>
-                        94431 Pilsting
-                    </p>
-                    <p class="game-controll-txt">
-                        E-Mail: contact@jennifer-thomas.de
-                    </p>
-                    <p class="game-controll-header">
-                        Hinweis zum Projekt
-                    </p>
-                    <p class="game-controll-txt">
-                        Dieses Projekt 
-                        <i>
-                            El Pollo Loco
-                        </i> 
-                        ist ein nicht-kommerzielles Lern- 
-                        und Showcase-Game, das ausschließlich zur Demonstration meiner 
-                        Fähigkeiten als Frontend Developer dient.
-                    </p>
-                    <p class="game-controll-txt">
-                        Die verwendeten Bilder, Grafiken und Vorgaben wurden von der 
-                        Developer Akademie (DA) zur Verfügung gestellt.
-                    </p>
-                    <p class="game-controll-header">
-                        Haftungsausschluss
-                    </p>
-                    <p class="game-controll-txt">
-                        Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. 
-                        Für die inhaltliche Richtigkeit, Vollständigkeit oder 
-                        Aktualität wird keine Gewähr übernommen. Eine Haftung 
-                        ist ausgeschlossen.
-                    </p>
-                </div>
-                <button class="menu-button-close" onclick="returnToStart()">
-                    ⬅️ Zurück
-                </button>
+    <!-- Impressum Overlay -->
+    <div id="impressum-overlay" class="overlay overlay-hidden">
+        <div class="overlay-content-impressum">
+            <div class="header-game-controll-container">
+                <h2 class="header-game-controll"> Impressum </h2>
             </div>
+            <div class="impressum-content-txt">
+                <p class="game-controll-header"> Angaben gemäß § 5 TMG </p>
+                <p class="game-controll-txt"> Jennifer Thomas <br> Pfarrer-Müller-Str. 1 <br> 94431 Pilsting </p>
+                <p class="game-controll-txt"> E-Mail: contact@jennifer-thomas.de </p>
+                <p class="game-controll-header"> Hinweis zum Projekt </p>
+                <p class="game-controll-txt"> Dieses Projekt <i> El Pollo Loco </i> ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur Demonstration meiner Fähigkeiten als Frontend Developer dient. </p>
+                <p class="game-controll-txt"> Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA) zur Verfügung gestellt. </p>
+                <p class="game-controll-header"> Haftungsausschluss </p>
+                <p class="game-controll-txt"> Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine Haftung ist ausgeschlossen. </p>
+            </div>
+            <button class="menu-button-close" onclick="returnToStart()"> ⬅️ Zurück </button>
         </div>
+    </div>
 
-        <div id="rotate-warning">
-            <p>
-                🔄 Drehe bitte dein Gerät ins Querformat um zu spielen!
-            </p>
-        </div>
+    <!-- Rotate Warning -->
+    <div id="rotate-warning">
+        <p> 🔄 Drehe bitte dein Gerät ins Querformat um zu spielen! </p>
+    </div>
 
-        <div id="mobile-controls" class="mobile-controls-buttons-container overlay-hidden">
-            <div class="control-left-right">
-                <button id="btn-left" class="btn-left">
-                    <div class="button-sign-left">
-                        ⬅️
-                    </div>
-                </button>
-                <button id="btn-right" class="btn-right">
-                    <div class="button-sign-right">
-                        ➡️
-                    </div>
-                </button>
-            </div>
-            <div class="control-throw-jump">
-                <button id="btn-throw" class="btn-throw">
-                    <img class="button-sign-throw" src="./imgs/6_salsa_bottle/2_salsa_bottle_on_ground.png" alt="Throw">
-                </button>
-                <button id="btn-jump" class="btn-jump">
-                    <div class="button-sign-jump">
-                        ⬆️
-                    </div>
-                </button>
-            </div>
+    <!-- Mobile Controls -->
+    <div id="mobile-controls" class="mobile-controls-buttons-container overlay-hidden">
+        <div class="control-left-right">
+            <button id="btn-left" class="btn-left">
+                <div class="button-sign-left"> ⬅️ </div>
+            </button>
+            <button id="btn-right" class="btn-right">
+                <div class="button-sign-right"> ➡️ </div>
+            </button>
         </div>
-        <div id="endscreen-overlay" class="overlay overlay-hidden">
-            <div class="overlay-content-endscreen">
-                <img class="endscreen-background" src="./imgs/endscreen/victory.png" alt="Endscreen Background">
-                <div class="endscreen-stats-container">
-                    <h2 class="endscreen-title">
-                        🎉 Du hast den Endboss besiegt!
-                    </h2>
-                    <p id="stat-enemies" class="endscreen-stat">
-                        Getötete Gegner: 0
-                    </p>
-                    <p id="stat-hearts" class="endscreen-stat">
-                        Verbleibende Herzen: 5
-                    </p>
-                    <p id="stat-coins" class="endscreen-stat">
-                        Gesammelte Coins: 0
-                    </p>
-                    <p id="stat-time" class="endscreen-stat">
-                        Spielzeit: 0s
-                    </p>
-                    <button class="menu-button-close" onclick="returnToStart()">
-                        ⬅️ Zurück
-                    </button>
-                </div>
-            </div>
+        <div class="control-throw-jump">
+            <button id="btn-throw" class="btn-throw">
+                <img class="button-sign-throw" src="./imgs/6_salsa_bottle/2_salsa_bottle_on_ground.png" alt="Throw">
+            </button>
+            <button id="btn-jump" class="btn-jump">
+                <div class="button-sign-jump"> ⬆️ </div>
+            </button>
         </div>
-    </body>
+    </div>
+
+    <!-- Endscreen Overlay -->
+    <div id="endscreen-overlay" class="overlay overlay-hidden">
+        <div class="endscreen-content">
+            <h2 class="endscreen-title">Spiel beendet!</h2>
+            <p id="stat-chickens" class="endscreen-stat"></p>
+            <p id="stat-chickenBigs" class="endscreen-stat"></p>
+            <p id="stat-chickenSmalls" class="endscreen-stat"></p>
+            <p id="stat-hearts" class="endscreen-stat"></p>
+            <p id="stat-coins" class="endscreen-stat"></p>
+            <p id="stat-time" class="endscreen-stat"></p>
+
+            <!-- Button-Container für JS -->
+            <div class="endscreen-buttons"></div>
+        </div>
+    </div>
+</body>
 </html>

@@ -33,15 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /**
  * Initialises the game world and canvas.
+ * @param {Level} [level=level1] - Level to start
  */
-function init() {
+function init(level = level1) {
     clearAllIntervals();
     canvas = document.getElementById("canvas");
     canvas.width = 720;
     canvas.height = 480;
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, level);
+    window.world = world;
 }
 
 /**
@@ -63,7 +65,7 @@ function resetGame() {
     stopAnimations();
     removeEventListeners();
     world = null;
-    world = new World(canvas, keyboard);
+    init(level1);
 }
 
 /**
@@ -140,7 +142,7 @@ function closeRestartPrompt() {
     if (restartPrompt) {
         restartPrompt.remove();
         document.removeEventListener("keydown", this.handleRestartEvent);
-        init();
+        init(level1);
     }
 }
 
@@ -238,7 +240,6 @@ function startCountdown() {
     let count = 5;
     const countDownStep = () => {
         if (count > 0) {
-            console.log(count);
             speak(count);
             count--;
             setTimeout(countDownStep, 2300);
@@ -251,7 +252,6 @@ function startCountdown() {
  * Resumes game after countdown.
  */
 function resumeAfterCountdown() {
-    console.log("GO!");
     speak("GO!");
     world.resumeGame();
     gamePaused = false;

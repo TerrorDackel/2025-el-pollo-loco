@@ -3,9 +3,14 @@
  * Extends MovableObject to inherit movement and collision behaviour.
  */
 class Chicken extends MovableObject {
+    /** @type {number} Height of the chicken. */
     height = 70;
+    /** @type {number} Width of the chicken. */
     width = 70;
+    /** @type {boolean} Whether the chicken is dead. */
     isDead = false;
+    /** @type {World|null} World reference injected by World.setWorld(). */
+    world = null;
 
     /**
      * Sprite images used for the walking animation of the chicken.
@@ -21,14 +26,9 @@ class Chicken extends MovableObject {
      * Sprite image used for the dead state of the chicken.
      * @type {string[]}
      */
-    IMAGES_DEAD = [
-        "./imgs/3_enemies_chicken/chicken_normal/2_dead/dead.png"
-    ];
+    IMAGES_DEAD = ["./imgs/3_enemies_chicken/chicken_normal/2_dead/dead.png"];
 
-    /**
-     * Creates a new Chicken instance.
-     * Initializes images, position, movement and animation.
-     */
+    /** Creates a new Chicken instance. */
     constructor() {
         super();
         this.initImages();
@@ -39,41 +39,32 @@ class Chicken extends MovableObject {
         this.setOffsets();
     }
 
-    /**
-     * Loads all images required for walking and dead states.
-     */
+    /** Loads all images required for walking and dead states. */
     initImages() {
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
     }
 
-    /**
-     * Sets the initial spawn position of the chicken on the game map.
-     * X is randomized to distribute chickens across the level.
-     */
+    /** Sets the initial spawn position of the chicken on the game map. */
     setInitialPosition() {
         this.x = 500 + Math.random() * 3000;
         this.y = 310;
     }
 
-    /**
-     * Assigns a random movement speed to the chicken.
-     * Ensures variety in enemy behavior.
-     */
-    setRandomSpeed() {
-        this.speed = 0.3 + Math.random() * 0.5;
-    }
+    /** Assigns a random movement speed to the chicken. */
+    setRandomSpeed() { this.speed = 0.3 + Math.random() * 0.5; }
 
-    /**
-     * Configures the hitbox offsets of the chicken for collisions.
-     */
+    /** Configures the hitbox offsets of the chicken for collisions. */
     setOffsets() {
         this.offsetTop = -10;
         this.offsetBottom = -10;
         this.offsetLeft = -10;
         this.offsetRight = -10;
     }
+
+    /** Inject world reference (called by World.setWorld()). */
+    setWorld(world) { this.world = world; }
 
     /**
      * Starts the walking animation loop for the chicken.
@@ -90,18 +81,17 @@ class Chicken extends MovableObject {
 
     /**
      * Kills the chicken and starts the death animation.
-     * Plays sound effect and removes the chicken after a short delay.
+     * Increments the normal chicken kill counter in {@link World}.
      */
     die() {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
         SoundManager.playSound("chickenDead");
+        if (this.world) this.world.killedChickens++;
         setTimeout(() => this.removeFromGame(), 500);
     }
 
-    /**
-     * Removes the chicken instance from the game world enemy array.
-     */
+    /** Removes the chicken instance from the game world enemy array. */
     removeFromGame() {
         const index = this.world?.level?.enemies.indexOf(this);
         if (index > -1) this.world.level.enemies.splice(index, 1);

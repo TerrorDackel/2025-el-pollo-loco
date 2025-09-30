@@ -49,8 +49,11 @@ class StatusBar extends DrawableObject {
     /** @type {number} Current collected coins (0–5). */
     amountCoins = 0;
 
-    /** @type {number} Current collected bottles (0–5). */
+    /** @type {number} Current collected bottles (0–10). */
     amountBottles = 0;
+
+    /** @type {number} Maximum bottle capacity (default 10). */
+    maxBottles = 10;
 
     /** @type {number} Current endboss health (0–5 hearts). */
     endbossHealth = 5;
@@ -152,8 +155,25 @@ class StatusBar extends DrawableObject {
      */
     setPersentageBottles(amountBottles) {
         this.amountBottles = amountBottles;
-        const index = this.resolveIndex(amountBottles);
+
+        const fraction = Math.min(amountBottles / this.maxBottles, 1);
+        let index;
+        if (fraction >= 1) index = 5;
+        else if (fraction >= 0.8) index = 4;
+        else if (fraction >= 0.6) index = 3;
+        else if (fraction >= 0.4) index = 2;
+        else if (fraction >= 0.2) index = 1;
+        else index = 0;
+
         this.imgBottles = this.imageCacheBottles[this.IMAGES_BOTTLESBAR[index]];
+    }
+    
+    /**
+     * Sets bottle capacity for this level.
+     * @param {number} max - Max bottles available in level.
+     */
+    setBottleCapacity(max) {
+        this.maxBottles = max;
     }
 
     /**

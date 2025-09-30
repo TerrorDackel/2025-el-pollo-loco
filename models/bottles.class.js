@@ -6,7 +6,7 @@
 class Bottle extends DrawableObject {
 
     /**
-     * Initializes a new bottle instance with size and default image.
+     * Initialises a new bottle instance with size and default image.
      */
     constructor() {
         super();

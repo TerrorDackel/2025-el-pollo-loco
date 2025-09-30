@@ -133,10 +133,14 @@ class Character extends MovableObject {
      * Connects the character with the game world.
      * @param {World} world - The game world instance.
      */
-    setWorld(world) { this.world = world; }
+    setWorld(world) { 
+        this.world = world; 
+    }
 
     /** Adds a collected bottle to the character’s inventory. */
-    addBottle() { this.collectedBottles++; }
+    addBottle() { 
+        this.collectedBottles++; 
+    }
 
     /** Starts the main animation loop. */
     animate() {
@@ -151,10 +155,14 @@ class Character extends MovableObject {
     }
 
     /** Pauses the animation loop. */
-    pauseAnimation() { clearInterval(this.animationInterval); }
+    pauseAnimation() { 
+        clearInterval(this.animationInterval); 
+    }
 
     /** Resumes the animation loop. */
-    resumeAnimation() { this.animate(); }
+    resumeAnimation() { 
+        this.animate(); 
+    }
 
     /** Handles player movement based on input. */
     handleMovement() {
@@ -194,10 +202,18 @@ class Character extends MovableObject {
 
     /** Updates character animation based on state. */
     updateAnimation() {
-        if (this.isDead()) this.handleDeath();
-        else if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
-        else if (this.isAboveGround()) this.playAnimation(this.IMAGES_JUMPING);
-        else this.handleWalkingAnimation();
+        if (this.isDead()) {
+            this.handleDeath();
+        }
+        else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+        }
+        else if (this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        }
+        else {
+            this.handleWalkingAnimation();
+        }
     }
 
     /** Plays walking animation when moving horizontally. */
@@ -220,7 +236,9 @@ class Character extends MovableObject {
     }
 
     /** Initiates a jump. */
-    jump() { this.speedY = 33; }
+    jump() { 
+        this.speedY = 33; 
+    }
 
     /**
      * Returns collision box of an object.
@@ -247,14 +265,17 @@ class Character extends MovableObject {
         const xOverlap = meNow.right > en.left && meNow.left < en.right;
         const wasAbove = this.prevBottom <= en.top;
         const hitTop = meNow.bottom >= en.top; 
-        return xOverlap && wasAbove && hitTop;
+        const result = xOverlap && wasAbove && hitTop;
+        return result;
     }
 
     /** Checks collision with all enemies in the world. */
     checkCollisionWithEnemies() {
         this.world.enemies.forEach((enemy, i) => {
             if (this.isStomping(enemy)) this.handleStomp(enemy, i);
-            else if (this.isColliding(enemy) && !this.isHurt()) this.takeDamage();
+            else if (this.isColliding(enemy) && !this.isHurt()) {
+                this.takeDamage();
+            }
         });
 
         const boss = this.world.level.boss;
@@ -267,7 +288,9 @@ class Character extends MovableObject {
      */
     checkCollisionWithBoss(boss) {
         if (this.isStomping(boss)) this.handleBossStomp(boss);
-        else if (this.isColliding(boss) && !this.isHurt()) this.takeDamage();
+        else if (this.isColliding(boss) && !this.isHurt()) {
+            this.takeDamage();
+        }
     }
 
     /**

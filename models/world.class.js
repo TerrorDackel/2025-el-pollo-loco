@@ -39,17 +39,30 @@ class World {
     /** @type {Bottle[]} Bottles currently placed in the level. */
     bottles = [];
 
+    /** @type {number} Count of killed normal chickens. */
+    killedChickens = 0;
+
+    /** @type {number} Count of killed big chickens. */
+    killedChickenBigs = 0;
+
+    /** @type {number} Count of killed small chickens. */
+    killedChickenSmalls = 0;
+
+    /** @type {number} Timestamp when the game started (ms). */
+    startTime = Date.now();
+
     /**
      * Initializes the game world with canvas and keyboard input.
      * @param {HTMLCanvasElement} canvas - Rendering surface.
      * @param {Keyboard} keyboard - Keyboard input handler.
+     * @param {Level} [level=level1] - Current level object.
      */
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, level = level1 = null) {
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
         this.keyboard = keyboard;
         this.statusBar = new StatusBar();
-        this.level = level1;
+        this.level = level;
         this.setWorld();
         this.spawnCoins();
         this.spawnBottles();
@@ -68,7 +81,8 @@ class World {
         this.enemies = this.level.enemies;
 
         this.enemies.forEach(e => {
-            e.setWorld?.(this);
+            if (typeof e.setWorld === "function") e.setWorld(this);
+            else e.world = this;
             if (!e._aiStarted && typeof e.animate === "function") {
                 e._aiStarted = true;
                 e.animate();
@@ -77,7 +91,8 @@ class World {
 
         if (this.level.boss) {
             const b = this.level.boss;
-            b.setWorld(this);
+            if (typeof b.setWorld === "function") b.setWorld(this);
+            else b.world = this;
             if (!b._aiStarted && typeof b.animate === "function") {
                 b._aiStarted = true;
                 b.animate();
@@ -115,46 +130,50 @@ class World {
         }
     }
 
-    /** Pauses all game updates and animations. */
+    /** Pauses all game updates. */
     pauseGame() {
         this.running = false;
         this.character.pauseAnimation();
     }
 
-    /** Resumes game updates and animations. */
+    /** Resumes game updates. */
     resumeGame() {
         this.running = true;
         this.character.resumeAnimation();
         this.draw();
     }
 
-    /** Restarts the game by reinitializing the world. */
+    /** Restarts the game by reinitializing world. */
     restartGame() {
         clearAllIntervals();
-        Object.assign(this, new World(this.canvas, this.keyboard));
+        Object.assign(this, new World(this.canvas, this.keyboard, this.level));
     }
 
     /**
-     * Creates default enemies for the level.
-     * @returns {MovableObject[]} Array of enemy instances.
+     * Creates enemies for the level.
+     * @returns {MovableObject[]} Enemy array.
      */
     createEnemies() {
         return [new Chicken(), new ChickenBig(), new Chickensmall()];
     }
 
-    /** Throws a bottle if available in the inventory. */
+    /** Throws a bottle if available in inventory. */
     tryThrowObject() {
-        if (this.character.collectedBottles <= 0) return;
+        if (this.character.collectedBottles <= 0) {
+            return;
+        }
 
         const facingLeft = this.character.otherDirection === true;
         const offsetX = facingLeft ? -20 : 100;
         const offsetY = 100;
-        let bottle = new ThrowableObjects(
+
+        const bottle = new ThrowableObjects(
             this.character.x + offsetX,
             this.character.y + offsetY,
             this,
             facingLeft
         );
+
         this.throwableObjects.push(bottle);
         SoundManager.playSound("whisleBottle");
         this.character.collectedBottles--;
@@ -165,7 +184,7 @@ class World {
         }
     }
 
-    /** Checks collisions between character and collectible bottles. */
+    /** Checks collisions between character and bottles. */
     checkCollisionBottles() {
         this.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
@@ -177,7 +196,7 @@ class World {
         });
     }
 
-    /** Checks collisions between character and collectible coins. */
+    /** Checks collisions between character and coins. */
     checkCollisionCoins() {
         this.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
@@ -189,31 +208,31 @@ class World {
         });
     }
 
-    /** Spawns random coins across the level. */
+    /** Spawns random coins in the level. */
     spawnCoins() {
         for (let i = 0; i < 20; i++) {
-            let x = 100 + Math.random() * 3000;
-            let y = 100 + Math.random() * 150;
-            let coin = new Coins();
+            const x = 100 + Math.random() * 3000;
+            const y = 100 + Math.random() * 150;
+            const coin = new Coins();
             coin.x = x;
             coin.y = y;
             this.coins.push(coin);
         }
     }
 
-    /** Spawns random bottles across the level. */
+    /** Spawns random bottles in the level. */
     spawnBottles() {
         for (let i = 0; i < 10; i++) {
-            let x = 1000 + Math.random() * 2000;
-            let y = 300;
-            let bottle = new Bottle();
+            const x = 1000 + Math.random() * 2000;
+            const y = 300;
+            const bottle = new Bottle();
             bottle.x = x;
             bottle.y = y;
             this.bottles.push(bottle);
         }
     }
 
-    /** Draws all objects in the world recursively. */
+    /** Draws all objects in the world. */
     draw() {
         if (!this.running) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -237,11 +256,12 @@ class World {
 
         this.addObjectsToMap(this.bottles);
         this.ctx.translate(-this.camera_x, 0);
+
         requestAnimationFrame(() => this.draw());
     }
 
     /**
-     * Adds an array of drawable objects to the canvas.
+     * Adds an array of objects to the map.
      * @param {DrawableObject[]} objects - Objects to render.
      */
     addObjectsToMap(objects) {
@@ -250,10 +270,11 @@ class World {
     }
 
     /**
-     * Adds a single object to the canvas with optional flipping.
+     * Adds a single object to the map with flipping if needed.
      * @param {DrawableObject} obj - Object to render.
      */
     addToMap(obj) {
+        if (!obj) return;
         const isThrowable = obj instanceof ThrowableObjects;
         const needFlip = obj.otherDirection && !isThrowable;
 
@@ -275,11 +296,48 @@ class World {
     }
 
     /**
-     * Restores image orientation after flipping.
+     * Restores image orientation after flip.
      * @param {DrawableObject} obj - Object to restore.
      */
     flipImageBack(obj) {
         obj.x = obj.x * -1;
         this.ctx.restore();
+    }
+
+    /**
+     * Shows the endscreen overlay with stats after boss death.
+     * Uses data gathered during the run (time, coins, hearts, kills).
+     */
+    showEndScreen() {
+        this.running = false;
+        clearAllIntervals();
+
+        const endTime = Date.now();
+        const playTimeSec = Math.floor((endTime - this.startTime) / 1000);
+
+        const stats = {
+            chickens: Number(this.killedChickens ?? 0),
+            chickenBigs: Number(this.killedChickenBigs ?? 0),
+            chickenSmalls: Number(this.killedChickenSmalls ?? 0),
+            hearts: this.character.energy,
+            coins: this.score,
+            time: playTimeSec
+        };
+
+        EndScreen.show(stats);
+    }
+
+    /**
+     * Called when the level is actually finished (boss dead).
+     * Delegates to Endscreen.
+     */
+    completeLevel() {
+
+    }
+
+    /** Clean shutdown for manager. */
+    destroy() {
+        this.running = false;
+        this.character?.pauseAnimation?.();
     }
 }

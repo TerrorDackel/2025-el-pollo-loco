@@ -30,8 +30,11 @@ class ThrowableObjects extends MovableObject {
      */
     constructor(x, y, world, facingLeft = false) {
         super();
+
+        this.loadImage(this.IMAGES_THROWBOTTLES[0]);   // ✅ fixes undefined img
         this.loadImages(this.IMAGES_THROWBOTTLES);
         this.loadImages(this.IMAGES_SMASHINGBOTTLES);
+
         this.x = x;
         this.y = y;
         this.height = 60;
@@ -52,6 +55,9 @@ class ThrowableObjects extends MovableObject {
      * @param {CanvasRenderingContext2D} ctx - Canvas rendering context.
      */
     draw(ctx) {
+        if (!this.img) {
+            console.warn("[ThrowableObjects.draw] WARNING: img is undefined!");
+        }
         ctx.save();
         super.draw(ctx);
         ctx.restore();
@@ -108,7 +114,9 @@ class ThrowableObjects extends MovableObject {
         this.speedY = 10;
         this.applyGravity();
         setInterval(() => {
-            if (this.isAboveGround()) this.x += this.vx;
+            if (this.isAboveGround()) {
+                this.x += this.vx;
+            }
         }, 1000 / 50);
     }
 
@@ -127,6 +135,7 @@ class ThrowableObjects extends MovableObject {
         const boss = this.world.level?.boss;
         if (boss && this.isBottleColliding(boss)) {
             this.hasHit = true;
+
             boss.hitByBottle();
             this.removeBottle();
             return true;

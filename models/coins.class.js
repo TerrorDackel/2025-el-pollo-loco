@@ -55,7 +55,7 @@ class Coins extends DrawableObject {
 
     /**
      * Creates a new Coins instance and loads its images.
-     * Initializes image loading and animation cycle.
+     * Initialises image loading and animation cycle.
      */
     constructor() {
         super();
@@ -80,7 +80,7 @@ class Coins extends DrawableObject {
 
     /**
      * Resolves all image promises and starts animation after loading.
-     * Initializes the animation cycle.
+     * Initialises the animation cycle.
      */
     initAnimation() {
         Promise.all(this.loadImagePromises).then((images) => {

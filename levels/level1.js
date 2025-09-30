@@ -4,14 +4,14 @@
  * @returns {Level} Level 1 instance
  */
 function createLevel1() {
-    return new Level(
-        createEnemies(),
-        createClouds(),
-        createBackgroundObjects(),
-        [], // Coins: none at start
-        [], // Bottles: none at start
-        new Endboss()
-    );
+    const enemies = createEnemies();
+    const clouds = createClouds();
+    const bgObjects = createBackgroundObjects();
+    const coins = [];   // Coins start empty
+    const bottles = []; // Bottles start empty
+    const boss = new Endboss();
+
+    return new Level(enemies, clouds, bgObjects, coins, bottles, boss);
 }
 
 /**
@@ -19,7 +19,7 @@ function createLevel1() {
  * @returns {(Chicken|Chickensmall|ChickenBig)[]} Enemy instances
  */
 function createEnemies() {
-    return [
+    const enemies = [
         new Chicken(),
         new Chicken(),
         new Chickensmall(),
@@ -31,6 +31,7 @@ function createEnemies() {
         new Chicken(),
         new Chicken()
     ];
+    return enemies;
 }
 
 /**
@@ -38,7 +39,8 @@ function createEnemies() {
  * @returns {Cloud[]} Cloud instances
  */
 function createClouds() {
-    return [new Cloud(), new Cloud(), new Cloud(), new Cloud()];
+    const clouds = [new Cloud(), new Cloud(), new Cloud(), new Cloud()];
+    return clouds;
 }
 
 /**
@@ -47,7 +49,7 @@ function createClouds() {
  * @returns {BackgroundObject[]} Background elements
  */
 function createBackgroundObjects() {
-    return [
+    const bg = [
         new BackgroundObject("./imgs/5_background/layers/air.png", -100, -300, 800, 720),
         new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", -100, -300, 800, 720),
         new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", -100, -300, 800, 720),
@@ -78,6 +80,7 @@ function createBackgroundObjects() {
         new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 619 + 720 * 4, -300, 800, 720),
         new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 619 + 720 * 4, -300, 800, 720)
     ];
+    return bg;
 }
 
 /**
