@@ -34,7 +34,30 @@
     <img id="sound-toggle" src="./imgs/logos/musicOff.png" alt="Sound Icon">
     <canvas id="canvas"></canvas>
 
-    <!-- Start Screen -->
+    <div id="restartPrompt" class="restart-prompt is-hidden" role="dialog" aria-live="polite">
+        <div class="restart-box">
+            <div class="restart-header">
+                <div class="restart-title">
+                    Leider verloren, möchtest du es nochmal versuchen?
+                </div>
+            </div>
+            <div class="restart-title">
+                Tippe...
+            </div>
+            </div>
+            <div class="restart-hint">
+                <div class="restart-btn-txt-container">
+                    <button class="restart-btn">J</button>
+                    <div class="restart-txt">&nbsp;= Ja diesen Chicken's werde ich's zeigen!</div>
+                </div>
+                <div class="restart-btn-txt-container">
+                    <button class="restart-btn">N</button>
+                    <div class="restart-txt">&nbsp;= Nein, ich check erst mal die Spielregeln.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="start-screen" id="startScreen">
         <div class="overlay-content">
             <div class="header-container">
@@ -49,7 +72,6 @@
         </div>
     </div>
 
-    <!-- Rules Overlay -->
     <div id="rules-overlay" class="overlay overlay-hidden">
         <div class="overlay-content-rules">
             <h2 class="header-game-controll"> Spielregeln im Game: </h2>
@@ -65,7 +87,6 @@
         </div>
     </div>
 
-    <!-- Impressum Overlay -->
     <div id="impressum-overlay" class="overlay overlay-hidden">
         <div class="overlay-content-impressum">
             <div class="header-game-controll-container">
@@ -85,12 +106,10 @@
         </div>
     </div>
 
-    <!-- Rotate Warning -->
     <div id="rotate-warning">
         <p> 🔄 Drehe bitte dein Gerät ins Querformat um zu spielen! </p>
     </div>
 
-    <!-- Mobile Controls -->
     <div id="mobile-controls" class="mobile-controls-buttons-container overlay-hidden">
         <div class="control-left-right">
             <button id="btn-left" class="btn-left">
@@ -110,7 +129,6 @@
         </div>
     </div>
 
-    <!-- Endscreen Overlay -->
     <div id="endscreen-overlay" class="overlay overlay-hidden">
         <div class="endscreen-content">
             <h2 class="endscreen-title">Spiel beendet!</h2>
@@ -122,8 +140,8 @@
             <p id="stat-time" class="endscreen-stat"></p>
 
             <div class="endscreen-buttons">
-                <button id="btn-end-back" class="endscreen-button">⬅️ Zurück</button>
-                <button id="btn-end-restart" class="endscreen-button">🔁 Neustart</button>
+                <button id="btn-end-back" class="endscreen-button">⬅️ zurück zum Start</button>
+                <button id="btn-end-restart" class="endscreen-button">🔁 Versuch's nochmal</button>
             </div>
         </div>
     </div>

@@ -51,13 +51,16 @@ class World {
     /** @type {number} Timestamp when the game started (ms). */
     startTime = Date.now();
 
+    /** @type {number} requestAnimationFrame id */
+    _rafId = 0;
+
     /**
      * Initializes the game world with canvas and keyboard input.
      * @param {HTMLCanvasElement} canvas - Rendering surface.
      * @param {Keyboard} keyboard - Keyboard input handler.
      * @param {Level} [level=level1] - Current level object.
      */
-    constructor(canvas, keyboard, level = level1 = null) {
+    constructor(canvas, keyboard, level = level1) {
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
         this.keyboard = keyboard;
@@ -69,36 +72,41 @@ class World {
         this.run();
         this.draw();
         this.character.animate();
-
         if (!SoundManager.isMuted) {
             SoundManager.playBackground("music");
         }
     }
-
+    
     /** Links world with character and all enemies. */
     setWorld() {
-        this.character.world = this;
-        this.enemies = this.level.enemies;
-
-        this.enemies.forEach(e => {
-            if (typeof e.setWorld === "function") e.setWorld(this);
-            else e.world = this;
-            if (!e._aiStarted && typeof e.animate === "function") {
-                e._aiStarted = true;
-                e.animate();
-            }
-        });
-
-        if (this.level.boss) {
-            const b = this.level.boss;
-            if (typeof b.setWorld === "function") b.setWorld(this);
-            else b.world = this;
-            if (!b._aiStarted && typeof b.animate === "function") {
-                b._aiStarted = true;
-                b.animate();
-            }
-        }
+        this.linkCharacter();
+        this.cacheEnemies();
+        this.enemies.forEach(e => this.attachWorld(e));
+        this.attachWorld(this.level?.boss);
+        this.enemies.forEach(e => this.startAI(e));
+        this.startAI(this.level?.boss);
     }
+
+    /** Assigns this world to the character. */
+    linkCharacter() { this.character.world = this; }
+
+    /** Caches enemies array from level. */
+    cacheEnemies() { this.enemies = this.level?.enemies || []; }
+
+    /** Attaches world to an actor (enemy/boss). */
+    attachWorld(obj) {
+        if (!obj) return;
+        if (typeof obj.setWorld === "function") obj.setWorld(this);
+        else obj.world = this;
+    }
+
+    /** Starts an actor’s AI once. */
+    startAI(obj) {
+        if (!obj || obj._aiStarted || typeof obj.animate !== "function") return;
+        obj._aiStarted = true;
+        obj.animate();
+    }
+
 
     /** Starts the main game loop with collision checks. */
     run() {
@@ -119,9 +127,7 @@ class World {
         const boss = this.level.boss;
         const d = Math.abs(this.character.x - boss.x);
 
-        if (d < 600 && !boss.contactWithCharacter) {
-            boss.letEndbossTouch();
-        }
+        if (d < 600 && !boss.contactWithCharacter) boss.letEndbossTouch();
 
         if (d >= 800 && boss.contactWithCharacter && !boss.isDead) {
             boss.contactWithCharacter = false;
@@ -134,11 +140,14 @@ class World {
     pauseGame() {
         this.running = false;
         this.character.pauseAnimation();
+        this.freezeAllMovables();
+        if (this._rafId) { cancelAnimationFrame(this._rafId); this._rafId = 0; }
     }
 
     /** Resumes game updates. */
     resumeGame() {
         this.running = true;
+        this.unfreezeAllMovables();
         this.character.resumeAnimation();
         this.draw();
     }
@@ -146,7 +155,7 @@ class World {
     /** Restarts the game by reinitializing world. */
     restartGame() {
         clearAllIntervals();
-        Object.assign(this, new World(this.canvas, this.keyboard, createLevel1())); /* FIX */
+        Object.assign(this, new World(this.canvas, this.keyboard, createLevel1()));
     }
 
     /**
@@ -157,31 +166,40 @@ class World {
         return [new Chicken(), new ChickenBig(), new Chickensmall()];
     }
 
-    /** Throws a bottle if available in inventory. */
+
+    /** Tries to throw a bottle if inventory allows. */
     tryThrowObject() {
-        if (this.character.collectedBottles <= 0) {
-            return;
-        }
+        if (!this.hasBottles()) return;
+        const bottle = this.makeBottleForCharacter();
+        this.registerBottleThrow(bottle);
+        this.checkBossHit(bottle);
+    }
 
+    /** Returns whether the character has bottles to throw. */
+    hasBottles() { return this.character.collectedBottles > 0; }
+
+    /** Creates a bottle at the character’s hand with correct direction. */
+    makeBottleForCharacter() {
         const facingLeft = this.character.otherDirection === true;
-        const offsetX = facingLeft ? -20 : 100;
-        const offsetY = 100;
-        const bottle = new ThrowableObjects(
-            this.character.x + offsetX,
-            this.character.y + offsetY,
-            this,
-            facingLeft
-        );
+        const x = this.character.x + (facingLeft ? -20 : 100);
+        const y = this.character.y + 100;
+        return new ThrowableObjects(x, y, this, facingLeft);
+    }
 
+    /** Adds the bottle to world and updates sound and UI. */
+    registerBottleThrow(bottle) {
         this.throwableObjects.push(bottle);
         SoundManager.playSound("whisleBottle");
         this.character.collectedBottles--;
         this.statusBar.setPersentageBottles(this.character.collectedBottles);
-
-        if (this.level.boss && bottle.isBottleColliding(this.level.boss)) {
-            this.level.boss.hitByBottle();
-        }
     }
+
+    /** Checks immediate bottle hit against the boss. */
+    checkBossHit(bottle) {
+        const boss = this.level?.boss;
+        if (boss && bottle.isBottleColliding(boss)) boss.hitByBottle();
+    }
+
 
     /** Checks collisions between character and bottles. */
     checkCollisionBottles() {
@@ -248,7 +266,7 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.bottles);
         this.ctx.translate(-this.camera_x, 0);
-        requestAnimationFrame(() => this.draw());
+        this._rafId = requestAnimationFrame(() => this.draw());
     }
 
     /**
@@ -315,16 +333,62 @@ class World {
         EndScreen.show(stats);
     }
 
-    /**
-     * Called when the level is actually finished (boss dead).
-     * Delegates to Endscreen.
-     */
-    completeLevel() {
+    completeLevel() {}
+    destroy() { this.running = false; this.character?.pauseAnimation?.(); }
+
+    /* ===== Pause helpers ===== */
+
+    getAllMovables() {
+        const list = [];
+        if (this.character) list.push(this.character);
+        if (this.level?.enemies) list.push(...this.level.enemies);
+        if (this.level?.boss) list.push(this.level.boss);
+        if (this.throwableObjects) list.push(...this.throwableObjects);
+        if (this.level?.clouds) list.push(...this.level.clouds);
+        return list;
     }
 
-    /** Clean shutdown for manager. */
-    destroy() {
-        this.running = false;
-        this.character?.pauseAnimation?.();
+    freezeAllMovables() { this.getAllMovables().forEach(o => this.freezeMovable(o)); }
+
+    unfreezeAllMovables() {
+        this.getAllMovables().forEach(o => this.unfreezeMovable(o));
+        this.recoverZeroSpeeds(); // Fallbacks, falls keine Sicherung existierte
+    }
+
+    freezeMovable(o) {
+        if (!o) return;
+        if (!o.__paused) o.__paused = {};
+        if (typeof o.speed === "number" && o.__paused.speed === undefined) o.__paused.speed = o.speed;
+        if (typeof o.speedY === "number" && o.__paused.speedY === undefined) o.__paused.speedY = o.speedY;
+        if (typeof o.vx === "number" && o.__paused.vx === undefined) o.__paused.vx = o.vx;
+        if (typeof o.speed === "number") o.speed = 0;
+        if (typeof o.speedY === "number") o.speedY = 0;
+        if (typeof o.vx === "number") o.vx = 0;
+        if (typeof o.pauseAnimation === "function" && o !== this.character) o.pauseAnimation();
+    }
+
+    unfreezeMovable(o) {
+        if (!o) return;
+        const s = o.__paused || {};
+        if (typeof o.speed === "number" && s.speed !== undefined) o.speed = s.speed;
+        if (typeof o.speedY === "number" && s.speedY !== undefined) o.speedY = s.speedY;
+        if (typeof o.vx === "number" && s.vx !== undefined) o.vx = s.vx;
+        o.__paused = null;
+        if (typeof o.resumeAnimation === "function" && o !== this.character) o.resumeAnimation();
+    }
+
+    /** Setzt sinnvolle Defaults, falls speed nach dem Auftauen 0 geblieben ist. */
+    recoverZeroSpeeds() {
+        if (this.character && typeof this.character.speed === "number" && this.character.speed === 0) {
+            this.character.speed = 12;
+        }
+        (this.level?.enemies || []).forEach(e => {
+            if (typeof e.speed === "number" && e.speed === 0 && !e.isDead) {
+                if (typeof e.setRandomSpeed === "function") e.setRandomSpeed();
+                else e.speed = 0.25;
+            }
+        });
+        const b = this.level?.boss;
+        if (b && typeof b.speed === "number" && b.speed === 0 && !b.isDead) b.speed = 0.45;
     }
 }

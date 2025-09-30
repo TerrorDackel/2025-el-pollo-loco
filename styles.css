@@ -59,6 +59,95 @@ canvas {
     z-index: 10;
 }
 
+.restart-prompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%,-50%);
+    background: rgba(0,0,0,0.9);
+    color: #fff;
+    padding: 30px;
+    font-family: Impact, Helvetica, 'Arial Narrow Bold', sans-serif;
+    font-size: 1rem;
+    border-radius: 10px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.restart-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.restart-header {
+    width: 100%;
+    height: 70px;
+}
+
+.is-hidden { 
+    display: none; 
+}
+
+.restart-title {
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.restart-hint {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 100%;
+    height: 70px;
+}
+
+.restart-btn-txt-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0.25rem;
+
+}
+
+.restart-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #f7c25f;
+    color: black;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+:hover .restart-btn {
+    background: #ffaa00;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.restart-txt {
+    display: flex;
+    text-align: right;
+    font-family: Impact, Helvetica, 'Arial Narrow Bold', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    
+}
+
 /**
  * @class startScreen
  * @description Intro screen with fade-in animation and scaling.
@@ -296,11 +385,13 @@ canvas {
 
 .endscreen-content {
     text-align: center;
+
 }
 
 .endscreen-title {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-size: 50px;
+    color: #f3a71a;
+    padding: 0rem;
 }
 
 .endscreen-stat {
@@ -319,16 +410,20 @@ canvas {
 /* Styles für die Buttons (Zurück & Nächstes Level) */
 .endscreen-button {
     padding: 12px 24px;
-    font-size: 1.2rem;
-    background-color: #222;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    background: #f7c25f;
+    color: black;
     cursor: pointer;
 }
 
 .endscreen-button:hover {
-    background-color: #444;
+    background: #ffaa00;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 
@@ -449,8 +544,8 @@ canvas {
         border-radius: 50%;
         background-color: rgba(38, 103, 163, 0.9);
         margin: 0.25rem;
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
         pointer-events: auto;
     }
 
@@ -461,8 +556,8 @@ canvas {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
         object-fit: fill;
         user-select: none;
         -webkit-user-select: none;
@@ -510,10 +605,12 @@ canvas {
     }
 
     .header-txt {
-        font-size: 35px;
+    font-size: 35px;
+    padding: 0rem;
+    margin: 0, 0, 0, 0;
     }
 
     .header-game-controll {
-        margin: 1rem;
+        margin: 0.5rem;
     }
 }

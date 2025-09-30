@@ -20,10 +20,8 @@ function createLevel1() {
  */
 function createEnemies() {
     const enemies = [
-        new Chickensmall(),
         new Chicken(),
         new Chicken(),
-        new ChickenBig(),
         new Chickensmall(),
         new Chicken(),
         new Chicken(),
@@ -31,7 +29,6 @@ function createEnemies() {
         new Chicken(),
         new ChickenBig(),
         new Chicken(),
-        new ChickenBig(),
         new Chicken()
     ];
     return enemies;
