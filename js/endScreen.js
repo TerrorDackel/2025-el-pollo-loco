@@ -4,6 +4,17 @@
  */
 class EndScreen {
     /**
+     * Wires up static buttons once after DOM is ready.
+     * Uses static HTML buttons; no dynamic creation.
+     */
+    static init() {
+        const back = document.getElementById("btn-end-back");
+        const restart = document.getElementById("btn-end-restart");
+        if (back) back.addEventListener("click", () => EndScreen.goToStart());
+        if (restart) restart.addEventListener("click", () => EndScreen.restartGame());
+    }
+
+    /**
      * Shows the end screen with stats and buttons.
      * @param {Object} stats - Game statistics.
      * @param {number} stats.chickens - Number of chickens killed.
@@ -25,44 +36,35 @@ class EndScreen {
         document.getElementById("stat-coins").textContent = `🪙 Münzen: ${stats.coins}`;
         document.getElementById("stat-time").textContent = `⏱️ Zeit: ${stats.time} Sekunden`;
 
-        /* Find button container */
-        const buttonContainer = overlay.querySelector(".endscreen-buttons");
-        buttonContainer.innerHTML = ""; // clear old buttons
-
-        /* Back to Menu Button */
-        const backBtn = document.createElement("button");
-        backBtn.className = "menu-button-close";
-        backBtn.textContent = "⬅️ Zurück";
-        backBtn.onclick = goToStart;
-        buttonContainer.appendChild(backBtn);
-
-    }
-        static backBtn() {
-        const buttonContainer = document.querySelector(".endscreen-buttons");
-        buttonContainer.innerHTML = ""; // Alte Buttons löschen
-
-        // Erstelle den "Zurück zum Start"-Button
-        const backBtn = document.createElement("button");
-        backBtn.className = "menu-button-close";
-        backBtn.textContent = "⬅️ Zurück";
-
-        // Event Listener für den Button
-        backBtn.addEventListener("click", EndScreen.goToStart);
-
-        // Button in den Container einfügen
-        buttonContainer.appendChild(backBtn);
+        /* Buttons are static in HTML now; only visibility controlled here. */
+        /* buttonContainer.innerHTML clearing removed by design (static HTML). */
     }
 
+    /**
+     * Deprecated helper kept for compatibility. No dynamic creation anymore.
+     * Leaves static HTML buttons in place.
+     */
+    static backBtn() {
+        /* intentionally left minimal: static buttons are wired in init() */
+    }
+
+    /**
+     * Returns to the start screen and hides the endscreen.
+     */
     static goToStart() {
         const startScreen = document.getElementById("startScreen");
-        if (startScreen) {
-            startScreen.classList.remove("overlay-hidden");
-        }
-
-        // Optional: Blende das Endscreen aus
+        if (startScreen) startScreen.classList.remove("overlay-hidden");
         const endScreen = document.getElementById("endscreen-overlay");
-        if (endScreen) {
-            endScreen.classList.add("overlay-hidden");
-        }
+        if (endScreen) endScreen.classList.add("overlay-hidden");
+    }
+
+    /**
+     * Hides the endscreen and restarts level 1 without page reload.
+     */
+    static restartGame() {
+        const endScreen = document.getElementById("endscreen-overlay");
+        if (endScreen) endScreen.classList.add("overlay-hidden");
+        clearAllIntervals();
+        init(createLevel1());
     }
 }

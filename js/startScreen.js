@@ -1,11 +1,11 @@
 /**
- * Starts the game by removing the start screen,
+ * Starts the game by hiding the start screen,
  * initialising the world, and enabling mobile controls if applicable.
  */
 function startGame() {
     const startScreen = document.getElementById("startScreen");
-    if (startScreen) startScreen.remove();
-    init();
+    if (startScreen) startScreen.classList.add("overlay-hidden"); /* minimal change: do not remove node */
+    init(createLevel1());
     toggleMobileControls(shouldShowMobileControls());
 }
 

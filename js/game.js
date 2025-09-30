@@ -25,6 +25,7 @@ function setStoppableInterval(fn, time) {
  */
 document.addEventListener("DOMContentLoaded", () => {
     SoundManager.init();
+    EndScreen.init(); /* wire endscreen static buttons */
     initMobileControls();
     checkOrientation();
     window.addEventListener("resize", checkOrientation);
@@ -65,7 +66,7 @@ function resetGame() {
     stopAnimations();
     removeEventListeners();
     world = null;
-    init(level1);
+    init(createLevel1()); /* FIX */
 }
 
 /**
@@ -83,7 +84,7 @@ function clearAllIntervals() {
  * Stops character animations if active.
  */
 function stopAnimations() {
-    if (world && world.character.animationInterval) {
+    if (world && world.character?.animationInterval) {
         clearInterval(world.character.animationInterval);
     }
 }
@@ -115,11 +116,11 @@ function showRestartPrompt() {
 function createRestartPrompt() {
     return Object.assign(document.createElement("div"), {
         id: "restartPrompt",
-        innerHTML: "Spiel Neustarten: J=Ja, N=Nein",
+        innerHTML: "Spiel Neustarten: J=Ja, N=Zurück zum Start",
         style: `position:absolute;top:50%;left:50%;
                 transform:translate(-50%,-50%);
                 background:rgba(0,0,0,0.8);color:white;
-                padding:50px;font-size:20px;border-radius:10px;`
+                padding:50px;font-size:20px;border-radius:10px;z-index:40;`
     });
 }
 
@@ -130,8 +131,14 @@ function createRestartPrompt() {
  */
 function handleRestartKeys(event, ctx) {
     const key = event.key.toLowerCase();
-    if (key === "n") window.location.reload();
-    else if (key === "j") ctx.closeRestartPrompt();
+    if (key === "n") {
+        EndScreen.goToStart();
+        const rp = document.getElementById("restartPrompt");
+        if (rp) rp.remove();
+        document.removeEventListener("keydown", this.handleRestartEvent);
+    } else if (key === "j") {
+        ctx.closeRestartPrompt();
+    }
 }
 
 /**
@@ -142,7 +149,7 @@ function closeRestartPrompt() {
     if (restartPrompt) {
         restartPrompt.remove();
         document.removeEventListener("keydown", this.handleRestartEvent);
-        init(level1);
+        init(createLevel1()); /* FIX */
     }
 }
 
@@ -150,6 +157,9 @@ function closeRestartPrompt() {
  * Global keydown handler.
  */
 window.addEventListener("keydown", (e) => {
+    if (world && !world.running) {
+        if (e.keyCode !== 74 && e.keyCode !== 78) return; /* allow only J/N when stopped */
+    }
     if (gamePaused && e.keyCode !== 80) return;
     handleKeyDownEvents(e);
 });

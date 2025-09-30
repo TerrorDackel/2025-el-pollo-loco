@@ -146,7 +146,7 @@ class World {
     /** Restarts the game by reinitializing world. */
     restartGame() {
         clearAllIntervals();
-        Object.assign(this, new World(this.canvas, this.keyboard, this.level));
+        Object.assign(this, new World(this.canvas, this.keyboard, createLevel1())); /* FIX */
     }
 
     /**

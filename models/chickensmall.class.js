@@ -98,3 +98,5 @@ class Chickensmall extends MovableObject {
         }, 130);
     }
 }
+
+const ChickenSmall = Chickensmall;

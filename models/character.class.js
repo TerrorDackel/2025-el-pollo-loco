@@ -166,6 +166,7 @@ class Character extends MovableObject {
 
     /** Handles player movement based on input. */
     handleMovement() {
+        if (!this.world?.running) return; /* lock movement when world is stopped (e.g., dead) */
         this.handleRightMovement();
         this.handleLeftMovement();
         this.handleJump();
@@ -228,9 +229,11 @@ class Character extends MovableObject {
         if (!this.deadAnimationPlayed) {
             this.playAnimation(this.IMAGES_DEAD);
             SoundManager.playSound("dead");
+            /* world continues to tick animations, but movement is locked via handleMovement() */
             setTimeout(() => {
                 this.deadAnimationPlayed = true;
-                this.showRestartPrompt();
+                showRestartPrompt();
+                this.world.running = false; /* ensure stopped state for inputs and game loop */
             }, 1000);
         }
     }
