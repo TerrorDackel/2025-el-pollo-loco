@@ -1,9 +1,9 @@
 /**
- * Central game world containing character, enemies, items and logic.
- * Responsible for collisions, rendering, animations and main game loop.
+ * Represents the central game world containing the character, enemies, items and logic.
+ * Manages collisions, rendering, animations and the main game loop.
  */
 class World {
-    /** @type {Character} Main player character. */
+    /** @type {Character} The main player character. */
     character = new Character();
 
     /** @type {Level} Current level instance. */
@@ -12,7 +12,7 @@ class World {
     /** @type {HTMLCanvasElement} Rendering surface. */
     canvas;
 
-    /** @type {CanvasRenderingContext2D} 2D rendering context. */
+    /** @type {CanvasRenderingContext2D} Rendering context for the canvas. */
     ctx;
 
     /** @type {Keyboard} Keyboard input handler. */
@@ -21,13 +21,13 @@ class World {
     /** @type {number} Camera offset along the x-axis. */
     camera_x = 0;
 
-    /** @type {StatusBar} Status bar for health, coins and bottles. */
+    /** @type {StatusBar} Displays health, coins, bottles and boss health. */
     statusBar = new StatusBar();
 
-    /** @type {ThrowableObjects[]} Active thrown bottles. */
+    /** @type {ThrowableObjects[]} Active thrown bottles in the world. */
     throwableObjects = [];
 
-    /** @type {boolean} Running state of the game loop. */
+    /** @type {boolean} Indicates if the game loop is running. */
     running = true;
 
     /** @type {Coins[]} Coins currently placed in the level. */
@@ -48,15 +48,15 @@ class World {
     /** @type {number} Count of killed small chickens. */
     killedChickenSmalls = 0;
 
-    /** @type {number} Timestamp when the game started (ms). */
+    /** @type {number} Timestamp when the game started (ms since epoch). */
     startTime = Date.now();
 
-    /** @type {number} requestAnimationFrame id */
+    /** @type {number} ID of the current requestAnimationFrame loop. */
     _rafId = 0;
 
     /**
-     * Initializes the game world with canvas and keyboard input.
-     * @param {HTMLCanvasElement} canvas - Rendering surface.
+     * Creates a new World instance and initialises all game elements.
+     * @param {HTMLCanvasElement} canvas - The rendering surface.
      * @param {Keyboard} keyboard - Keyboard input handler.
      * @param {Level} [level=level1] - Current level object.
      */
@@ -72,12 +72,10 @@ class World {
         this.run();
         this.draw();
         this.character.animate();
-        if (!SoundManager.isMuted) {
-            SoundManager.playBackground("music");
-        }
+        if (!SoundManager.isMuted) SoundManager.playBackground("music");
     }
-    
-    /** Links world with character and all enemies. */
+
+    /** Connects the world with character, enemies and the boss. */
     setWorld() {
         this.linkCharacter();
         this.cacheEnemies();
@@ -87,48 +85,50 @@ class World {
         this.startAI(this.level?.boss);
     }
 
-    /** Assigns this world to the character. */
+    /** Links the character to this world. */
     linkCharacter() { this.character.world = this; }
 
-    /** Caches enemies array from level. */
+    /** Copies enemies array from the level for easier access. */
     cacheEnemies() { this.enemies = this.level?.enemies || []; }
 
-    /** Attaches world to an actor (enemy/boss). */
+    /**
+     * Attaches this world instance to a given object.
+     * @param {object} obj - Enemy, boss or any movable.
+     */
     attachWorld(obj) {
         if (!obj) return;
         if (typeof obj.setWorld === "function") obj.setWorld(this);
         else obj.world = this;
     }
 
-    /** Starts an actor’s AI once. */
+    /**
+     * Starts the AI of a given object if available.
+     * @param {object} obj - Object with animate() method.
+     */
     startAI(obj) {
         if (!obj || obj._aiStarted || typeof obj.animate !== "function") return;
         obj._aiStarted = true;
         obj.animate();
     }
 
-
-    /** Starts the main game loop with collision checks. */
+    /** Starts the main game loop and performs collision checks. */
     run() {
         this.interval = setInterval(() => {
             if (!this.running) return;
             this.checkCollisionCoins();
             this.checkCollisionBottles();
-            if (this.character?.checkCollisionWithEnemies) {
-                this.character.checkCollisionWithEnemies();
-            }
+            if (this.character?.checkCollisionWithEnemies) this.character.checkCollisionWithEnemies();
             this.handleBossLogic();
         }, 50);
     }
 
-    /** Handles boss proximity logic and music switching. */
+    /** Handles proximity logic for the boss and switches background music. */
     handleBossLogic() {
         if (!this.level.boss) return;
         const boss = this.level.boss;
         const d = Math.abs(this.character.x - boss.x);
 
         if (d < 600 && !boss.contactWithCharacter) boss.letEndbossTouch();
-
         if (d >= 800 && boss.contactWithCharacter && !boss.isDead) {
             boss.contactWithCharacter = false;
             SoundManager.stopBackground();
@@ -136,7 +136,7 @@ class World {
         }
     }
 
-    /** Pauses all game updates. */
+    /** Pauses the game loop, animations and all movables. */
     pauseGame() {
         this.running = false;
         this.character.pauseAnimation();
@@ -144,7 +144,7 @@ class World {
         if (this._rafId) { cancelAnimationFrame(this._rafId); this._rafId = 0; }
     }
 
-    /** Resumes game updates. */
+    /** Resumes the game loop and all animations. */
     resumeGame() {
         this.running = true;
         this.unfreezeAllMovables();
@@ -152,22 +152,21 @@ class World {
         this.draw();
     }
 
-    /** Restarts the game by reinitializing world. */
+    /** Restarts the game by creating a new world instance. */
     restartGame() {
         clearAllIntervals();
         Object.assign(this, new World(this.canvas, this.keyboard, createLevel1()));
     }
 
     /**
-     * Creates enemies for the level.
+     * Creates a new set of default enemies.
      * @returns {MovableObject[]} Enemy array.
      */
     createEnemies() {
         return [new Chicken(), new ChickenBig(), new Chickensmall()];
     }
 
-
-    /** Tries to throw a bottle if inventory allows. */
+    /** Attempts to throw a bottle if inventory allows. */
     tryThrowObject() {
         if (!this.hasBottles()) return;
         const bottle = this.makeBottleForCharacter();
@@ -175,10 +174,13 @@ class World {
         this.checkBossHit(bottle);
     }
 
-    /** Returns whether the character has bottles to throw. */
+    /** @returns {boolean} True if the character has bottles left. */
     hasBottles() { return this.character.collectedBottles > 0; }
 
-    /** Creates a bottle at the character’s hand with correct direction. */
+    /**
+     * Creates a new bottle at the character’s position.
+     * @returns {ThrowableObjects} New throwable bottle.
+     */
     makeBottleForCharacter() {
         const facingLeft = this.character.otherDirection === true;
         const x = this.character.x + (facingLeft ? -20 : 100);
@@ -186,7 +188,10 @@ class World {
         return new ThrowableObjects(x, y, this, facingLeft);
     }
 
-    /** Adds the bottle to world and updates sound and UI. */
+    /**
+     * Registers a thrown bottle, updates UI and plays sound.
+     * @param {ThrowableObjects} bottle - The thrown bottle.
+     */
     registerBottleThrow(bottle) {
         this.throwableObjects.push(bottle);
         SoundManager.playSound("whisleBottle");
@@ -194,14 +199,16 @@ class World {
         this.statusBar.setPersentageBottles(this.character.collectedBottles);
     }
 
-    /** Checks immediate bottle hit against the boss. */
+    /**
+     * Immediately checks if a thrown bottle hit the boss.
+     * @param {ThrowableObjects} bottle - The thrown bottle.
+     */
     checkBossHit(bottle) {
         const boss = this.level?.boss;
         if (boss && bottle.isBottleColliding(boss)) boss.hitByBottle();
     }
 
-
-    /** Checks collisions between character and bottles. */
+    /** Checks collisions between character and bottles on the map. */
     checkCollisionBottles() {
         this.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
@@ -225,7 +232,7 @@ class World {
         });
     }
 
-    /** Spawns random coins in the level. */
+    /** Randomly spawns coins throughout the level. */
     spawnCoins() {
         for (let i = 0; i < 20; i++) {
             const x = 100 + Math.random() * 3000;
@@ -237,7 +244,7 @@ class World {
         }
     }
 
-    /** Spawns random bottles in the level. */
+    /** Randomly spawns bottles throughout the level. */
     spawnBottles() {
         for (let i = 0; i < 10; i++) {
             const x = 1000 + Math.random() * 2000;
@@ -249,7 +256,7 @@ class World {
         }
     }
 
-    /** Draws all objects in the world. */
+    /** Draws all objects in the world onto the canvas. */
     draw() {
         if (!this.running) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -270,7 +277,7 @@ class World {
     }
 
     /**
-     * Adds an array of objects to the map.
+     * Adds a list of drawable objects to the canvas.
      * @param {DrawableObject[]} objects - Objects to render.
      */
     addObjectsToMap(objects) {
@@ -279,7 +286,7 @@ class World {
     }
 
     /**
-     * Adds a single object to the map with flipping if needed.
+     * Adds a single object to the canvas and applies flipping if necessary.
      * @param {DrawableObject} obj - Object to render.
      */
     addToMap(obj) {
@@ -288,12 +295,11 @@ class World {
         const needFlip = obj.otherDirection && !isThrowable;
         if (needFlip) this.flipImage(obj); else this.ctx.save();
         obj.draw(this.ctx);
-        if (obj.drawFrame) obj.drawFrame(this.ctx);
         if (needFlip) this.flipImageBack(obj); else this.ctx.restore();
     }
 
     /**
-     * Flips image horizontally for rendering.
+     * Flips an image horizontally before drawing.
      * @param {DrawableObject} obj - Object to flip.
      */
     flipImage(obj) {
@@ -304,7 +310,7 @@ class World {
     }
 
     /**
-     * Restores image orientation after flip.
+     * Restores the image orientation after drawing.
      * @param {DrawableObject} obj - Object to restore.
      */
     flipImageBack(obj) {
@@ -312,10 +318,7 @@ class World {
         this.ctx.restore();
     }
 
-    /**
-     * Shows the endscreen overlay with stats after boss death.
-     * Uses data gathered during the run (time, coins, hearts, kills).
-     */
+    /** Displays the endscreen with collected statistics. */
     showEndScreen() {
         this.running = false;
         clearAllIntervals();
@@ -329,15 +332,21 @@ class World {
             coins: this.score,
             time: playTimeSec
         };
-
         EndScreen.show(stats);
     }
 
+    /** Ends the current level (not yet implemented). */
     completeLevel() {}
+
+    /** Destroys the world and stops character animation. */
     destroy() { this.running = false; this.character?.pauseAnimation?.(); }
 
-    /* ===== Pause helpers ===== */
+    /* ===== Helpers for pause/resume functionality ===== */
 
+    /**
+     * Collects all movable objects in the world.
+     * @returns {MovableObject[]} Array of movable objects.
+     */
     getAllMovables() {
         const list = [];
         if (this.character) list.push(this.character);
@@ -348,13 +357,19 @@ class World {
         return list;
     }
 
+    /** Freezes all movable objects (stops their motion). */
     freezeAllMovables() { this.getAllMovables().forEach(o => this.freezeMovable(o)); }
 
+    /** Unfreezes all movable objects and restores their speed. */
     unfreezeAllMovables() {
         this.getAllMovables().forEach(o => this.unfreezeMovable(o));
-        this.recoverZeroSpeeds(); // Fallbacks, falls keine Sicherung existierte
+        this.recoverZeroSpeeds();
     }
 
+    /**
+     * Freezes a single movable object and saves its speed state.
+     * @param {MovableObject} o - Object to freeze.
+     */
     freezeMovable(o) {
         if (!o) return;
         if (!o.__paused) o.__paused = {};
@@ -367,6 +382,10 @@ class World {
         if (typeof o.pauseAnimation === "function" && o !== this.character) o.pauseAnimation();
     }
 
+    /**
+     * Unfreezes a single movable object and restores saved values.
+     * @param {MovableObject} o - Object to unfreeze.
+     */
     unfreezeMovable(o) {
         if (!o) return;
         const s = o.__paused || {};
@@ -377,7 +396,7 @@ class World {
         if (typeof o.resumeAnimation === "function" && o !== this.character) o.resumeAnimation();
     }
 
-    /** Setzt sinnvolle Defaults, falls speed nach dem Auftauen 0 geblieben ist. */
+    /** Recovers sensible default speeds if objects resume with speed 0. */
     recoverZeroSpeeds() {
         if (this.character && typeof this.character.speed === "number" && this.character.speed === 0) {
             this.character.speed = 12;
