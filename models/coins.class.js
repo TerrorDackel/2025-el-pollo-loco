@@ -107,7 +107,7 @@ class Coins extends DrawableObject {
             this.height
         );
         ctx.restore();
-        this.drawGreenFrame(ctx);
+
     }
 
     /**

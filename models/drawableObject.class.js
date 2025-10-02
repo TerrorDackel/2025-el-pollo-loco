@@ -79,18 +79,6 @@ class DrawableObject {
     }
 
     /**
-     * Draws a green frame for coins and bottles.
-     * @param {CanvasRenderingContext2D} ctx - The drawing context.
-     */
-    drawGreenFrame(ctx) {
-        ctx.save();
-        ctx.strokeStyle = "green";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(this.x - 5, this.y - 5, this.width + 10, this.height + 10);
-        ctx.restore();
-    }
-
-    /**
      * Draws the object and optional debug frames.
      * Automatically adds debug outlines for certain object types.
      * @param {CanvasRenderingContext2D} ctx - The drawing context.
@@ -99,7 +87,6 @@ class DrawableObject {
         if (!this.img) return;
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         if (this.debugMode) this.rectangleThrowableObject(ctx);
-        if (this instanceof Coins || this instanceof Bottle) this.drawGreenFrame(ctx);
     }
 
     /**

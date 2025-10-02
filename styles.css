@@ -561,8 +561,8 @@ canvas {
         border-radius: 50%;
         background-color: rgba(38, 103, 163, 0.9);
         margin: 0.25rem;
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         pointer-events: auto;
     }
 
