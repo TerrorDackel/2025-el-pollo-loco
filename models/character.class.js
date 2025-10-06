@@ -7,7 +7,17 @@ class Character extends MovableObject {
     width = 150;
     x = 0;
     y = 110;
-    speed = 12;
+    speed = 10;
+
+    /** Independent throttle for IDLE frame rate (ms per frame). */
+    idleAnimMs = 100; /* <- kleiner = schnelleres Idle-Framewechseln */
+
+    /** Independent throttle for JUMP frame rate (ms per frame). */
+    jumpAnimMs = 90;  /* <- kleiner = schnelleres Jump-Framewechseln */
+
+    /** Internal timestamp markers for throttled animations. */
+    _lastIdleFrameAt = 0;
+    _lastJumpFrameAt = 0;
 
     /**
      * Image paths for idle animation.
@@ -210,13 +220,16 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_HURT);
         }
         else if (this.isAboveGround()) {
-            this.playAnimation(this.IMAGES_JUMPING);
+            /* this.playAnimation(this.IMAGES_JUMPING); */ /* replaced to decouple jump frame rate from physics */
+            this.playAnimIfDue(this.IMAGES_JUMPING, "_lastJumpFrameAt", this.jumpAnimMs);
         }
         else {
-            /* replaced: this.handleWalkingAnimation();  */
-            /* Reason: play idle when no inputs for >= 1000 ms and no action keys held; otherwise walking if moving */
-            if (this.shouldPlayIdle()) this.playAnimation(this.IMAGES_IDLE);
-            else this.handleWalkingAnimation();
+            if (this.shouldPlayIdle()) {
+                /* this.playAnimation(this.IMAGES_IDLE); */ /* replaced to decouple idle frame rate */
+                this.playAnimIfDue(this.IMAGES_IDLE, "_lastIdleFrameAt", this.idleAnimMs);
+            } else {
+                this.handleWalkingAnimation();
+            }
         }
     }
 
@@ -230,7 +243,7 @@ class Character extends MovableObject {
         if (!kb) return false;
         if (kb.isAnyActionPressed()) return false; /* actively held keys block idle */
         const last = kb.lastActivity || 0;
-        const idleAfterMs = 1000; /* change to 0 if idle should show immediately without waiting */
+        const idleAfterMs = 1000; /* set 0 for immediate idle when no action is held */
         return (Date.now() - last) >= idleAfterMs;
     }
 
@@ -239,6 +252,20 @@ class Character extends MovableObject {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING);
         }
+    }
+
+    /**
+     * Plays an animation only if the per-channel throttle has elapsed.
+     * @param {string[]} images - frames list
+     * @param {"_lastIdleFrameAt"|"*"_} lastProp - timestamp field to use
+     * @param {number} ms - throttle in ms
+     */
+    playAnimIfDue(images, lastProp, ms) {
+        const now = Date.now();
+        const last = this[lastProp] || 0;
+        if (now - last < ms) return;
+        this[lastProp] = now;
+        this.playAnimation(images);
     }
 
     /** Handles the death sequence of the character. */
