@@ -125,6 +125,56 @@ function isRestartPromptVisible() {
     return el.classList ? !el.classList.contains("is-hidden") : el.style.display !== "none";
 }
 
+/* Deprecated: replaced by GameOverScreen in js/gameOverScreen.js
+function createRestartPrompt() {
+    const el = getRestartPromptEl();
+    bindRestartButtons(el);
+    showRestartEl(el);
+    return el || null;
+}
+
+function handleRestartKeys(event, ctx) {
+    const key = event.key.toLowerCase();
+    if (key === "n") {
+        EndScreen.goToStart();
+        hideRestartEl(getRestartPromptEl());
+        document.removeEventListener("keydown", this.handleRestartEvent);
+    } else if (key === "j") {
+        ctx.closeRestartPrompt();
+    }
+}
+
+function bindRestartButtons(el) {
+    if (!el || el._restartBound) return;
+    el.addEventListener("click", (e) => {
+        const btn = e.target.closest(".restart-btn");
+        if (!btn) return;
+        const key = btn.textContent.trim().toLowerCase();
+        if (key === "j" || key === "n") {
+            document.dispatchEvent(new KeyboardEvent("keydown", {
+                key, bubbles: true, cancelable: true
+            }));
+        }
+    });
+    el._restartBound = true;
+}
+
+function closeRestartPrompt() {
+    hideRestartEl(getRestartPromptEl());
+    document.removeEventListener("keydown", this.handleRestartEvent);
+    init(createLevel1());
+}
+*/
+
+/* -------------------- Added: input activity timestamp -------------------- */
+/**
+ * Records that the player produced an input activity right now.
+ * Keeps idle timing consistent for both keyboard and touch.
+ */
+function noteActivity() {
+    if (keyboard) keyboard.lastActivity = Date.now();
+}
+
 /**
  * Derives a stable numeric key code for both real and synthetic events.
  * Handles deprecated keyCode by falling back to e.key.
@@ -150,8 +200,20 @@ function getKeyCode(e) {
  * Professional: P is blocked when game over is visible.
  */
 window.addEventListener("keydown", (e) => {
+    noteActivity(); /* NEW: mark activity */
     const code = getKeyCode(e); /* NEW: robust mapping for synthetic events */
     const promptVisible = isRestartPromptVisible();
+
+    /* Deprecated gating kept commented for reference */
+    /*
+    if (world && !world.running) {
+        if (promptVisible) {
+            if (![74, 78].includes(e.keyCode)) return; // J, N only
+        } else {
+            if (e.keyCode !== 80) return; // only P
+        }
+    }
+    */
 
     /* New gating using derived code */
     if (world && !world.running) {
@@ -226,6 +288,7 @@ function handleSpaceKey() {
  * Global keyup handler. 
  */
 window.addEventListener("keyup", (e) => {
+    noteActivity(); /* NEW: mark activity on release too */
     const code = getKeyCode(e); /* NEW: robust mapping */
     handleKeyUpEvents_code(code); /* NEW: route via code-based handler */
 });
@@ -349,7 +412,11 @@ function clearPauseScreen() {
  * @returns {Function} Wrapped handler.
  */
 function withPrevent(fn) {
-    return (e) => { e.preventDefault(); fn(); };
+    return (e) => { 
+        e.preventDefault(); 
+        noteActivity(); /* NEW: count touch as activity for idle */
+        fn(); 
+    };
 }
 
 /**

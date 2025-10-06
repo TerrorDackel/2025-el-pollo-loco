@@ -59,4 +59,16 @@ class Keyboard {
 
     /** @type {boolean} Whether the N key is pressed (play again: no). */
     N = false;
+ /** @type {number} Timestamp of the last input activity (ms since epoch). */
+    lastActivity = Date.now(); /* used for idle */
+
+    /**
+     * Returns whether any action key/button is currently pressed.
+     * This is used to decide if idle animation is allowed.
+     * @returns {boolean}
+     */
+    isAnyActionPressed() {
+        /* keep it explicit for clarity; extend if new inputs are added */
+        return !!(this.LEFT || this.RIGHT || this.UP || this.DOWN || this.SPACE || this.D || this.F || this.M || this.J || this.N || this.PAUSE);
+    }
 }

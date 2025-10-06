@@ -151,7 +151,7 @@ class Character extends MovableObject {
             this.updateAnimation();
             this.checkCollisionWithEnemies();
             this.prevBottom = this.getBox(this).bottom;
-        }, 1000 / 22);
+        }, 1000 / 30);
     }
 
     /** Pauses the animation loop. */
@@ -213,8 +213,25 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_JUMPING);
         }
         else {
-            this.handleWalkingAnimation();
+            /* replaced: this.handleWalkingAnimation();  */
+            /* Reason: play idle when no inputs for >= 1000 ms and no action keys held; otherwise walking if moving */
+            if (this.shouldPlayIdle()) this.playAnimation(this.IMAGES_IDLE);
+            else this.handleWalkingAnimation();
         }
+    }
+
+    /**
+     * Returns whether idle animation should play.
+     * Conditions: no action key currently held AND inactivity >= threshold.
+     * @returns {boolean}
+     */
+    shouldPlayIdle() {
+        const kb = this.world?.keyboard;
+        if (!kb) return false;
+        if (kb.isAnyActionPressed()) return false; /* actively held keys block idle */
+        const last = kb.lastActivity || 0;
+        const idleAfterMs = 1000; /* change to 0 if idle should show immediately without waiting */
+        return (Date.now() - last) >= idleAfterMs;
     }
 
     /** Plays walking animation when moving horizontally. */
