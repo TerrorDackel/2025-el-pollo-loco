@@ -69,7 +69,9 @@ class PauseScreen {
         const btn = PauseScreen.getResumeButton();
         if (!btn) return;
         btn.addEventListener("click", () => {
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: "p" }));
+            /* document.dispatchEvent(new KeyboardEvent("keydown", { key: "p", keyCode: 80, which: 80 }));  */
+            /* Reason: Synthetic KeyboardEvents cannot reliably set keyCode/which. Directly call the central toggle to guarantee identical behaviour. */
+            if (typeof togglePause === "function") togglePause(); /* call the same entry point the P key triggers */
         });
     }
 }

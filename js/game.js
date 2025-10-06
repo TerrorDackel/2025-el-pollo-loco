@@ -125,77 +125,72 @@ function isRestartPromptVisible() {
     return el.classList ? !el.classList.contains("is-hidden") : el.style.display !== "none";
 }
 
-/* Deprecated: replaced by GameOverScreen in js/gameOverScreen.js
-function createRestartPrompt() {
-    const el = getRestartPromptEl();
-    bindRestartButtons(el);
-    showRestartEl(el);
-    return el || null;
-}
-
-function handleRestartKeys(event, ctx) {
-    const key = event.key.toLowerCase();
-    if (key === "n") {
-        EndScreen.goToStart();
-        hideRestartEl(getRestartPromptEl());
-        document.removeEventListener("keydown", this.handleRestartEvent);
-    } else if (key === "j") {
-        ctx.closeRestartPrompt();
+/**
+ * Derives a stable numeric key code for both real and synthetic events.
+ * Handles deprecated keyCode by falling back to e.key.
+ */
+function getKeyCode(e) {
+    /* Prefer legacy keyCode if present */
+    if (typeof e.keyCode === "number" && e.keyCode !== 0) return e.keyCode;
+    /* Fallback: derive from key string for letters */
+    if (e.key && typeof e.key === "string" && e.key.length === 1) {
+        const ch = e.key.toUpperCase();
+        const code = ch.charCodeAt(0);
+        if (code >= 65 && code <= 90) return code; /* A-Z */
     }
+    /* Special-case J/N when coming from GameOverScreen buttons that might lack keyCode */
+    if (e.key && e.key.toLowerCase() === "j") return 74;
+    if (e.key && e.key.toLowerCase() === "n") return 78;
+    /* No reliable mapping available */
+    return undefined;
 }
-
-function bindRestartButtons(el) {
-    if (!el || el._restartBound) return;
-    el.addEventListener("click", (e) => {
-        const btn = e.target.closest(".restart-btn");
-        if (!btn) return;
-        const key = btn.textContent.trim().toLowerCase();
-        if (key === "j" || key === "n") {
-            document.dispatchEvent(new KeyboardEvent("keydown", {
-                key, bubbles: true, cancelable: true
-            }));
-        }
-    });
-    el._restartBound = true;
-}
-
-function closeRestartPrompt() {
-    hideRestartEl(getRestartPromptEl());
-    document.removeEventListener("keydown", this.handleRestartEvent);
-    init(createLevel1());
-}
-*/
 
 /**
  * Global keydown handler that gates inputs during pause or while prompts are open.
  * Professional: P is blocked when game over is visible.
  */
 window.addEventListener("keydown", (e) => {
+    const code = getKeyCode(e); /* NEW: robust mapping for synthetic events */
     const promptVisible = isRestartPromptVisible();
 
-    /* Deprecated: allowing P with prompt caused overlay conflicts.
+    /* New gating using derived code */
     if (world && !world.running) {
         if (promptVisible) {
-            if (![80, 74, 78].includes(e.keyCode)) return; // P, J, N
+            if (![74, 78].includes(code)) return; // J, N only
         } else {
-            if (e.keyCode !== 80) return; // only P
-        }
-    }
-    */
-
-    /* New gating: when prompt visible → only J or N allowed. */
-    if (world && !world.running) {
-        if (promptVisible) {
-            if (![74, 78].includes(e.keyCode)) return; // J, N only
-        } else {
-            if (e.keyCode !== 80) return; // only P
+            if (code !== 80) return; // only P
         }
     }
 
-    if (gamePaused && e.keyCode !== 80) return;
-    handleKeyDownEvents(e);
+    if (gamePaused && code !== 80) return;
+    handleKeyDownEvents_code(code); /* NEW: route via code-based handler */
 });
 
+/**
+ * Processes keydown events by numeric code.
+ * @param {number|undefined} code - Derived key code.
+ */
+function handleKeyDownEvents_code(code) {
+    switch (code) {
+        case 39: keyboard.RIGHT = true; break;
+        case 37: keyboard.LEFT = true; break;
+        case 38: keyboard.UP = true; break;
+        case 40: keyboard.DOWN = true; break;
+        case 32: handleSpaceKey(); break;
+        case 68: keyboard.D = true; break;
+        case 70: keyboard.F = true; break;
+        case 74: keyboard.J = true; break;
+        case 78: keyboard.N = true; break;
+        case 45: keyboard.ZERO = true; break;
+        case 77: keyboard.M = true; break;
+        case 80: togglePause(); break;
+        case 90: SoundManager.unmuteAll(); break;
+        case 84: SoundManager.muteAll(); break;
+        default: break;
+    }
+}
+
+/* Deprecated: original handler kept for compatibility, not used anymore. */
 /**
  * Processes keydown events and maps to actions.
  * @param {KeyboardEvent} e - The keyboard event.
@@ -230,8 +225,33 @@ function handleSpaceKey() {
 /** 
  * Global keyup handler. 
  */
-window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
+window.addEventListener("keyup", (e) => {
+    const code = getKeyCode(e); /* NEW: robust mapping */
+    handleKeyUpEvents_code(code); /* NEW: route via code-based handler */
+});
 
+/**
+ * Processes keyup events by numeric code.
+ * @param {number|undefined} code - Derived key code.
+ */
+function handleKeyUpEvents_code(code) {
+    switch (code) {
+        case 39: keyboard.RIGHT = false; break;
+        case 37: keyboard.LEFT = false; break;
+        case 38: keyboard.UP = false; break;
+        case 40: keyboard.DOWN = false; break;
+        case 32: keyboard.SPACE = false; break;
+        case 68: keyboard.D = false; break;
+        case 77: keyboard.M = false; break;
+        case 74: keyboard.J = false; break;
+        case 78: keyboard.N = false; break;
+        case 45: keyboard.ZERO = false; break;
+        case 80: keyboard.PAUSE = false; break;
+        default: break;
+    }
+}
+
+/* Deprecated: original keyup handler kept for compatibility, not used anymore. */
 /**
  * Processes keyup events and maps to actions.
  * @param {KeyboardEvent} e - The keyboard event.
