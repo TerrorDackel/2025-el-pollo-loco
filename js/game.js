@@ -1,6 +1,6 @@
-// ===============================
-// Global game state
-// ===============================
+/** 
+ * Global game state
+ */
 let canvas;
 let world;
 let keyboard = new Keyboard();
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /**
  * Initialises the game world and canvas.
- * @param {Level} [level=level1] - Level to start
+ * @param {Level} [level=level1] - Level to start.
  */
 function init(level = level1) {
     clearAllIntervals();
@@ -47,16 +47,20 @@ function init(level = level1) {
     window.world = world;
 }
 
-/** Resizes the canvas proportionally to the window. */
+/**
+ * Resizes the canvas proportionally to the window. 
+ */
 function resizeCanvas() {
     const scaleX = window.innerWidth / canvas.width;
     const scaleY = window.innerHeight / canvas.height;
     const scale = Math.min(scaleX, scaleY);
     canvas.style.width = canvas.width * scale + "px";
     canvas.style.height = canvas.height * scale + "px";
-}
+} 
 
-/** Resets the game to its initial state. */
+/** 
+ * Resets the game to its initial state. 
+ */
 function resetGame() {
     clearAllIntervals();
     stopAnimations();
@@ -65,7 +69,9 @@ function resetGame() {
     init(createLevel1());
 }
 
-/** Clears all active intervals and timeouts. */
+/**
+ * Clears all active intervals and timeouts. 
+ */
 function clearAllIntervals() {
     const highestId = setTimeout(() => {}, 0);
     for (let id = 0; id <= highestId; id++) {
@@ -74,47 +80,52 @@ function clearAllIntervals() {
     }
 }
 
-/** Stops character animations if active. */
+/** 
+ * Stops character animations if active. 
+ */
 function stopAnimations() {
     if (world && world.character?.animationInterval) {
         clearInterval(world.character.animationInterval);
     }
 }
 
-/** Removes global keyboard event listeners. */
+/** 
+ * Removes global keyboard event listeners. 
+ */
 function removeEventListeners() {
     window.removeEventListener("keydown", handleKeyDown);
     window.removeEventListener("keyup", handleKeyUp);
 }
 
-/** Utilities for restart prompt (static HTML). */
+/** 
+ * Utilities for restart prompt (static HTML). 
+ * Deprecated: direct DOM visibility checks replaced by GameOverScreen.isVisible().
+ */
 function getRestartPromptEl() { return document.getElementById("restartPrompt"); }
-function showRestartEl(el) {
-    if (!el) return;
-    if (el.classList) el.classList.remove("is-hidden");
-    else el.style.display = "block";
+
+/**
+ * Displays the restart confirmation overlay (delegated to GameOverScreen).
+ */
+function showRestartPrompt() {
+    GameOverScreen.show();
 }
-function hideRestartEl(el) {
-    if (!el) return;
-    if (el.classList) el.classList.add("is-hidden");
-    else el.style.display = "none";
-}
+
+/**
+ * Returns whether the game over overlay is visible.
+ * Uses GameOverScreen state; keeps legacy DOM check as fallback.
+ * @returns {boolean} True if visible, otherwise false.
+ */
 function isRestartPromptVisible() {
+    if (typeof GameOverScreen !== "undefined" && GameOverScreen.isVisible) {
+        return GameOverScreen.isVisible();
+    }
+    /* Deprecated: legacy DOM-based visibility check kept for fallback. */
     const el = getRestartPromptEl();
     if (!el) return false;
     return el.classList ? !el.classList.contains("is-hidden") : el.style.display !== "none";
 }
 
-/** Displays the restart confirmation overlay. */
-function showRestartPrompt() {
-    const prompt = createRestartPrompt(); // muss weiterhin aufgerufen werden
-    if (!prompt) return;
-    document.removeEventListener("keydown", this.handleRestartEvent);
-    this.handleRestartEvent = (e) => handleRestartKeys(e, this);
-    document.addEventListener("keydown", this.handleRestartEvent);
-}
-
-/** Creates the restart overlay element (now: reveals static element). */
+/* Deprecated: replaced by GameOverScreen in js/gameOverScreen.js
 function createRestartPrompt() {
     const el = getRestartPromptEl();
     bindRestartButtons(el);
@@ -122,7 +133,6 @@ function createRestartPrompt() {
     return el || null;
 }
 
-/** Handles restart key inputs. */
 function handleRestartKeys(event, ctx) {
     const key = event.key.toLowerCase();
     if (key === "n") {
@@ -139,7 +149,7 @@ function bindRestartButtons(el) {
     el.addEventListener("click", (e) => {
         const btn = e.target.closest(".restart-btn");
         if (!btn) return;
-        const key = btn.textContent.trim().toLowerCase(); // "j" oder "n"
+        const key = btn.textContent.trim().toLowerCase();
         if (key === "j" || key === "n") {
             document.dispatchEvent(new KeyboardEvent("keydown", {
                 key, bubbles: true, cancelable: true
@@ -149,18 +159,21 @@ function bindRestartButtons(el) {
     el._restartBound = true;
 }
 
-/** Closes restart overlay and reinitialises the game. */
 function closeRestartPrompt() {
     hideRestartEl(getRestartPromptEl());
     document.removeEventListener("keydown", this.handleRestartEvent);
     init(createLevel1());
 }
+*/
 
-/** Global keydown handler. */
+/**
+ * Global keydown handler that gates inputs during pause or while prompts are open.
+ * Professional: P is blocked when game over is visible.
+ */
 window.addEventListener("keydown", (e) => {
     const promptVisible = isRestartPromptVisible();
 
-    // World stopped: allow P; with visible prompt also J/N
+    /* Deprecated: allowing P with prompt caused overlay conflicts.
     if (world && !world.running) {
         if (promptVisible) {
             if (![80, 74, 78].includes(e.keyCode)) return; // P, J, N
@@ -168,14 +181,25 @@ window.addEventListener("keydown", (e) => {
             if (e.keyCode !== 80) return; // only P
         }
     }
+    */
 
-    // In pause/countdown only P
+    /* New gating: when prompt visible → only J or N allowed. */
+    if (world && !world.running) {
+        if (promptVisible) {
+            if (![74, 78].includes(e.keyCode)) return; // J, N only
+        } else {
+            if (e.keyCode !== 80) return; // only P
+        }
+    }
+
     if (gamePaused && e.keyCode !== 80) return;
-
     handleKeyDownEvents(e);
 });
 
-/** Processes keydown events and maps to actions. */
+/**
+ * Processes keydown events and maps to actions.
+ * @param {KeyboardEvent} e - The keyboard event.
+ */
 function handleKeyDownEvents(e) {
     switch (e.keyCode) {
         case 39: keyboard.RIGHT = true; break;
@@ -201,12 +225,17 @@ function handleSpaceKey() {
         keyboard.SPACE = true;
         if (world) world.tryThrowObject();
     }
-}
+} 
 
-/** Global keyup handler. */
+/** 
+ * Global keyup handler. 
+ */
 window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
 
-/** Processes keyup events and maps to actions. */
+/**
+ * Processes keyup events and maps to actions.
+ * @param {KeyboardEvent} e - The keyboard event.
+ */
 function handleKeyUpEvents(e) {
     switch (e.keyCode) {
         case 39: keyboard.RIGHT = false; break;
@@ -223,81 +252,102 @@ function handleKeyUpEvents(e) {
     }
 }
 
-/** Toggles game pause state. */
+/**
+ * Toggles game pause state.
+ * Keeps original structure; delegates overlay/countdown to PauseScreen.
+ */
 function togglePause() {
     if (!gamePaused) pauseGame();
     else if (!countdownActive) {
-        clearPauseScreen();
         startCountdown();
     }
 }
 
-/** Pauses the game and draws overlay. */
+/**
+ * Pauses the game and shows the pause overlay.
+ * Freezes world via World.pauseGame().
+ */
 function pauseGame() {
     gamePaused = true;
-    world.pauseGame();
-    drawPauseScreen();
+    if (world) world.pauseGame();
+    PauseScreen.showOverlay();
 }
 
-/** Starts countdown to resume game. */
+/**
+ * Starts countdown to resume game via PauseScreen.
+ * Uses ~2 seconds total (400 ms steps for 5→1 plus 'GO!').
+ */
 function startCountdown() {
     countdownActive = true;
-    if (world) world.pauseGame(); // hard stop during countdown
-
-    let count = 5;
-    const countDownStep = () => {
-        if (count > 0) {
-            speak(count);
-            count--;
-            setTimeout(countDownStep, 2300);
-        } else resumeAfterCountdown();
-    };
-    countDownStep();
+    if (world) world.pauseGame();
+    PauseScreen.showCountdown(() => {
+        resumeAfterCountdown();
+    });
 }
 
-/** Resumes game after countdown. */
+/**
+ * Resumes game after countdown finishes.
+ * Hides overlay and restores world loop.
+ */
 function resumeAfterCountdown() {
     speak("GO!");
-    world.resumeGame();
+    if (world) world.resumeGame();
     gamePaused = false;
     countdownActive = false;
+    PauseScreen.clearOverlay();
 }
 
-/** Speaks given text with speech synthesis. */
+/**
+ * Speaks given text with speech synthesis.
+ * @param {string|number} text - The text or number to speak in German.
+ */
 function speak(text) {
-    const speech = new SpeechSynthesisUtterance(text);
+    const speech = new SpeechSynthesisUtterance(String(text));
     speech.lang = "de-DE";
     window.speechSynthesis.speak(speech);
 }
 
-/** Draws pause screen overlay. */
+/**
+ * Draws pause screen overlay on canvas.
+ * Replaced by HTML overlay for responsiveness and styling flexibility.
+ */
 function drawPauseScreen() {
-    const ctx = world.ctx;
-    ctx.fillStyle = "rgba(0,0,0,0.9)";
-    ctx.fillRect(canvas.width / 2 - 180, canvas.height / 2 - 120, 360, 240);
-    ctx.fillStyle = "white";
-    ctx.font = "20px Helvetica";
-    ctx.textAlign = "center";
-    ctx.fillText("Das Game wurde pausiert.", canvas.width / 2, canvas.height / 2 - 30);
-    ctx.fillText("Drücke bitte P erneut.", canvas.width / 2, canvas.height / 2 + 10);
+    PauseScreen.showOverlay();
 }
 
-/** Clears pause overlay by redrawing the world. */
-function clearPauseScreen() { world.draw(); }
+/**
+ * Clears pause overlay.
+ * Previously forced a redraw; now delegates to PauseScreen.
+ */
+function clearPauseScreen() {
+    PauseScreen.clearOverlay();
+}
 
-/** Wraps a handler so it always calls preventDefault first. */
+/**
+ * Wraps a handler so it always calls preventDefault first.
+ * @param {Function} fn - Callback to wrap.
+ * @returns {Function} Wrapped handler.
+ */
 function withPrevent(fn) {
     return (e) => { e.preventDefault(); fn(); };
 }
 
-/** Attaches touchstart/touchend to a button if it exists. */
+/**
+ * Attaches touchstart/touchend to a button if it exists.
+ * @param {HTMLElement|null} btn - The button element.
+ * @param {Function} onStart - Touchstart callback.
+ * @param {Function} onEnd - Touchend callback.
+ */
 function attachTouch(btn, onStart, onEnd) {
     if (!btn) return;
     btn.addEventListener("touchstart", onStart, { passive: false });
     btn.addEventListener("touchend", onEnd, { passive: false });
 }
 
-/** Initialises mobile controls for touch devices. */
+/**
+ * Initialises mobile controls for touch devices.
+ * Maps on-screen buttons to keyboard flags.
+ */
 function initMobileControls() {
     const map = [["btn-left","LEFT"], ["btn-right","RIGHT"], ["btn-jump","UP"]];
     map.forEach(([id, key]) => attachTouch(
@@ -312,7 +362,10 @@ function initMobileControls() {
     );
 }
 
-/** Checks device orientation and updates UI. */
+/**
+ * Checks device orientation and updates UI visibility.
+ * Shows rotate warning in portrait mode on mobile.
+ */
 function checkOrientation() {
     const warning = document.getElementById("rotate-warning");
     const canvasEl = document.getElementById("canvas");

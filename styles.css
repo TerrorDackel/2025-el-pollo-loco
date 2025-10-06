@@ -1,22 +1,8 @@
-/**
- * @file styles.css
- * @description Provides layout, typography and UI styling for the game. 
- *              Includes responsive rules, overlay management and device-specific adjustments.
- */
-
-/**
- * @class font-face
- * @description Loads custom game font "zabras".
- */
 @font-face {
     font-family: 'zabras';
     src: url('./fonts/zabars.ttf') format('truetype');
 }
 
-/**
- * @class body
- * @description Main viewport with centred content, desert background and base typography.
- */
 body {
     display: flex;
     justify-content: center;
@@ -33,18 +19,21 @@ body {
     overflow-y: hidden;
 }
 
-/**
- * @class overlay-hidden
- * @description Hides any overlay completely.
- */
 .overlay-hidden {
     display: none !important;
 }
 
-/**
- * @class canvas
- * @description Main game canvas, centred and constrained to base resolution.
- */
+#sound-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    object-fit: contain;
+    z-index: 30;
+}
+
 canvas {
     position: absolute;
     display: flex;
@@ -59,32 +48,37 @@ canvas {
 }
 
 .restart-prompt {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80%;
-    height: 80%;
-    transform: translate(-50%,-50%);
-    background: rgba(0,0,0,0.9);
-    color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    z-index: 40;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    text-align: center;
+    color: white;
+    max-height: 480px;
+    height: 100%;
+    max-width: 720px;
+    width: 100%;
+    background-image: url('./imgs/9_intro_outro_screens/game_over/game-over.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    z-index: 40;
 }
 
 .restart-box {
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 90%;
     min-height: 100px;
 }
 
 .restart-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 70px;
     font-family: 'Zabras';
@@ -92,22 +86,42 @@ canvas {
     color: #f3a71a;
 }
 
-.is-hidden { 
-    display: none; 
+.is-hidden {
+    display: none;
 }
 
 .restart-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.5rem;
     text-align: center;
+    font-size: 6rem;
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
+    margin-bottom: 1rem;
 }
 
 .restart-hint {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 0.5rem;
     width: 90%;
     min-height: 100px;
+}
+
+.restart-question-txt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    padding: 3rem;
+    font-weight: bold;
+    font-family: 'Helvetica';
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
 }
 
 .restart-btn-txt-container {
@@ -116,7 +130,6 @@ canvas {
     justify-content: center;
     width: 100%;
     padding: 0.25rem;
-
 }
 
 .restart-btn {
@@ -148,58 +161,88 @@ canvas {
     font-family: 'Helvetica';
     font-size: 1rem;
     font-weight: 400;
-    
 }
 
-/**
- * @class startScreen
- * @description Intro screen with fade-in animation and scaling.
- */
 #startScreen {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: calc(480px - 2rem);
-    height: 90%;
-    max-width: calc(720px - 2rem);
-    width: 90%;
+    max-height: 480px;
+    height: 100%;
+    max-width: 720px;
+    width: 100%;
     inset: 0;
     opacity: 0;
     transform: scale(0.7);
     transition: opacity 2.5s ease-out, transform 2s ease-out;
     animation: fadeIn 2.5s forwards;
-    background: rgba(0,0,0,0);
     z-index: 15;
 }
 
-/**
- * @class overlay-content
- * @description Shared container for rules and impressum overlays.
- */
-.overlay-content,
-.overlay-content-rules,
-.overlay-content-impressum {
-    position: absolute;
+.overlay-content {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 1);
-    color: white;
-    text-align: center;
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
     padding: 2rem;
+    max-height: 480px;
+    height: 100%;
+    max-width: 720px;
+    width: 100%;
+    margin: 0;
+    background-image: url('imgs/5_background/happy-mexican.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    z-index: 40;
 }
 
-/**
- * @class header-container
- * @description Centres header text block in overlays.
- */
+.overlay-content-rules,
+.overlay-content-impressum  {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem;
+    max-height: 480px;
+    height: 50%;
+    max-width: 720px;
+    width: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    z-index: 40;
+}
+
+.overlay-content-rules{
+    background-image: url('imgs/5_background/mex skulls.jpg');
+}
+
+.overlay-content-impressum {
+    background-image: url('imgs/5_background/mexican-pyramide-night.jpg');
+}
+
+.menu-btn-container-alignement {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: 30%;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
 .header-container {
     display: flex;
     justify-content: center;
@@ -210,20 +253,12 @@ canvas {
     padding: 1rem;
 }
 
-/**
- * @class header-txt
- * @description Game title text with golden colour.
- */
 .header-txt {
     font-size: 50px;
     color: #f3a71a;
     padding: 0.5rem;
 }
 
-/**
- * @class buttons-container
- * @description Vertical button stack inside overlays.
- */
 .buttons-container {
     display: flex;
     justify-content: space-around;
@@ -234,10 +269,6 @@ canvas {
     padding: 1rem;
 }
 
-/**
- * @class menu-button
- * @description Main menu buttons.
- */
 .menu-button {
     display: flex;
     justify-content: center;
@@ -253,10 +284,6 @@ canvas {
     transition: background 0.3s;
 }
 
-/**
- * @class menu-button-close
- * @description Special close button with margin spacing.
- */
 .menu-button-close {
     display: flex;
     justify-content: center;
@@ -273,10 +300,6 @@ canvas {
     margin: 1rem;
 }
 
-/**
- * @class menu-button:hover
- * @description Hover effect with highlight colour.
- */
 .menu-button-close:hover {
     background: #ffaa00;
     cursor: pointer;
@@ -285,73 +308,52 @@ canvas {
     perspective: 1000px;
 }
 
-/**
- * @class overlay
- * @description Fullscreen overlay container.
- */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-}
-
-/**
- * @class header-game-contoll-container
- * @description Container for game control header section.
- */
 .header-game-contoll-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
     padding: 0;
-    h2 {
-        margin: 1rem, 0, 0, 0;
-        padding: 0;
-    }
+    width: auto;
+    height: 25%;
 }
 
-/**
- * @class header-game-controll
- * @description Main header for game control overlay.
- */
 .header-game-controll {
-    font-size: 50px;
-    color: #f3a71a;
     padding: 0.5rem;
+    text-align: center;
+    font-size: 5rem;
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
+    margin: 0;
 }
 
-/**
- * @class game-controll-header
- * @description Subheader text for controls.
- */
 .game-controll-header {
-    font-family: Impact, Helvetica, 'Arial Narrow Bold', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    color: white;
     padding: 0.5rem;
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    font-family: 'Helvetica';
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
 }
 
-/**
- * @class rules-content-txt
- * @description Scrollable rules section with hidden scrollbar on touch devices.
- */
+.rules-content-container,
+.impressum-content-container {
+    max-width: 700px;
+    width: 600px;
+    max-height: 360px;
+    border-radius: 3rem;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
 .rules-content-txt,
-.impressum-content-txt {
+.impressum-content-txt  {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    max-height: 90%;
-    max-width: 1220px;
+    max-height: 265px;
+    max-width: 600px;
     overflow-y: auto;
     overflow-x: hidden;
     white-space: normal;
@@ -359,30 +361,28 @@ canvas {
     hyphens: auto;
     text-align: left;
     scrollbar-width: none;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f3f rgba(0, 0, 0, 0.6);
     -ms-overflow-style: none;
     margin: 1rem;
 }
 
 .game-controll-txt,
 .game-controll-back {
-    font-family: Impact, Helvetica, 'Arial Narrow Bold', sans-serif;
-    font-size: 1rem;
+    font-size: 1.3rem;
+    margin-top: 0.1rem;
     font-weight: 400;
-    color: white;
-    padding: 0.1rem;
-    margin: 0;
+    font-family: 'Helvetica';
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
 }
 
-/**
- * @class rules-content-txt::-webkit-scrollbar
- * @description Hides scrollbar for mobile/touch devices.
- */
 .rules-content-txt::-webkit-scrollbar,
 .impressum-content-txt::-webkit-scrollbar {
     display: none;
 }
 
-/* Endscreen Overlay */
 #endscreen-overlay {
     position: absolute;
     top: 0;
@@ -398,7 +398,6 @@ canvas {
 
 .endscreen-content {
     text-align: center;
-
 }
 
 .endscreen-title {
@@ -416,7 +415,6 @@ canvas {
     margin: 5px 0;
 }
 
-/* Container für die Buttons */
 .endscreen-buttons {
     display: flex;
     justify-content: center;
@@ -424,7 +422,6 @@ canvas {
     margin-top: 20px;
 }
 
-/* Styles für die Buttons (Zurück & Nächstes Level) */
 .endscreen-button {
     padding: 12px 24px;
     font-family: 'Helvetic';
@@ -443,45 +440,88 @@ canvas {
     perspective: 1000px;
 }
 
-
-/**
- * @class scrollbar-desktop
- * @description Slim, grey rounded scrollbar for desktop only.
- */
-@media (hover: hover) and (pointer: fine) {
-    .rules-content-txt::-webkit-scrollbar,
-    .impressum-content-txt::-webkit-scrollbar {
-        width: 8px;
-    }
-    .rules-content-txt::-webkit-scrollbar-thumb,
-    .impressum-content-txt::-webkit-scrollbar-thumb {
-        background: grey;
-        border-radius: 8px;
-    }
-    .rules-content-txt::-webkit-scrollbar-track,
-    .impressum-content-txt::-webkit-scrollbar-track {
-        background: transparent;
-    }
+.pause-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
 }
 
-/**
- * @class game-controll-txt
- * @description Paragraphs in control section.
- */
-.game-controll-txt,
-.game-controll-back {
-    font-family: 'Helvetic';
-    font-size: 1rem;
-    font-weight: 400;
+.pause-overlay-hidden {
+    display: none !important;
+}
+
+.pause-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     color: white;
-    padding: 0;
-    margin: 0;
+    max-height: 480px;
+    height: 100%;
+    max-width: 720px;
+    width: 100%;
+    background-image: url('./imgs/9_intro_outro_screens/pause/pause-screen.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
 
-/**
- * @class rotate-warning
- * @description Warning screen for portrait orientation on mobile.
- */
+.pause-header {
+    font-size: 6rem;
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
+    margin-bottom: 1rem;
+}
+
+.pause-description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    font-family: 'Helvetica';
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
+}
+
+.pause-countdown-txt {
+    height: 60px;
+    font-size: 4rem;
+    font-weight: bold;
+    margin-top: 0;
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
+}
+
+.back-to-game-btn {
+    height: 60px;
+    padding: 12px 24px;
+    font-family: 'Helvetic';
+    font-size: 18px;
+    font-weight: bold;
+    background: #f7c25f;
+    color: black;
+    cursor: pointer;
+}
+
+.back-to-game-btn:hover {
+    background: #ffaa00;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
 #rotate-warning {
     display: none;
     position: fixed;
@@ -495,36 +535,55 @@ canvas {
     font-size: 20px;
     border-radius: 0;
     z-index: 30;
-
 }
 
-/**
- * @class mobile-controls
- * @description Hidden by default, shown only on mobile landscape.
- */
 #mobile-controls {
     display: none;
 }
 
-/**
- * @class sound-toggle
- * @description Floating button to toggle sound.
- */
-#sound-toggle {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    object-fit: contain;
-    z-index: 30;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-/**
- * @class mobile-controls
- * @description Touch-only control panel for mobile.
- */
+/* ===== MEDIA QUERIES ===== */
+
+@media (hover: hover) and (pointer: fine) {
+
+    .rules-content-txt::-webkit-scrollbar { 
+        width: 8px; 
+    }
+
+    .rules-content-txt::-webkit-scrollbar-thumb { 
+        background: grey; 
+        border-radius: 8px; 
+    }
+
+    .rules-content-txt::-webkit-scrollbar-track { 
+        background: transparent; 
+    }
+
+    .impressum-content-txt::-webkit-scrollbar { 
+        width: 8px; 
+    }
+
+    .impressum-content-txt::-webkit-scrollbar-thumb { 
+        background: grey; 
+        border-radius: 8px; 
+    }
+
+    .impressum-content-txt::-webkit-scrollbar-track { 
+        background: transparent; 
+    }
+
+}
+
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
     #mobile-controls {
         position: fixed;
@@ -582,52 +641,81 @@ canvas {
     }
 }
 
-/**
- * @animation fadeIn
- * @description Smooth fade-in animation for start screen.
- */
-@keyframes fadeIn {
-    from { 
-        opacity: 0; 
-        transform: scale(0.5); 
-    }
-    to { 
-        opacity: 1; 
-        transform: scale(1); 
-    }
-}
-
-/**
- * @media max-width:720px
- * @description Makes canvas full width on small screens.
- */
 @media only screen and (max-width: 720px) {
     canvas { 
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%; 
-    }
-}
-
-/**
- * @media max-height:480px
- * @description Adjusts layout for short screens.
- */
-@media only screen and (max-height: 480px) {
-    canvas { 
-        height: 100vh; 
-        width: 100vw;
+        height: 100%;
     }
 
-    .header-container {
-        flex-direction: row;
+    .overlay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
     }
 
-    .header-txt {
-    font-size: 35px;
-    padding: 0rem;
-    margin: 0, 0, 0, 0;
+    .overlay-content-rules,
+    .overlay-content-impressum {
+        position: fixed;
+        width: 100%;
+        height: 100dvh;
+    }
+
+    .header-game-controll-container {
+        margin: 0, 0;
+        max-height: 100px;
+        height: 60px;
+        padding: 0.1rem;
     }
 
     .header-game-controll {
-        margin: 0.5rem;
+        margin: 3px;
+        padding: 0;
+        font-size: 3.5rem;
+        color: #f7c25f;
     }
+
+    .impressum-content-container,
+    .rules-content-container {
+        max-height: calc(100dvh - 103px);
+        margin: 0, 1.5rem, 1rem, 0;
+        padding-bottom: 0.1;
+        overflow: hidden;
+    }
+
+    .rules-content-txt {
+        max-height: 100%;
+    }
+
+    .game-controll-txt {
+        margin: 0;
+        padding: 0, 1rem;
+    }
+
+    .menu-btn-container-alignement {
+        width: 100%;
+        height: 100%;
+    }
+
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .header-container { flex-direction: row; }
+
+    .header-txt {
+        font-size: 35px;
+        padding: 0rem;
+        margin: 0, 0, 0, 0;
+    }
+
+    .header-game-controll { margin: 0.5rem; }
 }

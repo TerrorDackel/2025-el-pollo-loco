@@ -28,6 +28,8 @@
     <script src="./js/soundManager.js"></script>
     <script src="./js/startScreen.js"></script>
     <script src="./js/endScreen.js"></script>
+    <script src="./js/pauseScreen.js"></script>
+    <script src="./js/gameOverScreen.js"></script>
     <script src="./js/game.js"></script>
 </head>
 <body>
@@ -38,18 +40,30 @@
         <div class="restart-box">
             <div class="restart-header">
                 <div class="restart-title">
-                    Leider verloren, möchtest du's nochmal versuchen?
+                    Game over!
                 </div>
             </div>
-            </div>
+            
             <div class="restart-hint">
-                <div class="restart-btn-txt-container">
-                    <button class="restart-btn">J</button>
-                    <div class="restart-txt">&nbsp;= Ja diesen Chicken's werde ich's zeigen!</div>
+                <div class="restart-question-txt">
+                    Traust du dich nochmal?
                 </div>
                 <div class="restart-btn-txt-container">
-                    <button class="restart-btn">N</button>
-                    <div class="restart-txt">&nbsp;= Nein, ich check erst mal die Spielregeln.</div>
+                    
+                    <button class="restart-btn">
+                        J
+                    </button>
+                    <div class="restart-txt">
+                        &nbsp;= Ja diesen Chicken's werde ich's zeigen!
+                    </div>
+                </div>
+                <div class="restart-btn-txt-container">
+                    <button class="restart-btn">
+                        N
+                    </button>
+                    <div class="restart-txt">
+                        &nbsp;= Nein, ich check erst mal die Spielregeln.
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,62 +72,156 @@
     <div class="start-screen" id="startScreen">
         <div class="overlay-content">
             <div class="header-container">
-                <div class="header-txt"> Willkommen bei&nbsp;</div>
-                <div class="header-txt"> El Pollo Loco </div>
+                <div class="header-txt"> 
+                    Willkommen bei&nbsp;
+                </div>
+                <div class="header-txt"> 
+                    El Pollo Loco 
+                </div>
             </div>
             <div class="buttons-container">
-                <button class="menu-button" onclick="startGame()"> ▶️ Spiel starten </button>
-                <button class="menu-button" onclick="showRules()"> 🕹️ Spielregeln </button>
-                <button class="menu-button" onclick="showImpressum()"> ℹ️ Impressum </button>
+                <button class="menu-button" onclick="startGame()"> 
+                    ▶️ Spiel starten 
+                </button>
+                <button class="menu-button" onclick="showRules()"> 
+                    🕹️ Spielregeln 
+                </button>
+                <button class="menu-button" onclick="showImpressum()"> 
+                    ℹ️ Impressum 
+                </button>
             </div>
         </div>
     </div>
 
     <div id="rules-overlay" class="overlay overlay-hidden">
         <div class="overlay-content-rules">
-            <h2 class="header-game-controll"> Spielregeln im Game: </h2>
-            <div class="rules-content-txt">
-                <p class="game-controll-txt"> ⬅️ Pfeil links: Pepe läuft nach links. </p>
-                <p class="game-controll-txt"> ➡️ Pfeil rechts: Pepe läuft nach rechts. </p>
-                <p class="game-controll-txt"> ⬆️ Pfeil oben: Pepe springt. </p>
-                <p class="game-controll-txt"> SPACE: Pepe wirft eine Flasche. </p>
-                <p class="game-controll-txt"> 🔇 T = Musik aus, 🔊 Z = Musik an. </p>
-                <p class="game-controll-txt"> ⏯️ P = Pause starten/beenden. </p>
+            <div class="header-game-controll-container">
+                <h2 class="header-game-controll"> 
+                    Spielregeln im Game: 
+                </h2>
             </div>
-            <button class="menu-button-close" onclick="returnToStart()"> ⬅️ Zurück </button>
+            <div class="rules-content-container">
+                <div class="rules-content-txt">
+                    <p class="game-controll-txt"> 
+                        ⬅️ Pfeil links: Pepe läuft nach links. 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        ➡️ Pfeil rechts: Pepe läuft nach rechts. 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        ⬆️ Pfeil oben: Pepe springt. 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        SPACE: Pepe wirft eine Flasche. 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        🔇 T = Musik aus, 🔊 Z = Musik an. 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        ⏯️ P = Pause starten/beenden. 
+                    </p>
+                </div>
+                <div class="menu-btn-container-alignement">
+                    <button class="menu-button-close" onclick="returnToStart()"> 
+                        ⬅️ Zurück 
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <div id="impressum-overlay" class="overlay overlay-hidden">
         <div class="overlay-content-impressum">
             <div class="header-game-controll-container">
-                <h2 class="header-game-controll"> Impressum </h2>
+                <h2 class="header-game-controll"> 
+                    Impressum
+                </h2>
             </div>
-            <div class="impressum-content-txt">
-                <p class="game-controll-header"> Angaben gemäß § 5 TMG </p>
-                <p class="game-controll-txt"> Jennifer Thomas <br> Pfarrer-Müller-Str. 1 <br> 94431 Pilsting </p>
-                <p class="game-controll-txt"> E-Mail: contact@jennifer-thomas.de </p>
-                <p class="game-controll-header"> Hinweis zum Projekt </p>
-                <p class="game-controll-txt"> Dieses Projekt <i> El Pollo Loco </i> ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur Demonstration meiner Fähigkeiten als Frontend Developer dient. </p>
-                <p class="game-controll-txt"> Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA) zur Verfügung gestellt. </p>
-                <p class="game-controll-header"> Haftungsausschluss </p>
-                <p class="game-controll-txt"> Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine Haftung ist ausgeschlossen. </p>
+            <div class="impressum-content-container">
+                <div class="impressum-content-txt">
+                    <p class="game-controll-header"> 
+                        Angaben gemäß § 5 TMG 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        Jennifer Thomas <br> 
+                        Pfarrer-Müller-Str. 1 <br> 
+                        94431 Pilsting 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        E-Mail: contact@jennifer-thomas.de 
+                    </p>
+                    <p class="game-controll-header"> 
+                        Hinweis zum Projekt 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        Dieses Projekt 
+                        <i> 
+                            El Pollo Loco 
+                        </i> 
+                        ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur Demonstration meiner Fähigkeiten als Frontend Developer dient. 
+                    </p>
+                    <p class="game-controll-txt"> 
+                        Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA) zur Verfügung gestellt. 
+                    </p>
+                    <p class="game-controll-header"> 
+                        Haftungsausschluss 
+                    </p>
+                    <p class="game-controll-txt">
+                        Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine Haftung ist ausgeschlossen. 
+                    </p>                
+                    <div class="menu-btn-container-alignement">
+                        <button class="menu-button-close" onclick="returnToStart()"> 
+                            ⬅️ Zurück 
+                        </button>
+                    </div>
+                </div>
+
             </div>
-            <button class="menu-button-close" onclick="returnToStart()"> ⬅️ Zurück </button>
+        </div>
+    </div>
+
+    <div id="pauseOverlay" class="pause-overlay pause-overlay-hidden">
+        <div class="pause-content">
+            <div id="pauseTxt" class="pause-header">
+                PAUSE
+            </div>
+            <div class="pause-description">
+                zum beenden der Pause
+            </div>
+            <div class="pause-description">
+                und starten des Countdowns
+            </div>
+            <div class="pause-description">
+                <button class="back-to-game-btn">
+                    P
+                </button>
+                <div id="pauseCountdown" class="pause-countdown-txt">
+                </div>
+            </div>
+            <div class="pause-description">
+                drücken
+            </div>
         </div>
     </div>
 
     <div id="rotate-warning">
-        <p> 🔄 Drehe bitte dein Gerät ins Querformat um zu spielen! </p>
+        <p> 
+            🔄 Drehe bitte dein Gerät ins Querformat. 
+        </p>
     </div>
 
     <div id="mobile-controls" class="mobile-controls-buttons-container overlay-hidden">
         <div class="control-left-right">
             <button id="btn-left" class="btn-left">
-                <div class="button-sign-left"> ⬅️ </div>
+                <div class="button-sign-left"> 
+                    ⬅️ 
+                </div>
             </button>
             <button id="btn-right" class="btn-right">
-                <div class="button-sign-right"> ➡️ </div>
+                <div class="button-sign-right"> 
+                    ➡️ 
+                </div>
             </button>
         </div>
         <div class="control-throw-jump">
@@ -121,24 +229,37 @@
                 <img class="button-sign-throw" src="./imgs/6_salsa_bottle/2_salsa_bottle_on_ground.png" alt="Throw">
             </button>
             <button id="btn-jump" class="btn-jump">
-                <div class="button-sign-jump"> ⬆️ </div>
+                <div class="button-sign-jump"> 
+                    ⬆️ 
+                </div>
             </button>
         </div>
     </div>
 
     <div id="endscreen-overlay" class="overlay overlay-hidden">
         <div class="endscreen-content">
-            <h2 class="endscreen-title">Herzlichen Glückwunsch !</h2>
-            <p id="stat-chickens" class="endscreen-stat"></p>
-            <p id="stat-chickenBigs" class="endscreen-stat"></p>
-            <p id="stat-chickenSmalls" class="endscreen-stat"></p>
-            <p id="stat-hearts" class="endscreen-stat"></p>
-            <p id="stat-coins" class="endscreen-stat"></p>
-            <p id="stat-time" class="endscreen-stat"></p>
-
+            <h2 class="endscreen-title">
+                Herzlichen Glückwunsch !
+            </h2>
+            <p id="stat-chickens" class="endscreen-stat">
+            </p>
+            <p id="stat-chickenBigs" class="endscreen-stat">
+            </p>
+            <p id="stat-chickenSmalls" class="endscreen-stat">
+            </p>
+            <p id="stat-hearts" class="endscreen-stat">
+            </p>
+            <p id="stat-coins" class="endscreen-stat">
+            </p>
+            <p id="stat-time" class="endscreen-stat">
+            </p>
             <div class="endscreen-buttons">
-                <button id="btn-end-back" class="endscreen-button">⬅️ zurück zum Start</button>
-                <button id="btn-end-restart" class="endscreen-button">🔁 Versuch's nochmal</button>
+                <button id="btn-end-back" class="endscreen-button">
+                    ⬅️ zurück zum Start
+                </button>
+                <button id="btn-end-restart" class="endscreen-button">
+                    🔁 Versuch's nochmal
+                </button>
             </div>
         </div>
     </div>
