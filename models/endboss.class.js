@@ -13,7 +13,7 @@ class Endboss extends MovableObject {
     y = 0;
 
     /** @type {number} Movement speed of the endboss. */
-    speed = 0.45;
+    speed = 5;
 
     /** @type {number} Energy level of the endboss (health points). */
     energy = 5;
@@ -69,7 +69,11 @@ class Endboss extends MovableObject {
         "./imgs/4_enemie_boss_chicken/2_alert/G9.png",
         "./imgs/4_enemie_boss_chicken/2_alert/G10.png",
         "./imgs/4_enemie_boss_chicken/2_alert/G11.png",
-        "./imgs/4_enemie_boss_chicken/2_alert/G12.png"
+        "./imgs/4_enemie_boss_chicken/2_alert/G12.png",
+        "./imgs/4_enemie_boss_chicken/1_walk/G1.png",
+        "./imgs/4_enemie_boss_chicken/1_walk/G2.png",
+        "./imgs/4_enemie_boss_chicken/1_walk/G3.png",
+        "./imgs/4_enemie_boss_chicken/1_walk/G4.png"
     ];
 
     /** @type {string[]} Dead animation image paths. */
@@ -86,7 +90,7 @@ class Endboss extends MovableObject {
         super();
         this.initImages();
         this.setInitialPosition();
-        this.speed = 0.1;
+        this.speed = 0.8;
         this.debugMode = true;
         this.animate();
     }
@@ -127,7 +131,7 @@ class Endboss extends MovableObject {
         this._moveIntervalStarted = true;
         this._moveIntervalId = setInterval(() => {
             if (!this.isDead) this.moveLeft();
-        }, 1000 / 250);
+        }, 1000 / 25);
     }
 
     /** Handles the boss being hit by a bottle. */
@@ -145,7 +149,7 @@ class Endboss extends MovableObject {
 
     /** Plays the hurt animation and transitions to angry state. */
     playHurtAnimation() {
-        const intervalId = setInterval(() => this.playAnimation(this.IMAGES_HURTING), 250);
+        const intervalId = setInterval(() => this.playAnimation(this.IMAGES_HURTING), 100);
         setTimeout(() => {
             clearInterval(intervalId);
             this.isHurt = false;
@@ -166,7 +170,7 @@ class Endboss extends MovableObject {
                     setTimeout(() => this._angrySoundPlaying = false, 1000);
                 }
             }
-        }, 200);
+        }, 100);
     }
 
     /** Handles death of the endboss and plays death animation. */
@@ -180,11 +184,11 @@ class Endboss extends MovableObject {
 
     /** Starts the death animation and reloads the game after it finishes. */
     startDeathAnimation() {
-        const intervalId = setInterval(() => this.playAnimation(this.IMAGES_DEAD), 250);
+        const intervalId = setInterval(() => this.playAnimation(this.IMAGES_DEAD), 100);
         setTimeout(() => {
             clearInterval(intervalId);
             if (this.world?.showEndScreen) this.world.showEndScreen();
-        }, this.IMAGES_DEAD.length * 250);
+        }, this.IMAGES_DEAD.length * 200);
     }
 
     /** Starts the idle walking/angry animation loop. */
