@@ -248,7 +248,7 @@ class World {
     spawnBottles() {
         for (let i = 0; i < 10; i++) {
             const x = 1000 + Math.random() * 2000;
-            const y = 300;
+            const y = 330;
             const bottle = new Bottle();
             bottle.x = x;
             bottle.y = y;
