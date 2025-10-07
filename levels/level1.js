@@ -49,38 +49,36 @@ function createClouds() {
  * @returns {BackgroundObject[]} Background elements
  */
 function createBackgroundObjects() {
-    /* Fix: align background tiles to exact 720px steps.
-       Reason: 619 → 620 removes the thin seam between tiles (−100 + 720 = 620). */
     const bg = [
         new BackgroundObject("./imgs/5_background/layers/air.png", -100, -300, 800, 720),
         new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", -100, -300, 800, 720),
         new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", -100, -300, 800, 720),
         new BackgroundObject("./imgs/5_background/layers/1_first_layer/1.png", -100, -300, 800, 720),
 
-        new BackgroundObject("./imgs/5_background/layers/air.png", 620, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 620, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 620, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 620, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/air.png", 619, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 619, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 619, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 619, -300, 800, 720),
 
-        new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", 620 + 720, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", 620 + 720, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/1_first_layer/1.png", 620 + 720, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/air.png", 619 + 720, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", 619 + 720, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", 619 + 720, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/1_first_layer/1.png", 619 + 720, -300, 800, 720),
 
-        new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720 * 2, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 620 + 720 * 2, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 620 + 720 * 2, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 620 + 720 * 2, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/air.png", 619 + 720 * 2, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 619 + 720 * 2, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 619 + 720 * 2, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 619 + 720 * 2, -300, 800, 720),
 
-        new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720 * 3, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", 620 + 720 * 3, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", 620 + 720 * 3, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/1_first_layer/1.png", 620 + 720 * 3, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/air.png", 619 + 720 * 3, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", 619 + 720 * 3, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", 619 + 720 * 3, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/1_first_layer/1.png", 619 + 720 * 3, -300, 800, 720),
 
-        new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720 * 4, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 620 + 720 * 4, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 620 + 720 * 4, -300, 800, 720),
-        new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 620 + 720 * 4, -300, 800, 720)
+        new BackgroundObject("./imgs/5_background/layers/air.png", 619 + 720 * 4, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 619 + 720 * 4, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 619 + 720 * 4, -300, 800, 720),
+        new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 619 + 720 * 4, -300, 800, 720)
     ];
     return bg;
 }

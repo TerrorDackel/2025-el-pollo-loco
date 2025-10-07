@@ -125,48 +125,6 @@ function isRestartPromptVisible() {
     return el.classList ? !el.classList.contains("is-hidden") : el.style.display !== "none";
 }
 
-/* Deprecated: replaced by GameOverScreen in js/gameOverScreen.js
-function createRestartPrompt() {
-    const el = getRestartPromptEl();
-    bindRestartButtons(el);
-    showRestartEl(el);
-    return el || null;
-}
-
-function handleRestartKeys(event, ctx) {
-    const key = event.key.toLowerCase();
-    if (key === "n") {
-        EndScreen.goToStart();
-        hideRestartEl(getRestartPromptEl());
-        document.removeEventListener("keydown", this.handleRestartEvent);
-    } else if (key === "j") {
-        ctx.closeRestartPrompt();
-    }
-}
-
-function bindRestartButtons(el) {
-    if (!el || el._restartBound) return;
-    el.addEventListener("click", (e) => {
-        const btn = e.target.closest(".restart-btn");
-        if (!btn) return;
-        const key = btn.textContent.trim().toLowerCase();
-        if (key === "j" || key === "n") {
-            document.dispatchEvent(new KeyboardEvent("keydown", {
-                key, bubbles: true, cancelable: true
-            }));
-        }
-    });
-    el._restartBound = true;
-}
-
-function closeRestartPrompt() {
-    hideRestartEl(getRestartPromptEl());
-    document.removeEventListener("keydown", this.handleRestartEvent);
-    init(createLevel1());
-}
-*/
-
-/* -------------------- Added: input activity timestamp -------------------- */
 /**
  * Records that the player produced an input activity right now.
  * Keeps idle timing consistent for both keyboard and touch.
@@ -188,10 +146,7 @@ function getKeyCode(e) {
         const code = ch.charCodeAt(0);
         if (code >= 65 && code <= 90) return code; /* A-Z */
     }
-    /* Special-case J/N when coming from GameOverScreen buttons that might lack keyCode */
-    if (e.key && e.key.toLowerCase() === "j") return 74;
-    if (e.key && e.key.toLowerCase() === "n") return 78;
-    /* No reliable mapping available */
+    /* No code derivable */
     return undefined;
 }
 
@@ -200,22 +155,11 @@ function getKeyCode(e) {
  * Professional: P is blocked when game over is visible.
  */
 window.addEventListener("keydown", (e) => {
-    noteActivity(); /* NEW: mark activity */
-    const code = getKeyCode(e); /* NEW: robust mapping for synthetic events */
+    noteActivity();
+    const code = getKeyCode(e);
     const promptVisible = isRestartPromptVisible();
 
-    /* Deprecated gating kept commented for reference */
-    /*
-    if (world && !world.running) {
-        if (promptVisible) {
-            if (![74, 78].includes(e.keyCode)) return; // J, N only
-        } else {
-            if (e.keyCode !== 80) return; // only P
-        }
-    }
-    */
-
-    /* New gating using derived code */
+    /* New gating: when prompt visible → only J or N allowed. */
     if (world && !world.running) {
         if (promptVisible) {
             if (![74, 78].includes(code)) return; // J, N only
@@ -225,7 +169,7 @@ window.addEventListener("keydown", (e) => {
     }
 
     if (gamePaused && code !== 80) return;
-    handleKeyDownEvents_code(code); /* NEW: route via code-based handler */
+    handleKeyDownEvents_code(code);
 });
 
 /**
@@ -273,6 +217,7 @@ function handleKeyDownEvents(e) {
         case 80: togglePause(); break;
         case 90: SoundManager.unmuteAll(); break;
         case 84: SoundManager.muteAll(); break;
+        default: break;
     }
 }
 
@@ -287,32 +232,7 @@ function handleSpaceKey() {
 /** 
  * Global keyup handler. 
  */
-window.addEventListener("keyup", (e) => {
-    noteActivity(); /* NEW: mark activity on release too */
-    const code = getKeyCode(e); /* NEW: robust mapping */
-    handleKeyUpEvents_code(code); /* NEW: route via code-based handler */
-});
-
-/**
- * Processes keyup events by numeric code.
- * @param {number|undefined} code - Derived key code.
- */
-function handleKeyUpEvents_code(code) {
-    switch (code) {
-        case 39: keyboard.RIGHT = false; break;
-        case 37: keyboard.LEFT = false; break;
-        case 38: keyboard.UP = false; break;
-        case 40: keyboard.DOWN = false; break;
-        case 32: keyboard.SPACE = false; break;
-        case 68: keyboard.D = false; break;
-        case 77: keyboard.M = false; break;
-        case 74: keyboard.J = false; break;
-        case 78: keyboard.N = false; break;
-        case 45: keyboard.ZERO = false; break;
-        case 80: keyboard.PAUSE = false; break;
-        default: break;
-    }
-}
+window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
 
 /* Deprecated: original keyup handler kept for compatibility, not used anymore. */
 /**
@@ -332,6 +252,7 @@ function handleKeyUpEvents(e) {
         case 78: keyboard.N = false; break;
         case 45: keyboard.ZERO = false; break;
         case 80: keyboard.PAUSE = false; break;
+        default: break;
     }
 }
 
@@ -354,6 +275,7 @@ function pauseGame() {
     gamePaused = true;
     if (world) world.pauseGame();
     PauseScreen.showOverlay();
+    SoundManager.pauseAllSounds();
 }
 
 /**
@@ -369,6 +291,19 @@ function startCountdown() {
 }
 
 /**
+ * Resumes background audio based on current world state.
+ * Plays boss music when the boss is in contact and alive, otherwise normal music.
+ * Respects global mute via SoundManager.isMuted.
+ */
+function resumeAudioForWorld() {
+    if (SoundManager.isMuted) return;
+    const boss = world?.level?.boss;
+    const playBoss = !!(boss && boss.contactWithCharacter && !boss.isDead);
+    SoundManager.stopBackground();
+    SoundManager.playBackground(playBoss ? "bossMusic" : "music");
+}
+
+/**
  * Resumes game after countdown finishes.
  * Hides overlay and restores world loop.
  */
@@ -378,6 +313,7 @@ function resumeAfterCountdown() {
     gamePaused = false;
     countdownActive = false;
     PauseScreen.clearOverlay();
+    resumeAudioForWorld();
 }
 
 /**
@@ -414,7 +350,7 @@ function clearPauseScreen() {
 function withPrevent(fn) {
     return (e) => { 
         e.preventDefault(); 
-        noteActivity(); /* NEW: count touch as activity for idle */
+        noteActivity();
         fn(); 
     };
 }

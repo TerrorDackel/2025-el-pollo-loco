@@ -37,7 +37,6 @@ class PauseScreen {
             if (count === 0) { el.innerText = "GO!"; return; }
             clearInterval(it);
             btn.style.display = "inline-block";
-            /* Removed: PauseScreen.clearOverlay(); handled in resumeAfterCountdown() to avoid double clear. */
             if (typeof onFinish === "function") onFinish();
         }, 400);
     }
@@ -69,9 +68,7 @@ class PauseScreen {
         const btn = PauseScreen.getResumeButton();
         if (!btn) return;
         btn.addEventListener("click", () => {
-            /* document.dispatchEvent(new KeyboardEvent("keydown", { key: "p", keyCode: 80, which: 80 }));  */
-            /* Reason: Synthetic KeyboardEvents cannot reliably set keyCode/which. Directly call the central toggle to guarantee identical behaviour. */
-            if (typeof togglePause === "function") togglePause(); /* call the same entry point the P key triggers */
+            if (typeof togglePause === "function") togglePause();
         });
     }
 }
