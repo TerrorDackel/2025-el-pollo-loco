@@ -37,10 +37,6 @@ class SoundManager {
         chickenDead: 0.35, endboss: 0.35, endbossDead: 0.35
     };
 
-    // ---------------------------------------------------------------------
-    // Public control methods
-    // ---------------------------------------------------------------------
-
     /** Toggles mute state and updates all sounds accordingly. */
     static toggleSound() {
         this.isMuted = !this.isMuted;

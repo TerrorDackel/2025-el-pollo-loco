@@ -181,7 +181,7 @@ class Character extends MovableObject {
 
     /** Handles player movement based on input. */
     handleMovement() {
-        if (!this.world?.running) return; /* lock movement when world is stopped (e.g., dead) */
+        if (!this.world?.running) return;
         this.handleRightMovement();
         this.handleLeftMovement();
         this.handleJump();

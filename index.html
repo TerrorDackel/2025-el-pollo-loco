@@ -38,31 +38,32 @@
 
     <div id="restartPrompt" class="restart-prompt is-hidden" role="dialog" aria-live="polite">
         <div class="restart-box">
-            <div class="restart-header">
-                <div class="restart-title">
-                    Game over!
-                </div>
-            </div>
-            
-            <div class="restart-hint">
-                <div class="restart-question-txt">
-                    Traust du dich nochmal?
-                </div>
-                <div class="restart-btn-txt-container">
-                    
-                    <button class="restart-btn">
-                        J
-                    </button>
-                    <div class="restart-txt">
-                        &nbsp;= Ja diesen Chicken's werde ich's zeigen!
+            <div class="background-container-transparency">
+                <div class="restart-header">
+                    <div class="restart-title">
+                        Game over!
                     </div>
                 </div>
-                <div class="restart-btn-txt-container">
-                    <button class="restart-btn">
-                        N
-                    </button>
-                    <div class="restart-txt">
-                        &nbsp;= Nein, ich check erst mal die Spielregeln.
+                <div class="restart-hint">
+                    <div class="restart-question-txt">
+                        Traust du dich nochmal?
+                    </div>
+                    <div class="restart-btn-txt-container">
+                        
+                        <button class="restart-btn">
+                            J
+                        </button>
+                        <div class="restart-txt">
+                            &nbsp;= Ja diesen Chicken's werde ich's zeigen!
+                        </div>
+                    </div>
+                    <div class="restart-btn-txt-container">
+                        <button class="restart-btn">
+                            N
+                        </button>
+                        <div class="restart-txt">
+                            &nbsp;= Nein, ich check erst mal die Spielregeln.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,47 +137,49 @@
 
     <div id="impressum-overlay" class="overlay overlay-hidden">
         <div class="overlay-content-impressum">
-            <div class="header-game-controll-container">
-                <div class="header-game-controll"> 
-                    Impressum:
+            <div class="background-container-transparency">
+                <div class="header-game-controll-container">
+                    <div class="header-game-controll"> 
+                        Impressum:
+                    </div>
                 </div>
-            </div>
-            <div class="impressum-content-container">
-                <div class="impressum-content-txt">
-                    <p class="game-controll-header"> 
-                        Angaben gemäß § 5 TMG 
-                    </p>
-                    <p class="game-controll-txt"> 
-                        Jennifer Thomas <br> 
-                        Pfarrer-Müller-Str. 1 <br> 
-                        94431 Pilsting 
-                    </p>
-                    <p class="game-controll-txt"> 
-                        E-Mail: contact@jennifer-thomas.de 
-                    </p>
-                    <p class="game-controll-header"> 
-                        Hinweis zum Projekt 
-                    </p>
-                    <p class="game-controll-txt"> 
-                        Dieses Projekt 
-                        <i> 
-                            El Pollo Loco 
-                        </i> 
-                        ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur Demonstration meiner Fähigkeiten als Frontend Developer dient. 
-                    </p>
-                    <p class="game-controll-txt"> 
-                        Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA) zur Verfügung gestellt. 
-                    </p>
-                    <p class="game-controll-header"> 
-                        Haftungsausschluss 
-                    </p>
-                    <p class="game-controll-txt">
-                        Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine Haftung ist ausgeschlossen. 
-                    </p>                
-                    <div class="menu-btn-container-alignement">
-                        <button class="menu-button-close" onclick="returnToStart()"> 
-                            ⬅️ Zurück 
-                        </button>
+                <div class="impressum-content-container">
+                    <div class="impressum-content-txt">
+                        <p class="game-controll-header"> 
+                            Angaben gemäß § 5 TMG 
+                        </p>
+                        <p class="game-controll-txt"> 
+                            Jennifer Thomas <br> 
+                            Pfarrer-Müller-Str. 1 <br> 
+                            94431 Pilsting 
+                        </p>
+                        <p class="game-controll-txt"> 
+                            E-Mail: contact@jennifer-thomas.de 
+                        </p>
+                        <p class="game-controll-header"> 
+                            Hinweis zum Projekt 
+                        </p>
+                        <p class="game-controll-txt"> 
+                            Dieses Projekt 
+                            <i> 
+                                El Pollo Loco 
+                            </i> 
+                            ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur Demonstration meiner Fähigkeiten als Frontend Developer dient. 
+                        </p>
+                        <p class="game-controll-txt"> 
+                            Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA) zur Verfügung gestellt. 
+                        </p>
+                        <p class="game-controll-header"> 
+                            Haftungsausschluss 
+                        </p>
+                        <p class="game-controll-txt">
+                            Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine Haftung ist ausgeschlossen. 
+                        </p>                
+                        <div class="menu-btn-container-alignement">
+                            <button class="menu-button-close" onclick="returnToStart()"> 
+                                ⬅️ Zurück 
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -240,30 +243,32 @@
 
     <div id="endscreen-overlay" class="overlay overlay-hidden">
         <div class="endscreen-content">
-            <div class="endscreen-title">
-                Herzlichen Glückwunsch !
-            </div>
-            <div>
-                <p id="stat-chickens" class="endscreen-stat">
-                </p>
-                <p id="stat-chickenBigs" class="endscreen-stat">
-                </p>
-                <p id="stat-chickenSmalls" class="endscreen-stat">
-                </p>
-                <p id="stat-hearts" class="endscreen-stat">
-                </p>
-                <p id="stat-coins" class="endscreen-stat">
-                </p>
-                <p id="stat-time" class="endscreen-stat">
-                </p>
-            </div>
-            <div class="endscreen-buttons">
-                <button id="btn-end-back" class="endscreen-button">
-                    ⬅️ zurück zum Start
-                </button>
-                <button id="btn-end-restart" class="endscreen-button">
-                    🔁 Versuch's nochmal
-                </button>
+            <div class="background-container-transparency">
+                <div class="endscreen-title">
+                    Herzlichen Glückwunsch !
+                </div>
+                <div>
+                    <p id="stat-chickens" class="endscreen-stat">
+                    </p>
+                    <p id="stat-chickenBigs" class="endscreen-stat">
+                    </p>
+                    <p id="stat-chickenSmalls" class="endscreen-stat">
+                    </p>
+                    <p id="stat-hearts" class="endscreen-stat">
+                    </p>
+                    <p id="stat-coins" class="endscreen-stat">
+                    </p>
+                    <p id="stat-time" class="endscreen-stat">
+                    </p>
+                </div>
+                <div class="endscreen-buttons">
+                    <button id="btn-end-back" class="endscreen-button">
+                        ⬅️ zurück zum Start
+                    </button>
+                    <button id="btn-end-restart" class="endscreen-button">
+                        🔁 Versuch's nochmal
+                    </button>
+                </div>
             </div>
         </div>
     </div>
