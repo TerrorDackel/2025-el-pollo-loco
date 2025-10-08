@@ -49,7 +49,7 @@ class Chicken extends MovableObject {
     /** Sets the initial spawn position of the chicken on the game map. */
     setInitialPosition() {
         this.x = 500 + Math.random() * 3000;
-        this.y = 310;
+        this.y = 315;
     }
 
     /** Assigns a random movement speed to the chicken. */

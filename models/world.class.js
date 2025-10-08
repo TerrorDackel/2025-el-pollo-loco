@@ -353,7 +353,6 @@ class World {
         if (this.level?.enemies) list.push(...this.level.enemies);
         if (this.level?.boss) list.push(this.level.boss);
         if (this.throwableObjects) list.push(...this.throwableObjects);
-        if (this.level?.clouds) list.push(...this.level.clouds);
         return list;
     }
 

@@ -95,10 +95,11 @@
 
     <div id="rules-overlay" class="overlay overlay-hidden">
         <div class="overlay-content-rules">
-            <div class="header-game-controll-container">
-                <h2 class="header-game-controll"> 
-                    Spielregeln im Game: 
-                </h2>
+            <div class="background-container-transparency">
+                <div class="header-game-controll-container">
+                <div class="header-game-controll"> 
+                    Spielregeln: 
+                </div>
             </div>
             <div class="rules-content-container">
                 <div class="rules-content-txt">
@@ -120,23 +121,25 @@
                     <p class="game-controll-txt"> 
                         ⏯️ P = Pause starten/beenden. 
                     </p>
+                    <div class="menu-btn-container-alignement">
+                        <button class="menu-button-close" onclick="returnToStart()"> 
+                            ⬅️ Zurück 
+                        </button>
+                    </div>
                 </div>
-                <div class="menu-btn-container-alignement">
-                    <button class="menu-button-close" onclick="returnToStart()"> 
-                        ⬅️ Zurück 
-                    </button>
-                </div>
+
             </div>
 
+            </div>
         </div>
     </div>
 
     <div id="impressum-overlay" class="overlay overlay-hidden">
         <div class="overlay-content-impressum">
             <div class="header-game-controll-container">
-                <h2 class="header-game-controll"> 
-                    Impressum
-                </h2>
+                <div class="header-game-controll"> 
+                    Impressum:
+                </div>
             </div>
             <div class="impressum-content-container">
                 <div class="impressum-content-txt">
@@ -176,7 +179,6 @@
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -238,21 +240,23 @@
 
     <div id="endscreen-overlay" class="overlay overlay-hidden">
         <div class="endscreen-content">
-            <h2 class="endscreen-title">
+            <div class="endscreen-title">
                 Herzlichen Glückwunsch !
-            </h2>
-            <p id="stat-chickens" class="endscreen-stat">
-            </p>
-            <p id="stat-chickenBigs" class="endscreen-stat">
-            </p>
-            <p id="stat-chickenSmalls" class="endscreen-stat">
-            </p>
-            <p id="stat-hearts" class="endscreen-stat">
-            </p>
-            <p id="stat-coins" class="endscreen-stat">
-            </p>
-            <p id="stat-time" class="endscreen-stat">
-            </p>
+            </div>
+            <div>
+                <p id="stat-chickens" class="endscreen-stat">
+                </p>
+                <p id="stat-chickenBigs" class="endscreen-stat">
+                </p>
+                <p id="stat-chickenSmalls" class="endscreen-stat">
+                </p>
+                <p id="stat-hearts" class="endscreen-stat">
+                </p>
+                <p id="stat-coins" class="endscreen-stat">
+                </p>
+                <p id="stat-time" class="endscreen-stat">
+                </p>
+            </div>
             <div class="endscreen-buttons">
                 <button id="btn-end-back" class="endscreen-button">
                     ⬅️ zurück zum Start

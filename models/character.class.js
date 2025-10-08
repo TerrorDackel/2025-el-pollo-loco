@@ -33,7 +33,11 @@ class Character extends MovableObject {
         "./imgs/2_character_pepe/1_idle/idle/I-7.png",
         "./imgs/2_character_pepe/1_idle/idle/I-8.png",
         "./imgs/2_character_pepe/1_idle/idle/I-9.png",
-        "./imgs/2_character_pepe/1_idle/idle/I-10.png",
+        "./imgs/2_character_pepe/1_idle/idle/I-10.png"
+
+    ];
+
+    IMAGES_SLEEP = [
         "./imgs/2_character_pepe/1_idle/long_idle/I-11.png",
         "./imgs/2_character_pepe/1_idle/long_idle/I-12.png",
         "./imgs/2_character_pepe/1_idle/long_idle/I-13.png",
@@ -128,6 +132,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SLEEP);
         this.loadImages(this.IMAGES_DEAD);
     }
 
@@ -211,40 +216,54 @@ class Character extends MovableObject {
     /** Updates the camera position relative to the character. */
     updateCamera() { this.world.camera_x = -this.x + 100; }
 
-    /** Updates character animation based on state. */
+    /**
+     * Selects and plays the appropriate animation for the current state.
+     * Priority order: dead → hurt → jump → idle/sleep → walking.
+     * Idle starts immediately when no action is pressed.
+     * Sleep replaces idle after 15s of uninterrupted idle.
+     */
     updateAnimation() {
         if (this.isDead()) {
             this.handleDeath();
+            return;
         }
-        else if (this.isHurt()) {
+        if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
+            this.idleStartAt = 0;
+            return;
         }
-        else if (this.isAboveGround()) {
-            /* this.playAnimation(this.IMAGES_JUMPING); */ /* replaced to decouple jump frame rate from physics */
+        if (this.isAboveGround()) {
             this.playAnimIfDue(this.IMAGES_JUMPING, "_lastJumpFrameAt", this.jumpAnimMs);
+            this.idleStartAt = 0;
+            return;
         }
-        else {
-            if (this.shouldPlayIdle()) {
-                /* this.playAnimation(this.IMAGES_IDLE); */ /* replaced to decouple idle frame rate */
-                this.playAnimIfDue(this.IMAGES_IDLE, "_lastIdleFrameAt", this.idleAnimMs);
+
+        if (this.shouldPlayIdle()) {
+            if (!this.idleStartAt) this.idleStartAt = Date.now();
+            const idleElapsed = Date.now() - this.idleStartAt;
+            const idlePhaseMs = 15000; // 15 seconds of idle before sleep
+            if (idleElapsed >= idlePhaseMs) {
+                this.playAnimIfDue(this.IMAGES_SLEEP, "_lastIdleFrameAt", this.idleAnimMs);
             } else {
-                this.handleWalkingAnimation();
+                this.playAnimIfDue(this.IMAGES_IDLE, "_lastIdleFrameAt", this.idleAnimMs);
             }
+        } else {
+            this.idleStartAt = 0;
+            this.handleWalkingAnimation();
         }
     }
 
     /**
-     * Returns whether idle animation should play.
-     * Conditions: no action key currently held AND inactivity >= threshold.
+     * Returns whether idle is allowed right now.
+     * Idle is allowed when no action key is currently pressed.
+     * Idle starts immediately (no delay).
      * @returns {boolean}
      */
     shouldPlayIdle() {
         const kb = this.world?.keyboard;
         if (!kb) return false;
-        if (kb.isAnyActionPressed()) return false; /* actively held keys block idle */
-        const last = kb.lastActivity || 0;
-        const idleAfterMs = 1000; /* set 0 for immediate idle when no action is held */
-        return (Date.now() - last) >= idleAfterMs;
+        if (kb.isAnyActionPressed()) return false;
+        return true; // immediate idle when nothing is pressed
     }
 
     /** Plays walking animation when moving horizontally. */

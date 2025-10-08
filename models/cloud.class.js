@@ -36,11 +36,15 @@ class Cloud extends MovableObject {
     }
 
     /**
-     * Starts the movement of the cloud by assigning a small random speed.
-     * Clouds move slowly from right to left for a parallax effect.
+     * Starts the movement of the cloud with a continuous loop.
+     * Uses requestAnimationFrame so movement is smooth and independent of World.draw().
+     * Note: We intentionally do not hook into World.freeze to keep clouds unaffected by pause.
      */
     animate() {
-        this.moveLeft();
+        /* Original one-shot movement removed because it moved only once. */
+        /* this.moveLeft(); this.speed = 0.15 + Math.random() * 0.15; */ /* Commented: single step was insufficient */
         this.speed = 0.15 + Math.random() * 0.15;
+        const step = () => { this.moveLeft(); this._rafId = requestAnimationFrame(step); };
+        this._rafId = requestAnimationFrame(step);
     }
 }
