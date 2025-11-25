@@ -66,3 +66,8 @@ I used it to practice:
 git clone https://github.com/TerrorDackel/el-pollo-loco-2025.git
 
 cd el-pollo-loco-2025
+
+## Kurzbeschreibung (Deutsch)
+
+„El Pollo Loco“ ist ein kleines Jump-and-Run-Game, das ich während der Developer-Akademie-Weiterbildung als Einzelprojekt mit JavaScript (OOP), HTML und CSS umgesetzt habe.
+Der Fokus liegt auf objektorientierter Strukturierung (Klassen für Spielfigur, Gegner, Level, Items), Spielschleife, Tastatur-Steuerung, Kollisionserkennung und einem spielbaren Level mit Gegnern, Sammelobjekten, Sound und Pause-Funktion.
