@@ -37,6 +37,16 @@
         Direkt zum Spiel springen
     </a>
 
+    <p
+      class="visually-hidden"
+      aria-live="polite"
+      id="a11y-note"
+    >
+      Hinweis zur Barrierefreiheit: Dieses Spiel basiert vollständig auf einer visuellen Canvas-Darstellung.
+      Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten, ist das Gameplay nur eingeschränkt
+      oder gar nicht zugänglich. Die Spielregeln und das Impressum stehen jedoch als Text zur Verfügung.
+    </p>
+
     <img
         id="sound-toggle"
         src="./imgs/logos/musicOff.png"
@@ -48,6 +58,7 @@
     <canvas
         id="canvas"
         aria-label="Spieloberfläche des Jump-and-Run Spiels El Pollo Loco"
+        aria-describedby="a11y-note"
     ></canvas>
 
     <div

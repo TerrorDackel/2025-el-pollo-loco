@@ -3,6 +3,18 @@
     src: url('./fonts/zabars.ttf') format('truetype');
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 body {
     display: flex;
     justify-content: center;
@@ -19,7 +31,6 @@ body {
     overflow-y: hidden;
 }
 
-/* Skip-Link für Screenreader/Tastatur, ohne Layout zu verändern */
 .skip-link {
     position: absolute;
     top: -40px;
@@ -37,7 +48,6 @@ body {
     top: 0;
 }
 
-/* gut sichtbarer Tastaturfokus */
 button:focus-visible,
 a:focus-visible,
 #sound-toggle:focus-visible {
@@ -326,7 +336,6 @@ canvas {
     color: #ffd000;
     font-weight: 200;
     text-shadow: 2px 2px 2px black;
-
     margin: 0;
 }
 
@@ -625,8 +634,6 @@ canvas {
     }
 }
 
-/* ===== MEDIA QUERIES ===== */
-
 @media (hover: hover) and (pointer: fine) {
 
     .rules-content-txt::-webkit-scrollbar { 
@@ -788,8 +795,6 @@ canvas {
         max-height: 50%;
         padding: 1rem;
         background-color: rgba(0, 0, 0, 0);
-
-
     }
 
     .header-txt {
