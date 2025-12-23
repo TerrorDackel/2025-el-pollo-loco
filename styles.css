@@ -19,6 +19,32 @@ body {
     overflow-y: hidden;
 }
 
+/* Skip-Link für Screenreader/Tastatur, ohne Layout zu verändern */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    padding: 8px 16px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    z-index: 100;
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-size: 14px;
+}
+
+.skip-link:focus-visible {
+    top: 0;
+}
+
+/* gut sichtbarer Tastaturfokus */
+button:focus-visible,
+a:focus-visible,
+#sound-toggle:focus-visible {
+    outline: 3px solid #ffd000;
+    outline-offset: 2px;
+}
+
 .overlay-hidden {
     display: none !important;
 }
@@ -712,7 +738,7 @@ canvas {
         height: 100dvh;
     }
 
-    .header-game-controll-container {
+    .header-game-contoll-container {
         margin: 0, 0;
         max-height: 100px;
         height: 60px;

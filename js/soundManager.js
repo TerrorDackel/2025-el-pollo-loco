@@ -30,35 +30,60 @@ class SoundManager {
 
     /** @type {Object.<string, number>} Default volume levels for all sounds. */
     static volumeSettings = {
-        music: 0.35, bossMusic: 0.4, walking: 0.15, jumping: 0.35, dead: 0.3,
-        hurt: 0.3, collectingBottle: 0.25, whisleBottle: 0.15, smashBottle: 0.35,
-        coin: 0.25, endbossHit: 0.35, chickenSmall: 0.25, chickenBig: 0.25,
-        chicken: 0.25, chickenSmallDead: 0.25, chickenBigDead: 0.35,
-        chickenDead: 0.35, endboss: 0.35, endbossDead: 0.35
+        music: 0.35,
+        bossMusic: 0.4,
+        walking: 0.15,
+        jumping: 0.35,
+        dead: 0.3,
+        hurt: 0.3,
+        collectingBottle: 0.25,
+        whisleBottle: 0.15,
+        smashBottle: 0.35,
+        coin: 0.25,
+        endbossHit: 0.35,
+        chickenSmall: 0.25,
+        chickenBig: 0.25,
+        chicken: 0.25,
+        chickenSmallDead: 0.25,
+        chickenBigDead: 0.35,
+        chickenDead: 0.35,
+        endboss: 0.35,
+        endbossDead: 0.35
     };
 
     /** Toggles mute state and updates all sounds accordingly. */
     static toggleSound() {
-        this.isMuted = !this.isMuted;
-        if (this.isMuted) this.muteAll();
-        else this.unmuteAll();
+        if (this.isMuted) {
+            this.unmuteAll();
+        } else {
+            this.muteAll();
+        }
     }
 
     /** Mutes every sound and updates the toggle icon. */
     static muteAll() {
-        Object.values(this.sounds).forEach(s => { s.pause(); s.muted = true; });
+        this.isMuted = true;
+        Object.values(this.sounds).forEach((s) => {
+            s.pause();
+            s.muted = true;
+        });
         this.updateIcon(false);
     }
 
     /** Gradually unmutes all sounds by fading them in. */
     static unmuteAll() {
+        this.isMuted = false;
+
         const targets = {};
         Object.entries(this.sounds).forEach(([n, s]) => {
             targets[n] = this.volumeSettings[n] || 0.2;
             s.muted = false;
             s.volume = 0;
-            if (n !== "music" && n !== "bossMusic") s.play().catch(() => {});
+            if (n !== "music" && n !== "bossMusic") {
+                s.play().catch(() => {});
+            }
         });
+
         this.fadeIn(targets);
         this.updateIcon(true);
         this.playBackground("music");
@@ -82,17 +107,22 @@ class SoundManager {
      * @param {string} name - Sound key.
      */
     static pauseSound(name) {
-        if (this.sounds[name]) this.sounds[name].pause();
+        if (this.sounds[name]) {
+            this.sounds[name].pause();
+        }
     }
 
     /** Pauses every currently playing sound. */
     static pauseAllSounds() {
-        Object.values(this.sounds).forEach(s => s.pause());
+        Object.values(this.sounds).forEach((s) => s.pause());
     }
 
     /** Stops all sounds and resets their playback time. */
     static stopAllSounds() {
-        Object.values(this.sounds).forEach(s => { s.pause(); s.currentTime = 0; });
+        Object.values(this.sounds).forEach((s) => {
+            s.pause();
+            s.currentTime = 0;
+        });
     }
 
     /**
@@ -100,7 +130,9 @@ class SoundManager {
      * @param {"music"|"bossMusic"} [type="music"] - Track type to play.
      */
     static playBackground(type = "music") {
-        if (this.isMuted) return;
+        if (this.isMuted) {
+            return;
+        }
         this.stopBackground();
         const s = this.sounds[type];
         if (s) {
@@ -112,7 +144,7 @@ class SoundManager {
 
     /** Stops both background and boss music. */
     static stopBackground() {
-        ["music", "bossMusic"].forEach(n => {
+        ["music", "bossMusic"].forEach((n) => {
             const s = this.sounds[n];
             if (s) {
                 s.pause();
@@ -126,15 +158,22 @@ class SoundManager {
      * @param {Object.<string, number>} targets - Mapping of sounds to target volumes.
      */
     static fadeIn(targets) {
-        const duration = 3000, steps = 30, stepTime = duration / steps;
+        const duration = 3000;
+        const steps = 30;
+        const stepTime = duration / steps;
         let step = 0;
+
         const fadeInterval = setInterval(() => {
             step++;
             Object.entries(this.sounds).forEach(([n, s]) => {
                 const t = targets[n];
-                if (t !== undefined) s.volume = Math.min(t, (step / steps) * t);
+                if (t !== undefined) {
+                    s.volume = Math.min(t, (step / steps) * t);
+                }
             });
-            if (step >= steps) clearInterval(fadeInterval);
+            if (step >= steps) {
+                clearInterval(fadeInterval);
+            }
         }, stepTime);
     }
 
@@ -144,7 +183,9 @@ class SoundManager {
      */
     static updateIcon(on) {
         const icon = document.getElementById("sound-toggle");
-        if (icon) icon.src = on ? "imgs/logos/musicOn.png" : "imgs/logos/musicOff.png";
+        if (icon) {
+            icon.src = on ? "imgs/logos/musicOn.png" : "imgs/logos/musicOff.png";
+        }
     }
 
     /** Initialises the DOM sound toggle and sets default state. */
