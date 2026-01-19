@@ -5,13 +5,13 @@
  */
 class Bottle extends DrawableObject {
 
-    /**
-     * Initialises a new bottle instance with size and default image.
-     */
-    constructor() {
-        super();
-        this.loadImage("./imgs/6_salsa_bottle/1_salsa_bottle_on_ground.png");
-        this.width = 60;
-        this.height = 80;
-    }
+  /**
+   * Initialises a new bottle instance with size and default image.
+   */
+  constructor() {
+    super();
+    this.loadImage("./imgs/6_salsa_bottle/1_salsa_bottle_on_ground.png");
+    this.width = 60;
+    this.height = 80;
+  }
 }

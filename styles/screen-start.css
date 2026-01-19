@@ -1,79 +1,79 @@
 .start-screen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-height: 480px;
-    height: 100%;
-    max-width: 720px;
-    width: 100%;
-    inset: 0;
-    opacity: 0;
-    transform: scale(0.7);
-    transition: opacity 2.5s ease-out, transform 2s ease-out;
-    animation: fadeIn 2.5s forwards;
-    z-index: 15;
-    background-image: url('imgs/5_background/smiling-mexican-girl.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 480px;
+  height: 100%;
+  max-width: 720px;
+  width: 100%;
+  inset: 0;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 2.5s ease-out, transform 2s ease-out;
+  animation: fadeIn 2.5s forwards;
+  z-index: 15;
+  background-image: url('imgs/5_background/smiling-mexican-girl.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 .overlay-content-start {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    padding: 2rem;
-    max-height: 480px;
-    height: 85%;
-    max-width: 720px;
-    width: 90%;
-    height: 90%;
-    margin: 0;
-    padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 2rem;
-    z-index: 40;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+  max-height: 480px;
+  height: 85%;
+  max-width: 720px;
+  width: 90%;
+  height: 90%;
+  margin: 0;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 2rem;
+  z-index: 40;
 }
 
 .header-container-start {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: calc( 100% / 2 - 1rem );
-    max-height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: calc( 100% / 2 - 1rem );
+  max-height: 50%;
 }
 
 .header-txt-start {
-    font-size: 5rem;
-    color: #ffd000;
-    font-weight: 200;
-    text-shadow: 2px 2px 2px black;
-    padding: 0.5rem;
+  font-size: 5rem;
+  color: #ffd000;
+  font-weight: 200;
+  text-shadow: 2px 2px 2px black;
+  padding: 0.5rem;
 }
 
 .buttons-container-start {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-    height: calc( 100% / 2 - 1rem );
-    max-height: 50%;
-    padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  height: calc( 100% / 2 - 1rem );
+  max-height: 50%;
+  padding: 1rem;
 }
 
 .menu-btn-start {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 15rem;
-    height: 2.5rem;
-    font-family:'Helvetica';
-    font-size: 18px;
-    font-weight: bold;
-    background: #f7c25f;
-    color: black;
-    cursor: pointer;
-    transition: background 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15rem;
+  height: 2.5rem;
+  font-family:'Helvetica';
+  font-size: 18px;
+  font-weight: bold;
+  background: #f7c25f;
+  color: black;
+  cursor: pointer;
+  transition: background 0.3s;
 }

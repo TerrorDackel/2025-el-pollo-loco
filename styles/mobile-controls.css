@@ -1,54 +1,54 @@
 
 @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
-    #mobileControls {
-        position: fixed;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 20;
-        position: absolute;
-        width: 100%;
-        height: 70px;
-        bottom: 0.5rem;
-    }
+  #mobileControls {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
+    position: absolute;
+    width: 100%;
+    height: 70px;
+    bottom: 0.5rem;
+  }
 
-    .control-left-right,
-    .control-throw-jump {
-        display: flex;
-        justify-content: space-between;
-        width: auto;
-        height: auto;
-    }
+  .control-left-right,
+  .control-throw-jump {
+    display: flex;
+    justify-content: space-between;
+    width: auto;
+    height: auto;
+  }
 
-    .btn-left,
-    .btn-right,
-    .btn-throw,
-    .btn-jump {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        touch-action: none;
-        border-radius: 50%;
-        background-color: rgba(38, 103, 163, 0.9);
-        margin: 0.25rem;
-        width: 70px;
-        height: 70px;
-        pointer-events: auto;
-    }
+  .btn-left,
+  .btn-right,
+  .btn-throw,
+  .btn-jump {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    touch-action: none;
+    border-radius: 50%;
+    background-color: rgba(38, 103, 163, 0.9);
+    margin: 0.25rem;
+    width: 70px;
+    height: 70px;
+    pointer-events: auto;
+  }
 
-    .button-sign-left,
-    .button-sign-right,
-    .button-sign-throw,
-    .button-sign-jump {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 60px;
-        height: 60px;
-        object-fit: fill;
-        user-select: none;
-        -webkit-user-select: none;
-        pointer-events: none;
-    }
+  .button-sign-left,
+  .button-sign-right,
+  .button-sign-throw,
+  .button-sign-jump {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    object-fit: fill;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+  }
 }

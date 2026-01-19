@@ -1,120 +1,119 @@
 @media (hover: hover) and (pointer: fine) {
+  .rules-content-txt::-webkit-scrollbar { 
+    width: 8px; 
+  }
 
-    .rules-content-txt::-webkit-scrollbar { 
-        width: 8px; 
-    }
+  .rules-content-txt::-webkit-scrollbar-thumb { 
+    background: grey; 
+    border-radius: 8px; 
+  }
 
-    .rules-content-txt::-webkit-scrollbar-thumb { 
-        background: grey; 
-        border-radius: 8px; 
-    }
+  .rules-content-txt::-webkit-scrollbar-track { 
+    background: transparent; 
+  }
 
-    .rules-content-txt::-webkit-scrollbar-track { 
-        background: transparent; 
-    }
+  .impressum-content-txt::-webkit-scrollbar { 
+    width: 8px; 
+  }
 
-    .impressum-content-txt::-webkit-scrollbar { 
-        width: 8px; 
-    }
+  .impressum-content-txt::-webkit-scrollbar-thumb { 
+    background: grey; 
+    border-radius: 8px; 
+  }
 
-    .impressum-content-txt::-webkit-scrollbar-thumb { 
-        background: grey; 
-        border-radius: 8px; 
-    }
-
-    .impressum-content-txt::-webkit-scrollbar-track { 
-        background: transparent; 
-    }
+  .impressum-content-txt::-webkit-scrollbar-track { 
+    background: transparent; 
+  }
 
 }
 
 @media only screen and (max-width: 940px) {
-    canvas { 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%; 
-        height: 100%;
-    }
+  canvas { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
+    height: 100%;
+  }
 
-    .overlay {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-    }
+  .overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
 
-    .overlay-content-rules,
-    .overlay-content-impressum {
-        position: fixed;
-        width: 100%;
-        height: 100dvh;
-    }
+  .overlay-content-rules,
+  .overlay-content-impressum {
+    position: fixed;
+    width: 100%;
+    height: 100dvh;
+  }
 
-    .header-game-contoll-container {
-        margin: 0, 0;
-        max-height: 100px;
-        height: 60px;
-        padding: 0.1rem;
-    }
+  .header-game-contoll-container {
+    margin: 0, 0;
+    max-height: 100px;
+    height: 60px;
+    padding: 0.1rem;
+  }
 
-    .header-game-controll {
-        margin: 3px;
-        padding: 0;
-        font-size: 3.5rem;
-        color: #f7c25f;
-    }
+  .header-game-controll {
+    margin: 3px;
+    padding: 0;
+    font-size: 3.5rem;
+    color: #f7c25f;
+  }
 
-    .impressum-content-container,
-    .rules-content-container {
-        max-height: calc(100dvh - 103px);
-        margin: 0, 1.5rem, 1rem, 0;
-        padding-bottom: 0.1;
-        overflow: hidden;
-    }
+  .impressum-content-container,
+  .rules-content-container {
+    max-height: calc(100dvh - 103px);
+    margin: 0, 1.5rem, 1rem, 0;
+    padding-bottom: 0.1;
+    overflow: hidden;
+  }
 
-    .rules-content-txt {
-        max-height: 100%;
-    }
+  .rules-content-txt {
+    max-height: 100%;
+  }
 
-    .game-controll-txt {
-        margin: 0;
-        padding: 0, 1rem;
-    }
+  .game-controll-txt {
+    margin: 0;
+    padding: 0, 1rem;
+  }
 
-    .menu-btn-container-alignement {
-        width: 100%;
-        height: 100%;
-    }
+  .menu-btn-container-alignement {
+    width: 100%;
+    height: 100%;
+  }
 
 }
 
 @media only screen and (max-height: 480px) {
-    canvas {
-        height: 100vh;
-        width: 100vw;
-    }
+  canvas {
+    height: 100vh;
+    width: 100vw;
+  }
 
-    .header-container { 
-        flex-direction: row;
-        height: calc( 100% / 3 );
-        max-height: 50%;
-        padding: 1rem;
-        background-color: rgba(0, 0, 0, 0);
-    }
+  .header-container { 
+    flex-direction: row;
+    height: calc( 100% / 3 );
+    max-height: 50%;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0);
+  }
 
-    .header-txt {
-        font-size: 4rem;
-        padding: 0rem;
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 2rem;
-        margin: 0, 0, 0, 0;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
+  .header-txt {
+    font-size: 4rem;
+    padding: 0rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 2rem;
+    margin: 0, 0, 0, 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
 
-    .header-game-controll { 
-        margin: 0.5rem; 
-    }
+  .header-game-controll { 
+    margin: 0.5rem; 
+  }
 }
