@@ -390,7 +390,7 @@ function initMobileControls() {
  * Shows rotate warning in portrait mode on mobile.
  */
 function checkOrientation() {
-    const warning = document.getElementById("rotate-warning");
+    const warning = document.getElementById("rotateWarning");
     const canvasEl = document.getElementById("canvas");
     if (window.innerHeight > window.innerWidth) {
         warning.style.display = "flex";

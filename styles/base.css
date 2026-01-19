@@ -1,0 +1,97 @@
+@font-face {
+    font-family: 'zabras';
+    src: url('./fonts/zabars.ttf') format('truetype');
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: black;
+    background-image: url('./imgs/5_background/desert.png');
+    background-size: cover;
+    background-position: 50% 0;
+    font-family: 'zabras', Helvetica;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    padding: 8px 16px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    z-index: 100;
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-size: 14px;
+}
+
+.skip-link:focus-visible {
+    top: 0;
+}
+
+button:focus-visible,
+a:focus-visible,
+#sound-toggle:focus-visible {
+    outline: 3px solid #ffd000;
+    outline-offset: 2px;
+}
+
+.overlay-hidden {
+    display: none !important;
+}
+
+#sound-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    object-fit: contain;
+    z-index: 30;
+}
+
+canvas {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    max-height: 480px;
+    height: 100%;
+    max-width: 720px;
+    width: 100%;
+    z-index: 10;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}

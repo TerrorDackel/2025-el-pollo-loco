@@ -1,0 +1,120 @@
+
+.restart-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    max-height: 480px;
+    height: 100%;
+    max-width: 720px;
+    width: 100%;
+    background-image: url('./imgs/9_intro_outro_screens/game_over/game-over.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    z-index: 40;
+}
+
+.restart-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+}
+
+.restart-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-family: 'Zabras';
+    font-size: 2.5rem;
+    color: #f3a71a;
+}
+
+.is-hidden {
+    display: none;
+}
+
+.restart-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 2rem;
+    text-align: center;
+    font-size: 6rem;
+    color: #ffd000;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px black;
+    margin-bottom: 1rem;
+}
+
+.restart-hint {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    width: 90%;
+    height: 100%;
+    border-radius: 2rem;
+}
+
+.restart-question-txt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    padding: 1rem;
+    font-weight: bold;
+    font-family: 'Helvetica';
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
+}
+
+.restart-btn-txt-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    padding: 0.25rem;
+}
+
+.restart-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    font-family: 'Helvetica';
+    font-size: 1rem;
+    font-weight: bold;
+    background: #f7c25f;
+    color: black;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+:hover .restart-btn {
+    background: #ffaa00;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.restart-txt {
+    display: flex;
+    text-align: right;
+    font-size: 1rem;
+    font-family: 'Helvetica';
+    color: #00c3ff;
+    text-shadow: 2px 2px 2px black;
+}

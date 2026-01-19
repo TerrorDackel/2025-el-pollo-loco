@@ -1,0 +1,84 @@
+
+.endscreen-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  max-height: 480px;
+  height: 50%;
+  max-width: 720px;
+  width: 100%;
+  margin: 0;
+  z-index: 40;
+  background-image: url('imgs/5_background/happy-mexican.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  text-align: center;
+}
+
+.background-container-transparency-endscreen {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-between;
+width: 90%;
+height: 90%;
+background-color: rgba(0, 0, 0, 0.7);
+border-radius: 3rem;
+}
+
+.endscreen-title {
+  font-family: 'zabras';
+  font-size: 4rem;
+  color: #ffd000;
+  font-weight: 200;
+  text-shadow: 2px 2px 2px black;
+  border-radius: 3rem;
+  padding: 2rem;
+  margin: 0;
+}
+
+.endscreen-container-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.endscreen-stat {
+  padding: 0rem;
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-family: 'Helvetica';
+  color: #00c3ff;
+  text-shadow: 2px 2px 2px black;
+  margin: 0;
+
+}
+
+.endscreen-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.endscreen-button {
+  padding: 12px 24px;
+  font-family: 'Helvetic';
+  font-size: 18px;
+  font-weight: bold;
+  background: #f7c25f;
+  color: black;
+  cursor: pointer;
+}
+
+.endscreen-button:hover {
+  background: #ffaa00;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}

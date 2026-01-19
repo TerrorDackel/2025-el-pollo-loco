@@ -25,7 +25,7 @@ class EndScreen {
      * @param {number} stats.time - Total play time in seconds.
      */
     static show(stats) {
-        const overlay = document.getElementById("endscreen-overlay");
+        const overlay = document.getElementById("endscreenOverlay");
         overlay.classList.remove("overlay-hidden");
 
         /* Update stats */
@@ -51,7 +51,7 @@ class EndScreen {
     static goToStart() {
         const startScreen = document.getElementById("startScreen");
         if (startScreen) startScreen.classList.remove("overlay-hidden");
-        const endScreen = document.getElementById("endscreen-overlay");
+        const endScreen = document.getElementById("endscreenOverlay");
         if (endScreen) endScreen.classList.add("overlay-hidden");
     }
 
@@ -59,7 +59,7 @@ class EndScreen {
      * Hides the endscreen and restarts level 1 without page reload.
      */
     static restartGame() {
-        const endScreen = document.getElementById("endscreen-overlay");
+        const endScreen = document.getElementById("endscreenOverlay");
         if (endScreen) endScreen.classList.add("overlay-hidden");
         clearAllIntervals();
         init(createLevel1());

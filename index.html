@@ -36,7 +36,6 @@
     <a href="#canvas" class="skip-link">
         Direkt zum Spiel springen
     </a>
-
     <p
       class="visually-hidden"
       aria-live="polite"
@@ -46,7 +45,6 @@
       Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten, ist das Gameplay nur eingeschränkt
       oder gar nicht zugänglich. Die Spielregeln und das Impressum stehen jedoch als Text zur Verfügung.
     </p>
-
     <img
         id="sound-toggle"
         src="./imgs/logos/musicOff.png"
@@ -60,7 +58,6 @@
         aria-label="Spieloberfläche des Jump-and-Run Spiels El Pollo Loco"
         aria-describedby="a11y-note"
     ></canvas>
-
     <div
         id="restartPrompt"
         class="restart-prompt is-hidden"
@@ -96,7 +93,7 @@
                             J
                         </button>
                         <div class="restart-txt">
-                            &nbsp;= Ja diesen Chicken's werde ich's zeigen!
+                            &nbsp;= Ja, diesen Chicken's werde ich's zeigen!
                         </div>
                     </div>
                     <div class="restart-btn-txt-container">
@@ -115,7 +112,6 @@
             </div>
         </div>
     </div>
-
     <div
         class="start-screen"
         id="startScreen"
@@ -123,21 +119,21 @@
         aria-modal="true"
         aria-labelledby="startScreenTitle"
     >
-        <div class="overlay-content">
-            <div class="header-container">
+        <div class="overlay-content-start">
+            <div class="header-container-start">
                 <div
-                    class="header-txt"
+                    class="header-txt-start"
                     id="startScreenTitle"
                 > 
                     Willkommen bei&nbsp;
                 </div>
-                <div class="header-txt"> 
+                <div class="header-txt-start"> 
                     El Pollo Loco 
                 </div>
             </div>
-            <div class="buttons-container">
+            <div class="buttons-container-start">
                 <button
-                    class="menu-button"
+                    class="menu-btn-start"
                     type="button"
                     onclick="startGame()"
                     aria-label="Spiel starten"
@@ -145,7 +141,7 @@
                     ▶️ Spiel starten 
                 </button>
                 <button
-                    class="menu-button"
+                    class="menu-btn-start"
                     type="button"
                     onclick="showRules()"
                     aria-label="Spielregeln anzeigen"
@@ -153,7 +149,7 @@
                     🕹️ Spielregeln 
                 </button>
                 <button
-                    class="menu-button"
+                    class="menu-btn-start"
                     type="button"
                     onclick="showImpressum()"
                     aria-label="Impressum anzeigen"
@@ -163,7 +159,6 @@
             </div>
         </div>
     </div>
-
     <div
         id="rules-overlay"
         class="overlay overlay-hidden"
@@ -172,10 +167,10 @@
         aria-labelledby="rulesTitle"
     >
         <div class="overlay-content-rules">
-            <div class="background-container-transparency">
-                <div class="header-game-controll-container">
+            <div class="background-container-transparency-rules">
+                <div class="header-container-rules">
                     <div
-                        class="header-game-controll"
+                        class="header-rules"
                         id="rulesTitle"
                     > 
                         Spielregeln: 
@@ -183,27 +178,27 @@
                 </div>
                 <div class="rules-content-container">
                     <div class="rules-content-txt">
-                        <p class="game-controll-txt"> 
+                        <p class="rules-txt"> 
                             ⬅️ Pfeil links: Pepe läuft nach links. 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="rules-txt"> 
                             ➡️ Pfeil rechts: Pepe läuft nach rechts. 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="rules-txt"> 
                             ⬆️ Pfeil oben: Pepe springt. 
                         </p>
-                        <p class="game-controll-txt"> 
-                            SPACE: Pepe wirft eine Flasche. 
+                        <p class="rules-txt"> 
+                            SPACE (Leer): Pepe wirft eine Flasche. 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="rules-txt"> 
                             🔇 T = Musik aus, 🔊 Z = Musik an. 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="rules-txt"> 
                             ⏯️ P = Pause starten/beenden. 
                         </p>
-                        <div class="menu-btn-container-alignement">
+                        <div class="rules-menu-btn-container-alignement">
                             <button
-                                class="menu-button-close"
+                                class="rules-menu-button-rules-close"
                                 type="button"
                                 onclick="returnToStart()"
                                 aria-label="Zurück zum Startbildschirm"
@@ -212,13 +207,10 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
-
     <div
         id="impressum-overlay"
         class="overlay overlay-hidden"
@@ -227,10 +219,10 @@
         aria-labelledby="impressumTitle"
     >
         <div class="overlay-content-impressum">
-            <div class="background-container-transparency">
-                <div class="header-game-controll-container">
+            <div class="background-container-transparency-impressum">
+                <div class="header-container-impressum">
                     <div
-                        class="header-game-controll"
+                        class="header-impressum"
                         id="impressumTitle"
                     > 
                         Impressum:
@@ -238,39 +230,39 @@
                 </div>
                 <div class="impressum-content-container">
                     <div class="impressum-content-txt">
-                        <p class="game-controll-header"> 
+                        <p class="impressum-headlines"> 
                             Angaben gemäß § 5 TMG 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="impressum-txt"> 
                             Jennifer Thomas <br> 
                             Pfarrer-Müller-Str. 1 <br> 
                             94431 Pilsting 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="impressum-txt"> 
                             E-Mail: contact@jennifer-thomas.de 
                         </p>
-                        <p class="game-controll-header"> 
+                        <p class="impressum-headlines"> 
                             Hinweis zum Projekt 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="impressum-txt"> 
                             Dieses Projekt 
                             <i> 
                                 El Pollo Loco 
                             </i> 
                             ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur Demonstration meiner Fähigkeiten als Frontend Developer dient. 
                         </p>
-                        <p class="game-controll-txt"> 
+                        <p class="impressum-txt"> 
                             Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA) zur Verfügung gestellt. 
                         </p>
-                        <p class="game-controll-header"> 
+                        <p class="impressum-headlines"> 
                             Haftungsausschluss 
                         </p>
-                        <p class="game-controll-txt">
+                        <p class="impressum-txt">
                             Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine Haftung ist ausgeschlossen. 
                         </p>                
-                        <div class="menu-btn-container-alignement">
+                        <div class="impressum-menu-btn-container-alignement">
                             <button
-                                class="menu-button-close"
+                                class="impressum-menu-button-close"
                                 type="button"
                                 onclick="returnToStart()"
                                 aria-label="Zurück zum Startbildschirm"
@@ -283,7 +275,6 @@
             </div>
         </div>
     </div>
-
     <div
         id="pauseOverlay"
         class="pause-overlay pause-overlay-hidden"
@@ -303,7 +294,7 @@
             </div>
             <div class="pause-description">
                 <button
-                    class="back-to-game-btn"
+                    class="pause-back-to-game-btn"
                     type="button"
                     aria-label="Pause beenden (Taste P)"
                 >
@@ -321,9 +312,8 @@
             </div>
         </div>
     </div>
-
     <div
-        id="rotate-warning"
+        id="rotateWarning"
         role="alert"
         aria-live="assertive"
     >
@@ -331,9 +321,8 @@
             🔄 Drehe bitte dein Gerät ins Querformat. 
         </p>
     </div>
-
     <div
-        id="mobile-controls"
+        id="mobileControls"
         class="mobile-controls-buttons-container overlay-hidden"
         aria-label="Mobile Steuerung für El Pollo Loco"
     >
@@ -386,21 +375,21 @@
     </div>
 
     <div
-        id="endscreen-overlay"
+        id="endscreenOverlay"
         class="overlay overlay-hidden"
         role="dialog"
         aria-modal="true"
         aria-labelledby="endscreenTitle"
     >
         <div class="endscreen-content">
-            <div class="background-container-transparency">
+            <div class="background-container-transparency-endscreen">
                 <div
                     class="endscreen-title"
                     id="endscreenTitle"
                 >
                     Herzlichen Glückwunsch !
                 </div>
-                <div>
+                <div class="endscreen-container-stats">
                     <p
                         id="stat-chickens"
                         class="endscreen-stat"
