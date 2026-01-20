@@ -2,9 +2,9 @@
 @import "./styles/media.css";
 @import "./styles/mobile-controls.css";
 @import "./styles/screen-end.css";
-@import ".styles/screen-gameover.css";
+@import "./styles/screen-gameover.css";
 @import "./styles/screen-impressum.css";
 @import "./styles/screen-pause.css";
-@import ".styles/screen-rotate-warning.css";
-@import ".styles/screen-rules.css";
-@import ".styles/screen-start.css";
+@import "./styles/screen-rotate-warning.css";
+@import "./styles/screen-rules.css";
+@import "./styles/screen-start.css";
