@@ -11,7 +11,7 @@
   width: 100%;
   margin: 0;
   z-index: 40;
-  background-image: url('imgs/5_background/happy-mexican.jpg');
+  background-image: url('./../imgs/5_background/happy-mexican.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

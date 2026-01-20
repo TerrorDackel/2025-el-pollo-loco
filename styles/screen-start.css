@@ -12,7 +12,7 @@
   transition: opacity 2.5s ease-out, transform 2s ease-out;
   animation: fadeIn 2.5s forwards;
   z-index: 15;
-  background-image: url('imgs/5_background/smiling-mexican-girl.jpg');
+  background-image: url('./../imgs/5_background/smiling-mexican-girl.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

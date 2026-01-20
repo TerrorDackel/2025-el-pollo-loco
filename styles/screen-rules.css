@@ -14,7 +14,7 @@
   background-position: center center;
   background-size: cover;
   z-index: 40;
-  background-image: url('imgs/5_background/mex skulls.jpg');
+  background-image: url('./../imgs/5_background/mex skulls.jpg');
 }
 
 .background-container-transparency-rules {

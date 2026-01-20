@@ -13,7 +13,7 @@
   background-position: center center;
   background-size: cover;
   z-index: 40;
-  background-image: url('imgs/5_background/mexican-pyramide-night.jpg');
+  background-image: url('./../imgs/5_background/mexican-pyramide-night.jpg');
 }
 
 .background-container-transparency-impressum {
@@ -92,7 +92,6 @@
   text-shadow: 2px 2px 2px black;
 }
 
-
 .impressum-menu-btn-container-alignement {
   display: flex;
   justify-content: center;
@@ -100,7 +99,7 @@
   height: 30%;
 }
 
-.impressum-menu-button-rules-close {
+.impressum-menu-button-close {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,7 +115,7 @@
   margin: 1rem;
 }
 
-.impressum-menu-button-rules-close:hover {
+.impressum-menu-button-close:hover {
   background: #ffaa00;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
