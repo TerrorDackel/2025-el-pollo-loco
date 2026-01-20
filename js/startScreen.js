@@ -14,7 +14,7 @@ function startGame() {
  */
 function showRules() {
   hideAllOverlays();
-  document.getElementById("rules-overlay").classList.remove("overlay-hidden");
+  document.getElementById("rulesOverlay").classList.remove("overlay-hidden");
   toggleMobileControls(false);
 }
 
@@ -40,7 +40,7 @@ function returnToStart() {
  * Hides all overlays (rules and impressum).
  */
 function hideAllOverlays() {
-  document.getElementById("rules-overlay").classList.add("overlay-hidden");
+  document.getElementById("rulesOverlay").classList.add("overlay-hidden");
   document.getElementById("impressum-overlay").classList.add("overlay-hidden");
 }
 

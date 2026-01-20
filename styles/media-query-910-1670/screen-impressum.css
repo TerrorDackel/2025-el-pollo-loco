@@ -3,7 +3,6 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  padding: 1rem;
   max-height: 480px;
   height: 50%;
   max-width: 720px;
@@ -12,8 +11,10 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  padding: 1rem;
+  border-radius: 1rem;
   z-index: 40;
-  background-image: url('./../imgs/5_background/mexican-pyramide-night.jpg');
+  background-image: url('./../../imgs/5_background/mexican-pyramide-night.jpg');
 }
 
 .background-container-transparency-impressum {

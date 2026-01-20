@@ -23,7 +23,7 @@ class PauseScreen {
    */
   static showCountdown(onFinish) {
     const el = document.getElementById("pauseCountdown");
-    const btn = document.querySelector(".back-to-game-btn");
+    const btn = document.querySelector(".pause-back-to-game-btn");
     if (!el || !btn) return;
 
     btn.style.display = "none";
@@ -57,7 +57,7 @@ class PauseScreen {
    * @returns {HTMLButtonElement|null} The resume button or null.
    */
   static getResumeButton() {
-    return document.querySelector(".back-to-game-btn") || null;
+    return document.querySelector(".pause-back-to-game-btn") || null;
   }
 
   /**

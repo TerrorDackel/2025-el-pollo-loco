@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'zabras';
-  src: url('./../fonts/zabars.ttf') format('truetype');
+  src: url('./../../fonts/zabars.ttf') format('truetype');
 }
 
 .visually-hidden {
@@ -22,7 +22,7 @@ body {
   width: 100dvw;
   height: 100dvh;
   background-color: black;
-  background-image: url('./../imgs/5_background/desert.png');
+  background-image: url('./../../imgs/5_background/desert.png');
   background-size: cover;
   background-position: 50% 0;
   font-family: 'zabras', Helvetica;
@@ -77,18 +77,19 @@ canvas {
   align-items: center;
   background-color: black;
   max-height: 480px;
-  height: 100%;
+  width: 100dvw;
+  height: 100dvh;
   max-width: 720px;
-  width: 100%;
   z-index: 10;
+  background-color: #00c3ff;
 }
 
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100dvw;
+  height: 100dvh;
   background: rgba(0,0,0,0.9);
   display: flex;
   justify-content: center;
