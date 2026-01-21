@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
   SoundManager.init();
   EndScreen.init();
   initMobileControls();
-  checkOrientation();
-  window.addEventListener("resize", checkOrientation);
-  window.addEventListener("orientationchange", checkOrientation);
+  updateUiVisibility();
+  window.addEventListener("resize", updateUiVisibility);
+  window.addEventListener("orientationchange", updateUiVisibility);
 });
 
 /**
@@ -389,14 +389,46 @@ function initMobileControls() {
  * Checks device orientation and updates UI visibility.
  * Shows rotate warning in portrait mode on mobile.
  */
+function updateUiVisibility() {
+  updateOrientationBodyClass();
+  updateMobileControlsVisibility();
+}
+
+function updateOrientationBodyClass() {
+  document.body.classList.toggle("is-portrait", window.innerHeight > window.innerWidth);
+}
+
+function isTouchDevice() {
+  return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+}
+
+function isLandscapeViewport() {
+  return window.matchMedia("(orientation: landscape)").matches || window.innerWidth >= window.innerHeight;
+}
+
+function isElementVisible(id, hiddenClass) {
+  const el = document.getElementById(id);
+  return !!(el && !el.classList.contains(hiddenClass));
+}
+
+function isOverlayBlockingMobileControls() {
+  return (
+    isElementVisible("startScreen", "overlay-hidden") ||
+    isElementVisible("rulesOverlay", "overlay-hidden") ||
+    isElementVisible("impressumOverlay", "overlay-hidden") ||
+    isElementVisible("endscreenOverlay", "overlay-hidden") ||
+    isElementVisible("pauseOverlay", "pause-overlay-hidden") ||
+    isElementVisible("restartPrompt", "is-hidden")
+  );
+}
+
+function updateMobileControlsVisibility() {
+  const mobileControls = document.getElementById("mobileControls");
+  if (!mobileControls) return;
+  const shouldShow = isTouchDevice() && isLandscapeViewport() && !document.body.classList.contains("is-portrait") && !isOverlayBlockingMobileControls();
+  mobileControls.classList.toggle("overlay-hidden", !shouldShow);
+}
+
 function checkOrientation() {
-  const warning = document.getElementById("rotateWarning");
-  const canvasEl = document.getElementById("canvas");
-  if (window.innerHeight > window.innerWidth) {
-    warning.style.display = "flex";
-    canvasEl.style.display = "none";
-  } else {
-    warning.style.display = "none";
-    canvasEl.style.display = "block";
-  }
+  updateUiVisibility();
 }

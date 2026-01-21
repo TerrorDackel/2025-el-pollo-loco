@@ -10,6 +10,7 @@
   justify-content: center;
   align-items: center;
   z-index: 50;
+  background-image: url('./../../imgs/9_intro_outro_screens/pause/pause-screen.png');
 }
 
 .pause-overlay-hidden {
@@ -27,7 +28,7 @@
   height: 100%;
   max-width: 720px;
   width: 100%;
-  background-image: url('./../../imgs/9_intro_outro_screens/pause/pause-screen.png');
+  background-color: rgba(0, 0, 0, 0.6);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -36,37 +37,57 @@
 }
 
 .pause-header {
-  font-size: 6rem;
-  color: #00c3ff;
-  text-shadow: 2px 2px 2px black;
-  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  padding: 0 0 2rem 0;
+  text-align: center;
+  font-size: 4rem;
+  font-weight: 200;
+  color: #ffd000;
 }
 
 .pause-description {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  font-size: 1.4rem;
-  margin-top: 1rem;
-  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  max-width: 550px;
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 400;
   font-family: 'Helvetica';
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
 }
 
 .pause-countdown-txt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   height: 60px;
   font-size: 4rem;
   font-weight: bold;
   margin-top: 0;
+  padding: 1rem;
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
 }
 
 .pause-back-to-game-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   height: 60px;
-  padding: 12px 24px;
+  padding: 0.5rem 2rem;
+  margin-left: 2.1rem;
   font-family: 'Helvetic';
   font-size: 18px;
   font-weight: bold;

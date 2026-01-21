@@ -4,9 +4,9 @@
  */
 function startGame() {
   const startScreen = document.getElementById("startScreen");
-  if (startScreen) startScreen.classList.add("overlay-hidden"); /* minimal change: do not remove node */
+  if (startScreen) startScreen.classList.add("overlay-hidden");
   init(createLevel1());
-  toggleMobileControls(shouldShowMobileControls());
+  if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
 
 /**
@@ -15,7 +15,7 @@ function startGame() {
 function showRules() {
   hideAllOverlays();
   document.getElementById("rulesOverlay").classList.remove("overlay-hidden");
-  toggleMobileControls(false);
+  if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
 
 /**
@@ -23,8 +23,8 @@ function showRules() {
  */
 function showImpressum() {
   hideAllOverlays();
-  document.getElementById("impressum-overlay").classList.remove("overlay-hidden");
-  toggleMobileControls(false);
+  document.getElementById("impressumOverlay").classList.remove("overlay-hidden");
+  if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
 
 /**
@@ -33,7 +33,7 @@ function showImpressum() {
 function returnToStart() {
   hideAllOverlays();
   document.getElementById("startScreen")?.classList.remove("overlay-hidden");
-  toggleMobileControls(false);
+  if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
 
 /**
@@ -41,24 +41,5 @@ function returnToStart() {
  */
 function hideAllOverlays() {
   document.getElementById("rulesOverlay").classList.add("overlay-hidden");
-  document.getElementById("impressum-overlay").classList.add("overlay-hidden");
-}
-
-/**
- * Determines whether mobile controls should be displayed
- * based on device input type and orientation.
- * @returns {boolean} True if mobile controls should be shown.
- */
-function shouldShowMobileControls() {
-  return window.matchMedia("(hover: none) and (pointer: coarse) and (orientation: landscape)").matches;
-}
-
-/**
- * Toggles the visibility of the mobile controls.
- * @param {boolean} show - Whether to show or hide the controls.
- */
-function toggleMobileControls(show) {
-  const el = document.getElementById("mobile-controls");
-  if (!el) return;
-  el.classList.toggle("overlay-hidden", !show);
+  document.getElementById("impressumOverlay").classList.add("overlay-hidden");
 }

@@ -1,5 +1,4 @@
-
-.overlay-content-rules {
+.overlay-content-impressum  {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,92 +10,98 @@
   width: 100%;
   margin: 0;
   z-index: 40;
-  background-image: url('./../../imgs/5_background/mex skulls.jpg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  padding: 1rem;
-  border-radius: 1rem;
+  background-image: url('./../../imgs/5_background/mexican-pyramide-night.jpg');
 }
 
-.background-container-transparency-rules {
+.background-container-transparency-impressum {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  justify-content: c;
   width: 99%;
   height: 99%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 3rem;
-  padding: 0.5rem;
 }
 
-.header-container-rules {
+.header-container-impressum {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
-    padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
   margin: 0;
 }
 
-.header-rules {
-  font-family: 'zabras';
+.header-impressum-txt {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   font-size: 4rem;
-  color: #ffd000;
   font-weight: 200;
-  text-shadow: 2px 2px 2px black;
-  border-radius: 3rem;
+  color: #ffd000;
 }
 
-.rules-content {
+.impressum-content-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  max-width: 90%;
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
+  padding: 0.5rem 1rem;
+  margin: 0;
   overflow-y: auto;
   overflow-x: hidden;
   white-space: normal;
   word-break: keep-all;
   hyphens: auto;
-  text-align: left;
 }
 
-.rules-content-txt-button-container {
+.impressum-content-txt  {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  text-align: left;
   width: 100%;
   max-width: 600px;
+  padding: 0.5rem 1rem;
+  margin: 0;
   overflow-y: auto;
+  scrollbar-width: none; 
   overflow-x: hidden;
-  white-space: nowrap;
+  white-space: normal;
   word-break: keep-all;
   hyphens: auto;
-  text-align: left;
 }
 
-.rules-content-txt-container {
-  width: 100%;
-  padding: 0;
-  font-weight: 400;
-  font-size: 1.5rem;
+.impressum-content-txt::-webkit-scrollbar {
+    display: none;
+}
+
+.impressum-headlines {
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  margin-top: 1rem;
+  font-weight: bold;
   font-family: 'Helvetica';
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
-  margin: 0;
-    padding: 1rem;
 }
 
-.rules-txt {
+.impressum-txt {
   width: 100%;
-  max-width: 300px;
+  max-width: 550px;
   text-align: start;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0;
   padding: 0 0 0.3rem 0;
   font-weight: 400;
@@ -105,18 +110,14 @@
   text-shadow: 2px 2px 2px black;
 }
 
-.rules-content-txt::-webkit-scrollbar {
-  display: none;
-}
-
-.rules-menu-btn-container-alignement {
+.impressum-menu-btn-container-alignement {
   display: flex;
   justify-content: center;
   width: 90%;
   height: 30%;
 }
 
-.rules-menu-button-rules-close {
+.impressum-menu-button-close {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,10 +130,10 @@
   color: black;
   cursor: pointer;
   transition: background 0.3s;
-  padding: 1rem;
+  margin: 1rem;
 }
 
-.rules-menu-button-rules-close:hover {
+.impressum-menu-button-close:hover {
   background: #ffaa00;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;

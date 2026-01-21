@@ -1,59 +1,59 @@
-.overlay-content-impressum  {
+
+.overlay-content-rules {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  text-align: center;
   flex-direction: column;
   max-height: 480px;
-  height: 50%;
+  height: 100%;
   max-width: 720px;
   width: 100%;
   margin: 0;
+  z-index: 40;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  padding: 1rem;
-  border-radius: 1rem;
-  z-index: 40;
-  background-image: url('./../../imgs/5_background/mexican-pyramide-night.jpg');
+  background-image: url('./../../imgs/5_background/mex skulls.jpg');
 }
 
-.background-container-transparency-impressum {
+.background-container-transparency-rules {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  width: 90%;
-  height: 90%;
+  justify-content: center;
+  justify-content: c;
+  width: 99%;
+  height: 99%;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 3rem;
 }
 
-.header-container-impressum {
+.header-container-rules {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 90%;
+  max-width: 600px;
+  padding: 0.5rem 1rem;
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 25%;
 }
 
-.header-impressum {
-  padding: 1rem;
-  text-align: center;
-  font-size: 5rem;
+.header-rules {
+  font-family: 'zabras';
+  font-size: 4rem;
   color: #ffd000;
   font-weight: 200;
   text-shadow: 2px 2px 2px black;
-  margin: 0;
+  border-radius: 3rem;
 }
 
-.impressum-content-container {
-  max-width: 700px;
-  width: 600px;
-  max-height: 330px;
-  height: 90%;
-  border-radius: 3rem;
+.rules-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90%;
   overflow-y: auto;
   overflow-x: hidden;
   white-space: normal;
@@ -62,45 +62,58 @@
   text-align: left;
 }
 
-.impressum-content-txt  {
+.rules-content-txt-button-container {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
   flex-direction: column;
-  max-height: 265px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   max-width: 600px;
-  margin: 1rem;
-  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: nowrap;
+  word-break: keep-all;
+  hyphens: auto;
+  text-align: left;
 }
 
-.impressum-headlines {
-  padding: 0.5rem;
-  font-size: 1.4rem;
-  margin-top: 1rem;
-  font-weight: bold;
+.rules-content-txt-container {
+  width: 100%;
+  padding: 0;
+  font-weight: 400;
+  font-size: 1.5rem;
   font-family: 'Helvetica';
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
+  margin: 0;
+  padding: 1rem;
 }
 
-.impressum-txt {
-  font-size: 1.3rem;
+.rules-txt {
+  width: 100%;
+  max-width: 300px;
+  text-align: start;
+  font-size: 1.1rem;
   margin: 0;
-  padding: 0.2rem;
+  padding: 0 0 0.3rem 0;
   font-weight: 400;
   font-family: 'Helvetica';
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
 }
 
-.impressum-menu-btn-container-alignement {
+.rules-content-txt::-webkit-scrollbar {
+  display: none;
+}
+
+.rules-menu-btn-container-alignement {
   display: flex;
   justify-content: center;
   width: 90%;
   height: 30%;
 }
 
-.impressum-menu-button-close {
+.rules-menu-button-rules-close {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,10 +126,10 @@
   color: black;
   cursor: pointer;
   transition: background 0.3s;
-  margin: 1rem;
+  padding: 1rem;
 }
 
-.impressum-menu-button-close:hover {
+.rules-menu-button-rules-close:hover {
   background: #ffaa00;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;

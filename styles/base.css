@@ -81,7 +81,7 @@ canvas {
   height: 100dvh;
   max-width: 720px;
   z-index: 10;
-  background-color: #00c3ff;
+  background-color: black;
 }
 
 .overlay {

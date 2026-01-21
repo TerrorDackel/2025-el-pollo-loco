@@ -1,0 +1,58 @@
+#rotateWarning {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  background-image: url('./../../imgs/5_background/mobile-rotate-bright.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  z-index: 30;
+}
+
+body.is-portrait #rotateWarning {
+  display: flex;
+}
+
+body.is-portrait #canvas {
+  display: none;
+}
+
+body.is-portrait #mobileControls {
+  display: none !important;
+}
+
+.rotate-warning {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.rotate-warning-container-logo-txt {
+  font-family: 'Zabras';
+  font-size: 1.5rem;
+  color: #f3a71a;
+  text-align: center;
+}
+
+.rotate-txt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
