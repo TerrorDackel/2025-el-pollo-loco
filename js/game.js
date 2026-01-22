@@ -45,6 +45,7 @@ function init(level = level1) {
   window.addEventListener("resize", resizeCanvas);
   world = new World(canvas, keyboard, level);
   window.world = world;
+  if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility) CancelOverlay.updateAbortButtonVisibility();
 }
 
 /**
@@ -401,6 +402,8 @@ function initMobileControls() {
 function updateUiVisibility() {
   updateOrientationBodyClass();
   updateMobileControlsVisibility();
+  if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility) CancelOverlay.updateAbortButtonVisibility();
+
 }
 
 function updateOrientationBodyClass() {
@@ -422,6 +425,7 @@ function isElementVisible(id, hiddenClass) {
 
 function isOverlayBlockingMobileControls() {
   return (
+    isElementVisible("cancelOverlay", "is-hidden") ||
     isElementVisible("startScreen", "overlay-hidden") ||
     isElementVisible("rulesOverlay", "overlay-hidden") ||
     isElementVisible("impressumOverlay", "overlay-hidden") ||

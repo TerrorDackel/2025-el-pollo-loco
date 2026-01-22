@@ -43,6 +43,7 @@
     <script src="./js/endScreen.js"></script>
     <script src="./js/pauseScreen.js"></script>
     <script src="./js/gameOverScreen.js"></script>
+    <script src="./js/cancelScreen.js"></script>
     <script src="./js/game.js"></script>
   </head>
   <body>
@@ -55,16 +56,25 @@
     <p
       class="visually-hidden"
       aria-live="polite"
-      id="a11y-note"
+      id="a11yNote"
     >
       Hinweis zur Barrierefreiheit: Dieses Spiel basiert vollständig auf einer visuellen Canvas-Darstellung.
       Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten, ist das Gameplay nur eingeschränkt
       oder gar nicht zugänglich. Die Spielregeln und das Impressum stehen jedoch als Text zur Verfügung.
     </p>
     <img
-      id="sound-toggle"
+      id="soundToggle"
       src="./imgs/logos/musicOff.png"
       alt="Musik ein- oder ausschalten"
+      role="button"
+      tabindex="0"
+      onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.click(); }"
+    />
+    <img
+      id="abortToStart"
+      class="overlay-hidden"
+      src="./imgs/logos/close-btn-red.png"
+      alt="Spiel abbrechen und zum Startmenü zurückkehren"
       role="button"
       tabindex="0"
       onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.click(); }"
@@ -72,7 +82,7 @@
     <canvas
       id="canvas"
       aria-label="Spieloberfläche des Jump-and-Run Spiels El Pollo Loco"
-      aria-describedby="a11y-note"
+      aria-describedby="a11yNote"
     ></canvas>
     <div
       id="restartPrompt"
@@ -122,6 +132,60 @@
               </button>
               <div class="restart-txt">
                 &nbsp;= Nein, ich check erst mal die Spielregeln.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="cancelOverlay"
+      class="cancel-overlay is-hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-live="polite"
+      aria-labelledby="cancelTitle"
+      aria-describedby="cancelQuestion"
+    >
+      <div class="cancel-container">
+        <div class="background-container-transparency-cancel">
+          <div class="cancel-header">
+            <div
+              id="cancelTitle"
+              class="cancel-title"
+            >
+              Spiel beenden?
+            </div>
+          </div>
+          <div class="cancel-hint">
+            <div
+              id="cancelQuestion"
+              class="cancel-question-txt"
+            >
+              Willst du wirklich das Spiel aufgeben?
+            </div>
+            <div class="cancel-btn-txt-container">
+              <button
+                class="cancel-btn"
+                type="button"
+                aria-label="Spiel beenden und zum Start zurückkehren (Taste J)"
+              >
+                J
+              </button>
+              <div class="cancel-txt">
+                &nbsp;= ja, das Spiel beenden.
+              </div>
+            </div>
+            <div class="cancel-btn-txt-container">
+              <button
+                class="cancel-btn"
+                type="button"
+                aria-label="Weiter spielen (Taste N)"
+              >
+                N
+              </button>
+              <div class="cancel-txt">
+                &nbsp;= Nein auf keinen Fall, ich möchte weiter spielen!
               </div>
             </div>
           </div>

@@ -1,0 +1,131 @@
+.cancel-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  max-height: 480px;
+  height: 100%;
+  max-width: 720px;
+  width: 100%;
+  margin: 0;
+  z-index: 40;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-image: url('./../../imgs/9_intro_outro_screens/cancel/cancel.jpg');
+}
+
+.cancel-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3rem;
+  width: 99%;
+  height: 99%;
+}
+
+.background-container-transparency-cancel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 99%;
+  height: 99%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 3rem;
+}
+
+.cancel-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Zabras';
+  font-size: 2.5rem;
+  color: #f3a71a;
+}
+
+.cancel-title {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 2rem;
+  text-align: center;
+  font-size: 5rem;
+  color: #ffd000;
+  font-weight: 200;
+}
+
+.cancel-hint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  width: 70%;
+  height: 50%;
+  border-radius: 1rem;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.cancel-question-txt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  padding: 2rem;
+  font-weight: bold;
+  font-family: 'Helvetica';
+  color: #00c3ff;
+  text-shadow: 2px 2px 2px black;
+}
+
+.cancel-btn-txt-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  padding: 0.25rem;
+}
+
+.cancel-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Helvetica';
+  font-size: 1rem;
+  font-weight: bold;
+  background: #f7c25f;
+  color: black;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+:hover .cancel-btn {
+  background: #ffaa00;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.cancel-txt {
+  width: 100%;
+  max-width: 420px;
+  max-height: 40px;
+  display: flex;
+  text-align: right;
+  font-size: 1rem;
+  font-family: 'Helvetica';
+  color: #00c3ff;
+  white-space: nowrap;
+  padding: 0.5rem 0;
+}

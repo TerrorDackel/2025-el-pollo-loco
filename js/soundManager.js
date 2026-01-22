@@ -182,7 +182,7 @@ class SoundManager {
    * @param {boolean} on - True shows "on" icon, false shows "off" icon.
    */
   static updateIcon(on) {
-      const icon = document.getElementById("sound-toggle");
+      const icon = document.getElementById("soundToggle");
       if (icon) {
         icon.src = on ? "imgs/logos/musicOn.png" : "imgs/logos/musicOff.png";
       }
@@ -190,7 +190,7 @@ class SoundManager {
 
   /** Initialises the DOM sound toggle and sets default state. */
   static init() {
-    const icon = document.getElementById("sound-toggle");
+    const icon = document.getElementById("soundToggle");
     if (icon) {
       icon.addEventListener("click", () => this.toggleSound());
       this.updateIcon(false); // Start in "muted" state
