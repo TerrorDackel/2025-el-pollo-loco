@@ -78,7 +78,7 @@ class CancelOverlay {
     const key = (e.key || "").toLowerCase();
     if (key === "j") {
       CancelOverlay.abortToStart();
-    } else if (key === "n" || key === "escape") {
+    } else if (key === "n") {
       CancelOverlay.continueGame();
     }
   }

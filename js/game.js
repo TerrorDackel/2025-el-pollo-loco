@@ -212,6 +212,9 @@ function handleKeyDownEvents_code(code) {
     case 80: togglePause(); break;
     case 90: SoundManager.unmuteAll(); break;
     case 84: SoundManager.muteAll(); break;
+    case 27:
+      if (typeof CancelOverlay !== "undefined" && CancelOverlay.show) CancelOverlay.show();
+      break;
     default: break;
   }
 }
