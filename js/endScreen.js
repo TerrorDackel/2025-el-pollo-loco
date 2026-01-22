@@ -27,6 +27,7 @@ class EndScreen {
   static show(stats) {
     const overlay = document.getElementById("endscreenOverlay");
     overlay.classList.remove("overlay-hidden");
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
 
     /* Update stats */
     document.getElementById("stat-chickens").textContent = `🐓 Normale Hühner: ${stats.chickens}`;
@@ -53,6 +54,7 @@ class EndScreen {
     if (startScreen) startScreen.classList.remove("overlay-hidden");
     const endScreen = document.getElementById("endscreenOverlay");
     if (endScreen) endScreen.classList.add("overlay-hidden");
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
   }
 
   /**
@@ -63,5 +65,7 @@ class EndScreen {
     if (endScreen) endScreen.classList.add("overlay-hidden");
     clearAllIntervals();
     init(createLevel1());
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
   }
+
 }

@@ -12,6 +12,7 @@ class GameOverScreen {
     if (!overlay) return;
 
     overlay.classList.remove("is-hidden");
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
     GameOverScreen._visible = true;
 
     if (typeof world !== "undefined" && world && world.running) {
@@ -30,6 +31,7 @@ class GameOverScreen {
     if (!overlay) return;
 
     overlay.classList.add("is-hidden");
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
     GameOverScreen._visible = false;
 
     document.removeEventListener("keydown", GameOverScreen.handleKeyEvent);
@@ -60,6 +62,7 @@ class GameOverScreen {
     if (key === "j") {
       GameOverScreen.hide();
       try { init(createLevel1()); } catch (_) { location.reload(); }
+      if (typeof updateUiVisibility === "function") updateUiVisibility();
     } else if (key === "n") {
       GameOverScreen.hide();
       returnToStart();

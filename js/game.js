@@ -119,14 +119,33 @@ function isRestartPromptVisible() {
   if (typeof GameOverScreen !== "undefined" && GameOverScreen.isVisible) {
       return GameOverScreen.isVisible();
   }
-  /* Deprecated: legacy DOM-based visibility check kept for fallback. */
   const el = getRestartPromptEl();
-  if (!el) return false;
-  return el.classList ? !el.classList.contains("is-hidden") : el.style.display !== "none";
+  return !!(el && !el.classList.contains("is-hidden"));
 }
 
 /**
- * Records that the player produced an input activity right now.
+ * Shows the pause overlay (delegated to PauseScreen).
+ */
+function showPauseScreen() {
+  PauseScreen.showOverlay();
+}
+
+/**
+ * Clears pause overlay (delegated to PauseScreen).
+ */
+function clearPauseScreen() {
+  PauseScreen.clearOverlay();
+}
+
+/** Handles the space key (throwing). */
+function handleSpaceKey() {
+  if (!keyboard.SPACE) {
+    keyboard.SPACE = true;
+    if (world) world.tryThrowObject();
+  }
+} 
+
+/**
  * Keeps idle timing consistent for both keyboard and touch.
  */
 function noteActivity() {
@@ -209,34 +228,22 @@ function handleKeyDownEvents(e) {
     case 40: keyboard.DOWN = true; break;
     case 32: handleSpaceKey(); break;
     case 68: keyboard.D = true; break;
-    case 70: keyboard.F = true; break;
+    case 77: keyboard.M = true; break;
     case 74: keyboard.J = true; break;
     case 78: keyboard.N = true; break;
     case 45: keyboard.ZERO = true; break;
-    case 77: keyboard.M = true; break;
-    case 80: togglePause(); break;
-    case 90: SoundManager.unmuteAll(); break;
-    case 84: SoundManager.muteAll(); break;
+    case 80: keyboard.PAUSE = true; break;
     default: break;
   }
 }
 
-/** Handles the space key (throwing). */
-function handleSpaceKey() {
-  if (!keyboard.SPACE) {
-    keyboard.SPACE = true;
-    if (world) world.tryThrowObject();
-  }
-} 
-
-/** 
- * Global keyup handler. 
+/**
+ * Global keyup handler.
  */
 window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
 
-/* Deprecated: original keyup handler kept for compatibility, not used anymore. */
 /**
- * Processes keyup events and maps to actions.
+ * Sets keyboard flags for keyup events.
  * @param {KeyboardEvent} e - The keyboard event.
  */
 function handleKeyUpEvents(e) {
@@ -276,6 +283,7 @@ function pauseGame() {
   if (world) world.pauseGame();
   PauseScreen.showOverlay();
   SoundManager.pauseAllSounds();
+  if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
 
 /**
@@ -314,6 +322,7 @@ function resumeAfterCountdown() {
   countdownActive = false;
   PauseScreen.clearOverlay();
   resumeAudioForWorld();
+  if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
 
 /**
@@ -337,7 +346,7 @@ function drawPauseScreen() {
 /**
  * Clears pause overlay.
  * Previously forced a redraw; now delegates to PauseScreen.
- */
+  */
 function clearPauseScreen() {
   PauseScreen.clearOverlay();
 }
@@ -425,7 +434,7 @@ function isOverlayBlockingMobileControls() {
 function updateMobileControlsVisibility() {
   const mobileControls = document.getElementById("mobileControls");
   if (!mobileControls) return;
-  const shouldShow = isTouchDevice() && isLandscapeViewport() && !document.body.classList.contains("is-portrait") && !isOverlayBlockingMobileControls();
+  const shouldShow = isTouchDevice() && isLandscapeViewport() && !document.body.classList.contains("is-portrait") && !isOverlayBlockingMobileControls() && !!(world && world.running === true) && !gamePaused && !countdownActive;
   mobileControls.classList.toggle("overlay-hidden", !shouldShow);
 }
 

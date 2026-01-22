@@ -13,6 +13,7 @@ class PauseScreen {
     overlay.classList.remove("pause-overlay-hidden");
     const el = document.getElementById("pauseCountdown");
     if (el) el.innerText = "";
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
   }
 
   /**
@@ -50,6 +51,7 @@ class PauseScreen {
     overlay.classList.add("pause-overlay-hidden");
     const el = document.getElementById("pauseCountdown");
     if (el) el.innerText = "";
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
   }
 
   /**
