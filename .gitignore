@@ -1,2 +1,6 @@
-/img
-/audio
+node_modules/
+dist/
+coverage/
+.vscode/
+.DS_Store
+*.log
