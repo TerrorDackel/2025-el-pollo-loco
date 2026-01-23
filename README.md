@@ -72,3 +72,5 @@ cd el-pollo-loco-2025
 „El Pollo Loco“ ist ein kleines Jump-and-Run-Game, das ich während der Developer-Akademie-Weiterbildung als Einzelprojekt mit JavaScript (OOP), HTML und CSS umgesetzt habe.
 Der Fokus liegt auf objektorientierter Strukturierung (Klassen für Spielfigur, Gegner, Level, Items), Spielschleife, Tastatur-Steuerung, Kollisionserkennung und einem spielbaren Level mit Gegnern, Sammelobjekten, Sound und Pause-Funktion.
 ```
+
+Hook test: 2026-01-23 14:17:29
