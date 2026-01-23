@@ -2,8 +2,8 @@
 
 Side-scrolling jump-and-run game built with object-oriented JavaScript during the Developer Akademie frontend program. You control Pepe, collect bottles and defeat chickens and a final boss.
 
-- Live game: https://www.el-pollo-loco.jennifer-thomas.de/index.html  
-- Repository: https://github.com/TerrorDackel/el-pollo-loco-2025  
+- Live game: https://www.el-pollo-loco.jennifer-thomas.de/index.html
+- Repository: https://github.com/TerrorDackel/el-pollo-loco-2025
 
 ---
 
@@ -71,3 +71,4 @@ cd el-pollo-loco-2025
 
 „El Pollo Loco“ ist ein kleines Jump-and-Run-Game, das ich während der Developer-Akademie-Weiterbildung als Einzelprojekt mit JavaScript (OOP), HTML und CSS umgesetzt habe.
 Der Fokus liegt auf objektorientierter Strukturierung (Klassen für Spielfigur, Gegner, Level, Items), Spielschleife, Tastatur-Steuerung, Kollisionserkennung und einem spielbaren Level mit Gegnern, Sammelobjekten, Sound und Pause-Funktion.
+```
