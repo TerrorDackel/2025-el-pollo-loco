@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { beforeEach, vi } from "vitest";
 
 vi.stubGlobal("updateUiVisibility", () => {});
 vi.stubGlobal("SoundManager", {
