@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
-
+cd "$(git rev-parse --show-toplevel)" || exit 1
 echo "pre-push checks temporarily disabled until lint and formatting are fixed"
 exit 0
-
