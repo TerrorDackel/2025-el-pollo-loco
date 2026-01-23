@@ -1,0 +1,14 @@
+﻿{
+  "*.{css,html,json,md}": [
+    "prettier --write"
+  ],
+  "js/**/*.js": [
+    "eslint --fix"
+  ],
+  "models/**/*.js": [
+    "eslint --fix"
+  ],
+  "levels/**/*.js": [
+    "eslint --fix"
+  ]
+}
