@@ -156,6 +156,8 @@ function noteActivity() {
 /**
  * Derives a stable numeric key code for both real and synthetic events.
  * Handles deprecated keyCode by falling back to e.key.
+ * @param {KeyboardEvent} e - The keyboard event.
+ * @returns {number|undefined} A numeric key code or undefined if not derivable.
  */
 function getKeyCode(e) {
   /* Prefer legacy keyCode if present */
@@ -178,16 +180,6 @@ window.addEventListener("keydown", (e) => {
   noteActivity();
   const code = getKeyCode(e);
   const promptVisible = isRestartPromptVisible();
-
-  if (
-    code === 27 &&
-    typeof CancelOverlay !== "undefined" &&
-    CancelOverlay &&
-    typeof CancelOverlay.canOpen === "function" &&
-    CancelOverlay.canOpen()
-  ) {
-    e.preventDefault();
-  }
 
   /* New gating: when prompt visible → only J or N allowed. */
   if (world && !world.running) {
@@ -409,8 +401,9 @@ function initMobileControls() {
 }
 
 /**
- * Checks device orientation and updates UI visibility.
- * Shows rotate warning in portrait mode on mobile.
+ * Updates all UI visibility rules that depend on viewport, orientation and overlay state.
+ * This is the single entry point for resize/orientation events.
+ * It also synchronises the abort button visibility with the running world state.
  */
 function updateUiVisibility() {
   updateOrientationBodyClass();
@@ -419,23 +412,47 @@ function updateUiVisibility() {
 
 }
 
+/**
+ * Applies an orientation marker class to the body.
+ * Used to drive CSS rules for rotate warning and canvas visibility.
+ */
 function updateOrientationBodyClass() {
   document.body.classList.toggle("is-portrait", window.innerHeight > window.innerWidth);
 }
 
+/**
+ * Detects whether the current device is a touch-first device.
+ * @returns {boolean} True if coarse pointer and no hover are detected.
+ */
 function isTouchDevice() {
   return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 }
 
+/**
+ * Determines whether the viewport should be treated as landscape.
+ * Uses orientation media query and falls back to width/height comparison.
+ * @returns {boolean} True if landscape conditions are met.
+ */
 function isLandscapeViewport() {
   return window.matchMedia("(orientation: landscape)").matches || window.innerWidth >= window.innerHeight;
 }
 
+/**
+ * Checks whether an element is currently visible by verifying it does not carry a given hidden class.
+ * @param {string} id - Element id.
+ * @param {string} hiddenClass - Class name that indicates hidden state.
+ * @returns {boolean} True if the element exists and is not hidden.
+ */
 function isElementVisible(id, hiddenClass) {
   const el = document.getElementById(id);
   return !!(el && !el.classList.contains(hiddenClass));
 }
 
+/**
+ * Returns whether any overlay is currently blocking mobile controls.
+ * This prevents accidental input while modals or full-screen overlays are active.
+ * @returns {boolean} True if any blocking overlay is visible.
+ */
 function isOverlayBlockingMobileControls() {
   return (
     isElementVisible("cancelOverlay", "is-hidden") ||
@@ -448,6 +465,11 @@ function isOverlayBlockingMobileControls() {
   );
 }
 
+/**
+ * Updates the visibility of the on-screen mobile control buttons.
+ * Shows controls only on touch devices, in landscape, while the world is running,
+ * and only when no blocking overlays are visible and no pause/countdown is active.
+ */
 function updateMobileControlsVisibility() {
   const mobileControls = document.getElementById("mobileControls");
   if (!mobileControls) return;
@@ -455,6 +477,10 @@ function updateMobileControlsVisibility() {
   mobileControls.classList.toggle("overlay-hidden", !shouldShow);
 }
 
+/**
+ * Compatibility helper for any existing orientation handlers.
+ * Delegates to updateUiVisibility() to keep behaviour consistent.
+ */
 function checkOrientation() {
   updateUiVisibility();
 }
