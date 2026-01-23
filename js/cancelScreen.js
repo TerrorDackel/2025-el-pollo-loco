@@ -17,7 +17,7 @@ class CancelOverlay {
     CancelOverlay.resetMovementFlags();
 
     if (typeof world !== "undefined" && world && world.running) {
-      try { world.pauseGame(); } catch (_) {}
+      try { world.pauseGame(); } catch { /* Intentionally ignored: world may not support pausing in all states. */ }
     }
 
     if (typeof SoundManager !== "undefined") {
@@ -106,7 +106,7 @@ class CancelOverlay {
   static continueGame() {
     CancelOverlay.hide();
     if (typeof world !== "undefined" && world) {
-      try { world.resumeGame(); } catch (_) {}
+      try { world.resumeGame(); } catch { /* Intentionally ignored: world may not support resuming in all states. */ }
     }
     if (typeof resumeAudioForWorld === "function") resumeAudioForWorld();
     if (typeof updateUiVisibility === "function") updateUiVisibility();
@@ -121,7 +121,7 @@ class CancelOverlay {
     if (typeof clearAllIntervals === "function") clearAllIntervals();
 
     if (typeof world !== "undefined" && world) {
-      try { world.pauseGame(); } catch (_) {}
+      try { world.pauseGame(); } catch { /* Intentionally ignored: world may not support pausing in all states. */ }
       world.running = false;
     }
 

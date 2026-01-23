@@ -17,7 +17,7 @@ class GameOverScreen {
     if (typeof updateUiVisibility === "function") updateUiVisibility();
 
     if (typeof world !== "undefined" && world && world.running) {
-        try { world.pauseGame(); } catch (_) {}
+        try { world.pauseGame(); } catch { /* Intentionally ignored: world may not support pausing in all states. */ }
     }
 
     GameOverScreen.bindKeys();
@@ -78,7 +78,7 @@ class GameOverScreen {
    */
   static restart() {
     GameOverScreen.hide();
-    try { init(createLevel1()); } catch (_) { location.reload(); }
+    try { init(createLevel1()); } catch { /* Intentionally ignored: fallback reload keeps game recoverable. */ location.reload(); }
     if (typeof updateUiVisibility === "function") updateUiVisibility();
   }
 
