@@ -31,8 +31,10 @@ class EndScreen {
 
     /* Update stats */
     document.getElementById("stat-chickens").textContent = `🐓 Normale Hühner: ${stats.chickens}`;
-    document.getElementById("stat-chickenBigs").textContent = `🐔 Große Hühner: ${stats.chickenBigs}`;
-    document.getElementById("stat-chickenSmalls").textContent = `🐥 Kleine Hühner: ${stats.chickenSmalls}`;
+    document.getElementById("stat-chickenBigs").textContent =
+      `🐔 Große Hühner: ${stats.chickenBigs}`;
+    document.getElementById("stat-chickenSmalls").textContent =
+      `🐥 Kleine Hühner: ${stats.chickenSmalls}`;
     document.getElementById("stat-hearts").textContent = `❤️ Leben: ${stats.hearts}`;
     document.getElementById("stat-coins").textContent = `🪙 Münzen: ${stats.coins}`;
     document.getElementById("stat-time").textContent = `⏱️ Zeit: ${stats.time} Sekunden`;
@@ -67,5 +69,4 @@ class EndScreen {
     init(createLevel1());
     if (typeof updateUiVisibility === "function") updateUiVisibility();
   }
-
 }

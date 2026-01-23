@@ -50,14 +50,14 @@ class Endboss extends MovableObject {
     "./imgs/4_enemie_boss_chicken/1_walk/G1.png",
     "./imgs/4_enemie_boss_chicken/1_walk/G2.png",
     "./imgs/4_enemie_boss_chicken/1_walk/G3.png",
-    "./imgs/4_enemie_boss_chicken/1_walk/G4.png"
+    "./imgs/4_enemie_boss_chicken/1_walk/G4.png",
   ];
 
   /** @type {string[]} Hurt animation image paths. */
   IMAGES_HURTING = [
     "./imgs/4_enemie_boss_chicken/4_hurt/G21.png",
     "./imgs/4_enemie_boss_chicken/4_hurt/G22.png",
-    "./imgs/4_enemie_boss_chicken/4_hurt/G23.png"
+    "./imgs/4_enemie_boss_chicken/4_hurt/G23.png",
   ];
 
   /** @type {string[]} Angry animation image paths. */
@@ -73,14 +73,14 @@ class Endboss extends MovableObject {
     "./imgs/4_enemie_boss_chicken/1_walk/G1.png",
     "./imgs/4_enemie_boss_chicken/1_walk/G2.png",
     "./imgs/4_enemie_boss_chicken/1_walk/G3.png",
-    "./imgs/4_enemie_boss_chicken/1_walk/G4.png"
+    "./imgs/4_enemie_boss_chicken/1_walk/G4.png",
   ];
 
   /** @type {string[]} Dead animation image paths. */
   IMAGES_DEAD = [
     "./imgs/4_enemie_boss_chicken/5_dead/G24.png",
     "./imgs/4_enemie_boss_chicken/5_dead/G25.png",
-    "./imgs/4_enemie_boss_chicken/5_dead/G26.png"
+    "./imgs/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
   /**
@@ -141,8 +141,7 @@ class Endboss extends MovableObject {
     if (this.energy > 1) {
       this.energy--;
       this.isHurt = true;
-      if (this.world?.statusBar)
-        this.world.statusBar.setPersentageEndboss(this.energy);
+      if (this.world?.statusBar) this.world.statusBar.setPersentageEndboss(this.energy);
       this.playHurtAnimation();
       SoundManager.playSound("endbossHit");
     } else {

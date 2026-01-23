@@ -1,4 +1,4 @@
-/** 
+/**
  * Manages the game over overlay (formerly restartPrompt).
  * Encapsulates visibility state, keyboard handling and button wiring.
  */
@@ -17,7 +17,11 @@ class GameOverScreen {
     if (typeof updateUiVisibility === "function") updateUiVisibility();
 
     if (typeof world !== "undefined" && world && world.running) {
-        try { world.pauseGame(); } catch { /* Intentionally ignored: world may not support pausing in all states. */ }
+      try {
+        world.pauseGame();
+      } catch {
+        /* Intentionally ignored: world may not support pausing in all states. */
+      }
     }
 
     GameOverScreen.bindKeys();
@@ -78,7 +82,11 @@ class GameOverScreen {
    */
   static restart() {
     GameOverScreen.hide();
-    try { init(createLevel1()); } catch { /* Intentionally ignored: fallback reload keeps game recoverable. */ location.reload(); }
+    try {
+      init(createLevel1());
+    } catch {
+      /* Intentionally ignored: fallback reload keeps game recoverable. */ location.reload();
+    }
     if (typeof updateUiVisibility === "function") updateUiVisibility();
   }
 
@@ -107,8 +115,20 @@ class GameOverScreen {
         if (key === "n") GameOverScreen.backToStart();
       };
 
-      btn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); run(); });
-      btn.addEventListener("touchend", (e) => { e.preventDefault(); e.stopPropagation(); run(); }, { passive: false });
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        run();
+      });
+      btn.addEventListener(
+        "touchend",
+        (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          run();
+        },
+        { passive: false }
+      );
     });
 
     overlay._goBound = true;

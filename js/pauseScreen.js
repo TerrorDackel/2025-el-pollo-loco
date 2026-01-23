@@ -34,12 +34,18 @@ class PauseScreen {
 
     const it = setInterval(() => {
       count--;
-      if (count > 0) { el.innerText = count; return; }
-      if (count === 0) { el.innerText = "GO!"; return; }
+      if (count > 0) {
+        el.innerText = count;
+        return;
+      }
+      if (count === 0) {
+        el.innerText = "GO!";
+        return;
+      }
       clearInterval(it);
       btn.style.display = "inline-block";
       if (typeof onFinish === "function") onFinish();
-  }, 400);
+    }, 400);
   }
 
   /**

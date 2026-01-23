@@ -17,7 +17,7 @@ class Coins extends DrawableObject {
     "./imgs/8_coin/Gold_7.png",
     "./imgs/8_coin/Gold_8.png",
     "./imgs/8_coin/Gold_9.png",
-    "./imgs/8_coin/Gold_10.png"
+    "./imgs/8_coin/Gold_10.png",
   ];
 
   /** @type {number} X-coordinate of the coin on the map. */

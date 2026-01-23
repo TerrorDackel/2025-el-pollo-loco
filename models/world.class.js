@@ -121,8 +121,7 @@ class World {
       if (!this.running) return;
       this.checkCollisionCoins();
       this.checkCollisionBottles();
-      if (this.character?.checkCollisionWithEnemies)
-        this.character.checkCollisionWithEnemies();
+      if (this.character?.checkCollisionWithEnemies) this.character.checkCollisionWithEnemies();
       this.handleBossLogic();
     }, 50);
   }
@@ -342,7 +341,7 @@ class World {
       chickenSmalls: Number(this.killedChickenSmalls ?? 0),
       hearts: this.character.energy,
       coins: this.score,
-      time: playTimeSec
+      time: playTimeSec,
     };
     EndScreen.show(stats);
   }
@@ -389,8 +388,7 @@ class World {
   freezeMovable(o) {
     if (!o) return;
     if (!o.__paused) o.__paused = {};
-    if (typeof o.speed === "number" && o.__paused.speed === undefined)
-      o.__paused.speed = o.speed;
+    if (typeof o.speed === "number" && o.__paused.speed === undefined) o.__paused.speed = o.speed;
     if (typeof o.speedY === "number" && o.__paused.speedY === undefined)
       o.__paused.speedY = o.speedY;
     if (typeof o.vx === "number" && o.__paused.vx === undefined) o.__paused.vx = o.vx;

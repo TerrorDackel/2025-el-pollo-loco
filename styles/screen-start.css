@@ -9,10 +9,12 @@
   inset: 0;
   opacity: 0;
   transform: scale(0.7);
-  transition: opacity 2.5s ease-out, transform 2s ease-out;
+  transition:
+    opacity 2.5s ease-out,
+    transform 2s ease-out;
   animation: fadeIn 2.5s forwards;
   z-index: 15;
-  background-image: url('./../../imgs/5_background/smiling-mexican-girl.jpg');
+  background-image: url("./../../imgs/5_background/smiling-mexican-girl.jpg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -43,7 +45,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: calc( 100% / 2 - 1rem );
+  height: calc(100% / 2 - 1rem);
   max-height: 50%;
 }
 
@@ -60,7 +62,7 @@
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
-  height: calc( 100% / 2 - 1rem );
+  height: calc(100% / 2 - 1rem);
   max-height: 50%;
   padding: 1rem;
 }
@@ -71,7 +73,7 @@
   align-items: center;
   width: 15rem;
   height: 2.5rem;
-  font-family:'Helvetica';
+  font-family: "Helvetica";
   font-size: 18px;
   font-weight: bold;
   background: #f7c25f;

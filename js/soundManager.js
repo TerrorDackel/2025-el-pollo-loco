@@ -22,7 +22,7 @@ class SoundManager {
     chickenBigDead: new Audio("./audio/4_chicken/chicken_dead.mp3"),
     chickenDead: new Audio("./audio/4_chicken/chicken_dead.mp3"),
     endboss: new Audio("./audio/5_chickenBoss/chickenBossLev1.mp3"),
-    endbossDead: new Audio("./audio/5_chickenBoss/chickenBossLev1.mp3")
+    endbossDead: new Audio("./audio/5_chickenBoss/chickenBossLev1.mp3"),
   };
 
   /** @type {boolean} Tracks mute state across all sounds. */
@@ -48,7 +48,7 @@ class SoundManager {
     chickenBigDead: 0.35,
     chickenDead: 0.35,
     endboss: 0.35,
-    endbossDead: 0.35
+    endbossDead: 0.35,
   };
 
   /** Toggles mute state and updates all sounds accordingly. */
@@ -145,11 +145,11 @@ class SoundManager {
   /** Stops both background and boss music. */
   static stopBackground() {
     ["music", "bossMusic"].forEach((n) => {
-        const s = this.sounds[n];
-        if (s) {
-          s.pause();
-          s.currentTime = 0;
-        }
+      const s = this.sounds[n];
+      if (s) {
+        s.pause();
+        s.currentTime = 0;
+      }
     });
   }
 
@@ -182,10 +182,10 @@ class SoundManager {
    * @param {boolean} on - True shows "on" icon, false shows "off" icon.
    */
   static updateIcon(on) {
-      const icon = document.getElementById("soundToggle");
-      if (icon) {
-        icon.src = on ? "imgs/logos/musicOn.png" : "imgs/logos/musicOff.png";
-      }
+    const icon = document.getElementById("soundToggle");
+    if (icon) {
+      icon.src = on ? "imgs/logos/musicOn.png" : "imgs/logos/musicOff.png";
+    }
   }
 
   /** Initialises the DOM sound toggle and sets default state. */

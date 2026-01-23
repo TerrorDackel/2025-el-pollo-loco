@@ -1,25 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <link
-      rel="icon"
-      href="./imgs/logos/faviconSmall.png"
-      type="image/png"
-    />
-    <meta
-      name="El Pollo Loco"
-      content="El Pollo Loco"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./imgs/logos/faviconSmall.png" type="image/png" />
+    <meta name="El Pollo Loco" content="El Pollo Loco" />
     <title>El Pollo Loco</title>
-    <link
-      href="./styles.css"
-      rel="stylesheet"
-    />
+    <link href="./styles.css" rel="stylesheet" />
 
     <script src="./models/keyboard.class.js"></script>
     <script src="./models/drawableObject.class.js"></script>
@@ -47,20 +34,12 @@
     <script src="./js/game.js"></script>
   </head>
   <body>
-    <a
-      href="#canvas"
-      class="skip-link"
-    >
-      Direkt zum Spiel springen
-    </a>
-    <p
-      class="visually-hidden"
-      aria-live="polite"
-      id="a11yNote"
-    >
-      Hinweis zur Barrierefreiheit: Dieses Spiel basiert vollständig auf einer visuellen Canvas-Darstellung.
-      Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten, ist das Gameplay nur eingeschränkt
-      oder gar nicht zugänglich. Die Spielregeln und das Impressum stehen jedoch als Text zur Verfügung.
+    <a href="#canvas" class="skip-link"> Direkt zum Spiel springen </a>
+    <p class="visually-hidden" aria-live="polite" id="a11yNote">
+      Hinweis zur Barrierefreiheit: Dieses Spiel basiert vollständig auf einer visuellen
+      Canvas-Darstellung. Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten,
+      ist das Gameplay nur eingeschränkt oder gar nicht zugänglich. Die Spielregeln und das
+      Impressum stehen jedoch als Text zur Verfügung.
     </p>
     <img
       id="soundToggle"
@@ -68,7 +47,12 @@
       alt="Musik ein- oder ausschalten"
       role="button"
       tabindex="0"
-      onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.click(); }"
+      onkeydown="
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          this.click();
+        }
+      "
     />
     <img
       id="abortToStart"
@@ -77,7 +61,12 @@
       alt="Spiel abbrechen und zum Startmenü zurückkehren"
       role="button"
       tabindex="0"
-      onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.click(); }"
+      onkeydown="
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          this.click();
+        }
+      "
     />
     <canvas
       id="canvas"
@@ -96,31 +85,15 @@
       <div class="restart-box">
         <div class="background-container-transparency-gameover">
           <div class="restart-header">
-            <div
-              id="restartTitle"
-              class="restart-title"
-            >
-              Game over!
-            </div>
+            <div id="restartTitle" class="restart-title">Game over!</div>
           </div>
           <div class="restart-hint">
-            <div
-              id="restartQuestion"
-              class="restart-question-txt"
-            >
-              Traust du dich nochmal?
-            </div>
+            <div id="restartQuestion" class="restart-question-txt">Traust du dich nochmal?</div>
             <div class="restart-btn-txt-container">
-              <button
-                class="restart-btn"
-                type="button"
-                aria-label="Spiel neu starten (Taste J)"
-              >
+              <button class="restart-btn" type="button" aria-label="Spiel neu starten (Taste J)">
                 J
               </button>
-              <div class="restart-txt">
-                &nbsp;= Ja, diesen Chicken's werde ich's zeigen!
-              </div>
+              <div class="restart-txt">&nbsp;= Ja, diesen Chicken's werde ich's zeigen!</div>
             </div>
             <div class="restart-btn-txt-container">
               <button
@@ -130,9 +103,7 @@
               >
                 N
               </button>
-              <div class="restart-txt">
-                &nbsp;= Nein, ich check erst mal die Spielregeln.
-              </div>
+              <div class="restart-txt">&nbsp;= Nein, ich check erst mal die Spielregeln.</div>
             </div>
           </div>
         </div>
@@ -150,18 +121,10 @@
       <div class="cancel-container">
         <div class="background-container-transparency-cancel">
           <div class="cancel-header">
-            <div
-              id="cancelTitle"
-              class="cancel-title"
-            >
-              Spiel beenden?
-            </div>
+            <div id="cancelTitle" class="cancel-title">Spiel beenden?</div>
           </div>
           <div class="cancel-hint">
-            <div
-              id="cancelQuestion"
-              class="cancel-question-txt"
-            >
+            <div id="cancelQuestion" class="cancel-question-txt">
               Willst du wirklich das Spiel aufgeben?
             </div>
             <div class="cancel-btn-txt-container">
@@ -172,21 +135,13 @@
               >
                 J
               </button>
-              <div class="cancel-txt">
-                &nbsp;= ja, das Spiel beenden.
-              </div>
+              <div class="cancel-txt">&nbsp;= ja, das Spiel beenden.</div>
             </div>
             <div class="cancel-btn-txt-container">
-              <button
-                class="cancel-btn"
-                type="button"
-                aria-label="Weiter spielen (Taste N)"
-              >
+              <button class="cancel-btn" type="button" aria-label="Weiter spielen (Taste N)">
                 N
               </button>
-              <div class="cancel-txt">
-                &nbsp;= Nein auf keinen Fall, ich möchte weiter spielen!
-              </div>
+              <div class="cancel-txt">&nbsp;= Nein auf keinen Fall, ich möchte weiter spielen!</div>
             </div>
           </div>
         </div>
@@ -201,15 +156,8 @@
     >
       <div class="overlay-content-start">
         <div class="header-container-start">
-          <div
-            class="header-txt-start"
-            id="startScreenTitle"
-          >
-            Willkommen bei&nbsp;
-          </div>
-          <div class="header-txt-start">
-            El Pollo Loco
-          </div>
+          <div class="header-txt-start" id="startScreenTitle">Willkommen bei&nbsp;</div>
+          <div class="header-txt-start">El Pollo Loco</div>
         </div>
         <div class="buttons-container-start">
           <button
@@ -249,34 +197,17 @@
       <div class="overlay-content-rules">
         <div class="background-container-transparency-rules">
           <div class="header-container-rules">
-            <div
-              class="header-rules"
-              id="rulesTitle"
-            >
-              Spielregeln:
-            </div>
+            <div class="header-rules" id="rulesTitle">Spielregeln:</div>
           </div>
           <div class="rules-content">
             <div class="rules-content-txt-button-container">
               <div class="rules-content-txt-container">
-                <p class="rules-txt">
-                  ⬅️ Pfeil links: Pepe läuft nach links.
-                </p>
-                <p class="rules-txt">
-                  ➡️ Pfeil rechts: Pepe läuft nach rechts.
-                </p>
-                <p class="rules-txt">
-                  ⬆️ Pfeil oben: Pepe springt.
-                </p>
-                <p class="rules-txt">
-                  SPACE (Leer): Pepe wirft eine Flasche.
-                </p>
-                <p class="rules-txt">
-                  🔇 T = Musik aus, 🔊 Z = Musik an.
-                </p>
-                <p class="rules-txt">
-                  ⏯️ P = Pause starten/beenden.
-                </p>
+                <p class="rules-txt">⬅️ Pfeil links: Pepe läuft nach links.</p>
+                <p class="rules-txt">➡️ Pfeil rechts: Pepe läuft nach rechts.</p>
+                <p class="rules-txt">⬆️ Pfeil oben: Pepe springt.</p>
+                <p class="rules-txt">SPACE (Leer): Pepe wirft eine Flasche.</p>
+                <p class="rules-txt">🔇 T = Musik aus, 🔊 Z = Musik an.</p>
+                <p class="rules-txt">⏯️ P = Pause starten/beenden.</p>
               </div>
               <div class="rules-menu-btn-container-alignement">
                 <button
@@ -303,44 +234,33 @@
       <div class="overlay-content-impressum">
         <div class="background-container-transparency-impressum">
           <div class="header-container-impressum">
-            <div
-              class="header-impressum-txt"
-              id="impressumTitle"
-            >
-              Impressum:
-            </div>
+            <div class="header-impressum-txt" id="impressumTitle">Impressum:</div>
           </div>
           <div class="impressum-content-container">
             <div class="impressum-content-txt">
-              <p class="impressum-headlines">
-                Angaben gemäß § 5 TMG
-              </p>
+              <p class="impressum-headlines">Angaben gemäß § 5 TMG</p>
               <p class="impressum-txt">
                 Jennifer Thomas <br />
                 Pfarrer-Müller-Str. 1 <br />
                 94431 Pilsting
               </p>
-              <p class="impressum-txt">
-                contact@jennifer-thomas.de
-              </p>
-              <p class="impressum-headlines">
-                Hinweis zum Projekt
-              </p>
+              <p class="impressum-txt">contact@jennifer-thomas.de</p>
+              <p class="impressum-headlines">Hinweis zum Projekt</p>
               <p class="impressum-txt">
                 Dieses Projekt
-                <i>
-                  El Pollo Loco
-                </i>
-                ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur Demonstration meiner Fähigkeiten als Frontend Developer dient.
+                <i> El Pollo Loco </i>
+                ist ein nicht-kommerzielles Lern- und Showcase-Game, das ausschließlich zur
+                Demonstration meiner Fähigkeiten als Frontend Developer dient.
               </p>
               <p class="impressum-txt">
-                Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA) zur Verfügung gestellt.
+                Die verwendeten Bilder, Grafiken und Vorgaben wurden von der Developer Akademie (DA)
+                zur Verfügung gestellt.
               </p>
-              <p class="impressum-headlines">
-                Haftungsausschluss
-              </p>
+              <p class="impressum-headlines">Haftungsausschluss</p>
               <p class="impressum-txt">
-                Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine Haftung ist ausgeschlossen.
+                Dieses Projekt verfolgt keinerlei geschäftliche Zwecke. Für die inhaltliche
+                Richtigkeit, Vollständigkeit oder Aktualität wird keine Gewähr übernommen. Eine
+                Haftung ist ausgeschlossen.
               </p>
               <div class="impressum-menu-btn-container-alignement">
                 <button
@@ -365,47 +285,21 @@
       aria-labelledby="pauseTxt"
     >
       <div class="pause-content">
-        <div
-          id="pauseTxt"
-          class="pause-header"
-        >
-          PAUSE
-        </div>
+        <div id="pauseTxt" class="pause-header">PAUSE</div>
+        <div class="pause-description">zum beenden der Pause</div>
+        <div class="pause-description">und starten des Countdowns</div>
         <div class="pause-description">
-          zum beenden der Pause
-        </div>
-        <div class="pause-description">
-          und starten des Countdowns
-        </div>
-        <div class="pause-description">
-          <button
-            class="pause-back-to-game-btn"
-            type="button"
-            aria-label="Pause beenden (Taste P)"
-          >
+          <button class="pause-back-to-game-btn" type="button" aria-label="Pause beenden (Taste P)">
             P
           </button>
-          <div
-            id="pauseCountdown"
-            class="pause-countdown-txt"
-            aria-live="polite"
-          ></div>
+          <div id="pauseCountdown" class="pause-countdown-txt" aria-live="polite"></div>
         </div>
-        <div class="pause-description">
-          drücken
-        </div>
+        <div class="pause-description">drücken</div>
       </div>
     </div>
-    <div
-      class="rotate-warning"
-      id="rotateWarning"
-      role="alert"
-      aria-live="assertive"
-    >
+    <div class="rotate-warning" id="rotateWarning" role="alert" aria-live="assertive">
       <div class="rotate-warning-container-logo-txt">
-        <p class="rotate-txt">
-          Drehe bitte dein Gerät ins Querformat.
-        </p>
+        <p class="rotate-txt">Drehe bitte dein Gerät ins Querformat.</p>
       </div>
     </div>
     <div
@@ -414,49 +308,23 @@
       aria-label="Mobile Steuerung für El Pollo Loco"
     >
       <div class="control-left-right">
-        <button
-          id="btn-left"
-          class="btn-left"
-          type="button"
-          aria-label="Nach links laufen"
-        >
-          <div class="button-sign-left">
-            ⬅️
-          </div>
+        <button id="btn-left" class="btn-left" type="button" aria-label="Nach links laufen">
+          <div class="button-sign-left">⬅️</div>
         </button>
-        <button
-          id="btn-right"
-          class="btn-right"
-          type="button"
-          aria-label="Nach rechts laufen"
-        >
-          <div class="button-sign-right">
-            ➡️
-          </div>
+        <button id="btn-right" class="btn-right" type="button" aria-label="Nach rechts laufen">
+          <div class="button-sign-right">➡️</div>
         </button>
       </div>
       <div class="control-throw-jump">
-        <button
-          id="btn-throw"
-          class="btn-throw"
-          type="button"
-          aria-label="Flasche werfen"
-        >
+        <button id="btn-throw" class="btn-throw" type="button" aria-label="Flasche werfen">
           <img
             class="button-sign-throw"
             src="./imgs/6_salsa_bottle/2_salsa_bottle_on_ground.png"
             alt="Flasche werfen"
           />
         </button>
-        <button
-          id="btn-jump"
-          class="btn-jump"
-          type="button"
-          aria-label="Springen"
-        >
-          <div class="button-sign-jump">
-            ⬆️
-          </div>
+        <button id="btn-jump" class="btn-jump" type="button" aria-label="Springen">
+          <div class="button-sign-jump">⬆️</div>
         </button>
       </div>
     </div>
@@ -470,43 +338,14 @@
     >
       <div class="endscreen-content">
         <div class="background-container-transparency-endscreen">
-          <div
-            class="endscreen-title"
-            id="endscreenTitle"
-          >
-            Herzlichen Glückwunsch !
-          </div>
+          <div class="endscreen-title" id="endscreenTitle">Herzlichen Glückwunsch !</div>
           <div class="endscreen-container-stats">
-            <p
-              id="stat-chickens"
-              class="endscreen-stat"
-              aria-live="polite"
-            ></p>
-            <p
-              id="stat-chickenBigs"
-              class="endscreen-stat"
-              aria-live="polite"
-            ></p>
-            <p
-              id="stat-chickenSmalls"
-              class="endscreen-stat"
-              aria-live="polite"
-            ></p>
-            <p
-              id="stat-hearts"
-              class="endscreen-stat"
-              aria-live="polite"
-            ></p>
-            <p
-              id="stat-coins"
-              class="endscreen-stat"
-              aria-live="polite"
-            ></p>
-            <p
-              id="stat-time"
-              class="endscreen-stat"
-              aria-live="polite"
-            ></p>
+            <p id="stat-chickens" class="endscreen-stat" aria-live="polite"></p>
+            <p id="stat-chickenBigs" class="endscreen-stat" aria-live="polite"></p>
+            <p id="stat-chickenSmalls" class="endscreen-stat" aria-live="polite"></p>
+            <p id="stat-hearts" class="endscreen-stat" aria-live="polite"></p>
+            <p id="stat-coins" class="endscreen-stat" aria-live="polite"></p>
+            <p id="stat-time" class="endscreen-stat" aria-live="polite"></p>
           </div>
           <div class="endscreen-buttons">
             <button

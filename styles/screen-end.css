@@ -1,4 +1,3 @@
-
 .endscreen-content {
   display: flex;
   justify-content: center;
@@ -14,7 +13,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-image: url('./../../imgs/5_background/happy-mexican.jpg');
+  background-image: url("./../../imgs/5_background/happy-mexican.jpg");
 }
 
 .background-container-transparency-endscreen {
@@ -31,7 +30,7 @@
 .endscreen-title {
   width: 90%;
   max-width: 600px;
-  font-family: 'zabras';
+  font-family: "zabras";
   font-size: 4rem;
   color: #ffd000;
   font-weight: 200;
@@ -59,7 +58,7 @@
   padding: 0rem;
   font-weight: 400;
   font-size: 1.5rem;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
   margin: 0;
@@ -76,7 +75,7 @@
 
 .endscreen-button {
   padding: 0.5rem 1rem;
-  font-family: 'Helvetic';
+  font-family: "Helvetic";
   font-size: 18px;
   font-weight: bold;
   background: #f7c25f;
@@ -87,7 +86,9 @@
 .endscreen-button:hover {
   background: #ffaa00;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
 }

@@ -13,7 +13,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-image: url('./../../imgs/9_intro_outro_screens/cancel/cancel.jpg');
+  background-image: url("./../../imgs/9_intro_outro_screens/cancel/cancel.jpg");
 }
 
 .cancel-box {
@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Zabras';
+  font-family: "Zabras";
   font-size: 2.5rem;
   color: #f3a71a;
 }
@@ -81,7 +81,7 @@
   font-size: 1.4rem;
   padding: 2rem;
   font-weight: bold;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
 }
@@ -100,7 +100,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-size: 1rem;
   font-weight: bold;
   background: #f7c25f;
@@ -112,7 +112,9 @@
 :hover .cancel-btn {
   background: #ffaa00;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
 }
@@ -124,7 +126,7 @@
   display: flex;
   text-align: right;
   font-size: 1rem;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   color: #00c3ff;
   white-space: nowrap;
   padding: 0.5rem 0;

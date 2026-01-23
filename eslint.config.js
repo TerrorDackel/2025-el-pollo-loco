@@ -12,13 +12,13 @@ module.exports = [
       sourceType: "script",
       globals: {
         ...globals.browser,
-        ...globals.node
-      }
+        ...globals.node,
+      },
     },
     rules: {
-      "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "no-undef": "warn",
-      "no-redeclare": "warn"
-    }
-  }
+      "no-redeclare": "warn",
+    },
+  },
 ];

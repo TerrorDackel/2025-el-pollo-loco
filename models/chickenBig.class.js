@@ -20,7 +20,7 @@ class ChickenBig extends MovableObject {
     "/imgs/4_enemie_boss_chicken/1_walk/G1.png",
     "/imgs/4_enemie_boss_chicken/1_walk/G2.png",
     "/imgs/4_enemie_boss_chicken/1_walk/G3.png",
-    "/imgs/4_enemie_boss_chicken/1_walk/G4.png"
+    "/imgs/4_enemie_boss_chicken/1_walk/G4.png",
   ];
 
   /**

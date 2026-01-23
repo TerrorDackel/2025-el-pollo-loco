@@ -5,10 +5,14 @@ vi.stubGlobal("SoundManager", {
   isMuted: false,
   pauseAllSounds: () => {},
   stopBackground: () => {},
-  playBackground: () => {}
+  playBackground: () => {},
 });
 vi.stubGlobal("GameOverScreen", { isVisible: () => false });
-vi.stubGlobal("PauseScreen", { showOverlay: () => {}, clearOverlay: () => {}, showCountdown: () => {} });
+vi.stubGlobal("PauseScreen", {
+  showOverlay: () => {},
+  clearOverlay: () => {},
+  showCountdown: () => {},
+});
 vi.stubGlobal("returnToStart", () => {});
 vi.stubGlobal("createLevel1", () => ({}));
 vi.stubGlobal("init", () => {});
@@ -24,8 +28,21 @@ beforeEach(() => {
     <button class="pause-back-to-game-btn"></button>
   `;
 
-  vi.stubGlobal("keyboard", { RIGHT: false, LEFT: false, UP: false, DOWN: false, D: false, lastActivity: 0, SPACE: false });
-  vi.stubGlobal("world", { running: true, pauseGame: () => {}, resumeGame: () => {}, level: { boss: null } });
+  vi.stubGlobal("keyboard", {
+    RIGHT: false,
+    LEFT: false,
+    UP: false,
+    DOWN: false,
+    D: false,
+    lastActivity: 0,
+    SPACE: false,
+  });
+  vi.stubGlobal("world", {
+    running: true,
+    pauseGame: () => {},
+    resumeGame: () => {},
+    level: { boss: null },
+  });
   vi.stubGlobal("gamePaused", false);
   vi.stubGlobal("countdownActive", false);
 });

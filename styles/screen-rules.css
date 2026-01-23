@@ -1,4 +1,3 @@
-
 .overlay-content-rules {
   display: flex;
   justify-content: center;
@@ -14,7 +13,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-image: url('./../../imgs/5_background/mex skulls.jpg');
+  background-image: url("./../../imgs/5_background/mex skulls.jpg");
 }
 
 .background-container-transparency-rules {
@@ -40,7 +39,7 @@
 }
 
 .header-rules {
-  font-family: 'zabras';
+  font-family: "zabras";
   font-size: 4rem;
   color: #ffd000;
   font-weight: 200;
@@ -82,7 +81,7 @@
   padding: 0;
   font-weight: 400;
   font-size: 1.5rem;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
   margin: 0;
@@ -97,7 +96,7 @@
   margin: 0;
   padding: 0 0 0.3rem 0;
   font-weight: 400;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   color: #00c3ff;
   text-shadow: 2px 2px 2px black;
 }
@@ -119,7 +118,7 @@
   align-items: center;
   width: 15rem;
   height: 2.5rem;
-  font-family:'Helvetica';
+  font-family: "Helvetica";
   font-size: 18px;
   font-weight: bold;
   background: #f7c25f;
@@ -132,7 +131,9 @@
 .rules-menu-button-rules-close:hover {
   background: #ffaa00;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
 }

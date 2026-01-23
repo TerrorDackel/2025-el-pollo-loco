@@ -29,7 +29,7 @@ function createEnemies() {
     new Chicken(),
     new ChickenBig(),
     new Chicken(),
-    new Chicken()
+    new Chicken(),
   ];
   return enemies;
 }
@@ -49,7 +49,6 @@ function createClouds() {
  * @returns {BackgroundObject[]} Background elements
  */
 function createBackgroundObjects() {
-
   const bg = [
     new BackgroundObject("./imgs/5_background/layers/air.png", -100, -300, 800, 720),
     new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", -100, -300, 800, 720),
@@ -62,24 +61,96 @@ function createBackgroundObjects() {
     new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 620, -300, 800, 720),
 
     new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", 620 + 720, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", 620 + 720, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/1_first_layer/1.png", 620 + 720, -300, 800, 720),
+    new BackgroundObject(
+      "./imgs/5_background/layers/3_third_layer/1.png",
+      620 + 720,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/2_second_layer/1.png",
+      620 + 720,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/1_first_layer/1.png",
+      620 + 720,
+      -300,
+      800,
+      720
+    ),
 
     new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720 * 2, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 620 + 720 * 2, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 620 + 720 * 2, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 620 + 720 * 2, -300, 800, 720),
+    new BackgroundObject(
+      "./imgs/5_background/layers/3_third_layer/2.png",
+      620 + 720 * 2,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/2_second_layer/2.png",
+      620 + 720 * 2,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/1_first_layer/2.png",
+      620 + 720 * 2,
+      -300,
+      800,
+      720
+    ),
 
     new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720 * 3, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/3_third_layer/1.png", 620 + 720 * 3, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/2_second_layer/1.png", 620 + 720 * 3, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/1_first_layer/1.png", 620 + 720 * 3, -300, 800, 720),
+    new BackgroundObject(
+      "./imgs/5_background/layers/3_third_layer/1.png",
+      620 + 720 * 3,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/2_second_layer/1.png",
+      620 + 720 * 3,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/1_first_layer/1.png",
+      620 + 720 * 3,
+      -300,
+      800,
+      720
+    ),
 
     new BackgroundObject("./imgs/5_background/layers/air.png", 620 + 720 * 4, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/3_third_layer/2.png", 620 + 720 * 4, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/2_second_layer/2.png", 620 + 720 * 4, -300, 800, 720),
-    new BackgroundObject("./imgs/5_background/layers/1_first_layer/2.png", 620 + 720 * 4, -300, 800, 720)
+    new BackgroundObject(
+      "./imgs/5_background/layers/3_third_layer/2.png",
+      620 + 720 * 4,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/2_second_layer/2.png",
+      620 + 720 * 4,
+      -300,
+      800,
+      720
+    ),
+    new BackgroundObject(
+      "./imgs/5_background/layers/1_first_layer/2.png",
+      620 + 720 * 4,
+      -300,
+      800,
+      720
+    ),
   ];
   return bg;
 }

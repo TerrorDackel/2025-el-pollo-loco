@@ -1,4 +1,4 @@
-/** 
+/**
  * Global game state
  */
 let canvas;
@@ -45,11 +45,12 @@ function init(level = level1) {
   window.addEventListener("resize", resizeCanvas);
   world = new World(canvas, keyboard, level);
   window.world = world;
-  if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility) CancelOverlay.updateAbortButtonVisibility();
+  if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility)
+    CancelOverlay.updateAbortButtonVisibility();
 }
 
 /**
- * Resizes the canvas proportionally to the window. 
+ * Resizes the canvas proportionally to the window.
  */
 function resizeCanvas() {
   const scaleX = window.innerWidth / canvas.width;
@@ -57,10 +58,10 @@ function resizeCanvas() {
   const scale = Math.min(scaleX, scaleY);
   canvas.style.width = canvas.width * scale + "px";
   canvas.style.height = canvas.height * scale + "px";
-} 
+}
 
-/** 
- * Resets the game to its initial state. 
+/**
+ * Resets the game to its initial state.
  */
 function resetGame() {
   clearAllIntervals();
@@ -71,7 +72,7 @@ function resetGame() {
 }
 
 /**
- * Clears all active intervals and timeouts. 
+ * Clears all active intervals and timeouts.
  */
 function clearAllIntervals() {
   const highestId = setTimeout(() => {}, 0);
@@ -81,28 +82,30 @@ function clearAllIntervals() {
   }
 }
 
-/** 
- * Stops character animations if active. 
+/**
+ * Stops character animations if active.
  */
 function stopAnimations() {
   if (world && world.character?.animationInterval) {
-      clearInterval(world.character.animationInterval);
+    clearInterval(world.character.animationInterval);
   }
 }
 
-/** 
- * Removes global keyboard event listeners. 
+/**
+ * Removes global keyboard event listeners.
  */
 function removeEventListeners() {
   window.removeEventListener("keydown", handleKeyDown);
   window.removeEventListener("keyup", handleKeyUp);
 }
 
-/** 
- * Utilities for restart prompt (static HTML). 
+/**
+ * Utilities for restart prompt (static HTML).
  * Deprecated: direct DOM visibility checks replaced by GameOverScreen.isVisible().
  */
-function getRestartPromptEl() { return document.getElementById("restartPrompt"); }
+function getRestartPromptEl() {
+  return document.getElementById("restartPrompt");
+}
 
 /**
  * Displays the restart confirmation overlay (delegated to GameOverScreen).
@@ -118,7 +121,7 @@ function showRestartPrompt() {
  */
 function isRestartPromptVisible() {
   if (typeof GameOverScreen !== "undefined" && GameOverScreen.isVisible) {
-      return GameOverScreen.isVisible();
+    return GameOverScreen.isVisible();
   }
   const el = getRestartPromptEl();
   return !!(el && !el.classList.contains("is-hidden"));
@@ -144,7 +147,7 @@ function handleSpaceKey() {
     keyboard.SPACE = true;
     if (world) world.tryThrowObject();
   }
-} 
+}
 
 /**
  * Keeps idle timing consistent for both keyboard and touch.
@@ -183,11 +186,11 @@ window.addEventListener("keydown", (e) => {
 
   /* New gating: when prompt visible → only J or N allowed. */
   if (world && !world.running) {
-      if (promptVisible) {
-        if (![74, 78].includes(code)) return; // J, N only
-      } else {
-        if (code !== 80) return; // only P
-      }
+    if (promptVisible) {
+      if (![74, 78].includes(code)) return; // J, N only
+    } else {
+      if (code !== 80) return; // only P
+    }
   }
 
   if (gamePaused && code !== 80) return;
@@ -200,24 +203,53 @@ window.addEventListener("keydown", (e) => {
  */
 function handleKeyDownEvents_code(code) {
   switch (code) {
-    case 39: keyboard.RIGHT = true; break;
-    case 37: keyboard.LEFT = true; break;
-    case 38: keyboard.UP = true; break;
-    case 40: keyboard.DOWN = true; break;
-    case 32: handleSpaceKey(); break;
-    case 68: keyboard.D = true; break;
-    case 70: keyboard.F = true; break;
-    case 74: keyboard.J = true; break;
-    case 78: keyboard.N = true; break;
-    case 45: keyboard.ZERO = true; break;
-    case 77: keyboard.M = true; break;
-    case 80: togglePause(); break;
-    case 90: SoundManager.unmuteAll(); break;
-    case 84: SoundManager.muteAll(); break;
+    case 39:
+      keyboard.RIGHT = true;
+      break;
+    case 37:
+      keyboard.LEFT = true;
+      break;
+    case 38:
+      keyboard.UP = true;
+      break;
+    case 40:
+      keyboard.DOWN = true;
+      break;
+    case 32:
+      handleSpaceKey();
+      break;
+    case 68:
+      keyboard.D = true;
+      break;
+    case 70:
+      keyboard.F = true;
+      break;
+    case 74:
+      keyboard.J = true;
+      break;
+    case 78:
+      keyboard.N = true;
+      break;
+    case 45:
+      keyboard.ZERO = true;
+      break;
+    case 77:
+      keyboard.M = true;
+      break;
+    case 80:
+      togglePause();
+      break;
+    case 90:
+      SoundManager.unmuteAll();
+      break;
+    case 84:
+      SoundManager.muteAll();
+      break;
     case 27:
       if (typeof CancelOverlay !== "undefined" && CancelOverlay.show) CancelOverlay.show();
       break;
-    default: break;
+    default:
+      break;
   }
 }
 
@@ -228,18 +260,41 @@ function handleKeyDownEvents_code(code) {
  */
 function handleKeyDownEvents(e) {
   switch (e.keyCode) {
-    case 39: keyboard.RIGHT = true; break;
-    case 37: keyboard.LEFT = true; break;
-    case 38: keyboard.UP = true; break;
-    case 40: keyboard.DOWN = true; break;
-    case 32: handleSpaceKey(); break;
-    case 68: keyboard.D = true; break;
-    case 77: keyboard.M = true; break;
-    case 74: keyboard.J = true; break;
-    case 78: keyboard.N = true; break;
-    case 45: keyboard.ZERO = true; break;
-    case 80: keyboard.PAUSE = true; break;
-    default: break;
+    case 39:
+      keyboard.RIGHT = true;
+      break;
+    case 37:
+      keyboard.LEFT = true;
+      break;
+    case 38:
+      keyboard.UP = true;
+      break;
+    case 40:
+      keyboard.DOWN = true;
+      break;
+    case 32:
+      handleSpaceKey();
+      break;
+    case 68:
+      keyboard.D = true;
+      break;
+    case 77:
+      keyboard.M = true;
+      break;
+    case 74:
+      keyboard.J = true;
+      break;
+    case 78:
+      keyboard.N = true;
+      break;
+    case 45:
+      keyboard.ZERO = true;
+      break;
+    case 80:
+      keyboard.PAUSE = true;
+      break;
+    default:
+      break;
   }
 }
 
@@ -254,18 +309,41 @@ window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
  */
 function handleKeyUpEvents(e) {
   switch (e.keyCode) {
-    case 39: keyboard.RIGHT = false; break;
-    case 37: keyboard.LEFT = false; break;
-    case 38: keyboard.UP = false; break;
-    case 40: keyboard.DOWN = false; break;
-    case 32: keyboard.SPACE = false; break;
-    case 68: keyboard.D = false; break;
-    case 77: keyboard.M = false; break;
-    case 74: keyboard.J = false; break;
-    case 78: keyboard.N = false; break;
-    case 45: keyboard.ZERO = false; break;
-    case 80: keyboard.PAUSE = false; break;
-    default: break;
+    case 39:
+      keyboard.RIGHT = false;
+      break;
+    case 37:
+      keyboard.LEFT = false;
+      break;
+    case 38:
+      keyboard.UP = false;
+      break;
+    case 40:
+      keyboard.DOWN = false;
+      break;
+    case 32:
+      keyboard.SPACE = false;
+      break;
+    case 68:
+      keyboard.D = false;
+      break;
+    case 77:
+      keyboard.M = false;
+      break;
+    case 74:
+      keyboard.J = false;
+      break;
+    case 78:
+      keyboard.N = false;
+      break;
+    case 45:
+      keyboard.ZERO = false;
+      break;
+    case 80:
+      keyboard.PAUSE = false;
+      break;
+    default:
+      break;
   }
 }
 
@@ -352,7 +430,7 @@ function drawPauseScreen() {
 /**
  * Clears pause overlay.
  * Previously forced a redraw; now delegates to PauseScreen.
-  */
+ */
 function clearPauseScreen() {
   PauseScreen.clearOverlay();
 }
@@ -363,10 +441,10 @@ function clearPauseScreen() {
  * @returns {Function} Wrapped handler.
  */
 function withPrevent(fn) {
-  return (e) => { 
-    e.preventDefault(); 
+  return (e) => {
+    e.preventDefault();
     noteActivity();
-    fn(); 
+    fn();
   };
 }
 
@@ -387,16 +465,22 @@ function attachTouch(btn, onStart, onEnd) {
  * Maps on-screen buttons to keyboard flags.
  */
 function initMobileControls() {
-  const map = [["btn-left","LEFT"], ["btn-right","RIGHT"], ["btn-jump","UP"]];
-  map.forEach(([id, key]) => attachTouch(
-    document.getElementById(id),
-    withPrevent(() => keyboard[key] = true),
-    withPrevent(() => keyboard[key] = false)
-  ));
+  const map = [
+    ["btn-left", "LEFT"],
+    ["btn-right", "RIGHT"],
+    ["btn-jump", "UP"],
+  ];
+  map.forEach(([id, key]) =>
+    attachTouch(
+      document.getElementById(id),
+      withPrevent(() => (keyboard[key] = true)),
+      withPrevent(() => (keyboard[key] = false))
+    )
+  );
   attachTouch(
     document.getElementById("btn-throw"),
     withPrevent(() => handleSpaceKey()),
-    withPrevent(() => keyboard.SPACE = false)
+    withPrevent(() => (keyboard.SPACE = false))
   );
 }
 
@@ -408,8 +492,8 @@ function initMobileControls() {
 function updateUiVisibility() {
   updateOrientationBodyClass();
   updateMobileControlsVisibility();
-  if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility) CancelOverlay.updateAbortButtonVisibility();
-
+  if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility)
+    CancelOverlay.updateAbortButtonVisibility();
 }
 
 /**
@@ -434,7 +518,9 @@ function isTouchDevice() {
  * @returns {boolean} True if landscape conditions are met.
  */
 function isLandscapeViewport() {
-  return window.matchMedia("(orientation: landscape)").matches || window.innerWidth >= window.innerHeight;
+  return (
+    window.matchMedia("(orientation: landscape)").matches || window.innerWidth >= window.innerHeight
+  );
 }
 
 /**
@@ -473,7 +559,14 @@ function isOverlayBlockingMobileControls() {
 function updateMobileControlsVisibility() {
   const mobileControls = document.getElementById("mobileControls");
   if (!mobileControls) return;
-  const shouldShow = isTouchDevice() && isLandscapeViewport() && !document.body.classList.contains("is-portrait") && !isOverlayBlockingMobileControls() && !!(world && world.running === true) && !gamePaused && !countdownActive;
+  const shouldShow =
+    isTouchDevice() &&
+    isLandscapeViewport() &&
+    !document.body.classList.contains("is-portrait") &&
+    !isOverlayBlockingMobileControls() &&
+    !!(world && world.running === true) &&
+    !gamePaused &&
+    !countdownActive;
   mobileControls.classList.toggle("overlay-hidden", !shouldShow);
 }
 

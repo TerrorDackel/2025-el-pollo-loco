@@ -13,7 +13,7 @@ class Character extends MovableObject {
   idleAnimMs = 100; /* <- kleiner = schnelleres Idle-Framewechseln */
 
   /** Independent throttle for JUMP frame rate (ms per frame). */
-  jumpAnimMs = 90;  /* <- kleiner = schnelleres Jump-Framewechseln */
+  jumpAnimMs = 90; /* <- kleiner = schnelleres Jump-Framewechseln */
 
   /** Internal timestamp markers for throttled animations. */
   _lastIdleFrameAt = 0;
@@ -33,8 +33,7 @@ class Character extends MovableObject {
     "./imgs/2_character_pepe/1_idle/idle/I-7.png",
     "./imgs/2_character_pepe/1_idle/idle/I-8.png",
     "./imgs/2_character_pepe/1_idle/idle/I-9.png",
-    "./imgs/2_character_pepe/1_idle/idle/I-10.png"
-
+    "./imgs/2_character_pepe/1_idle/idle/I-10.png",
   ];
 
   IMAGES_SLEEP = [
@@ -47,7 +46,7 @@ class Character extends MovableObject {
     "./imgs/2_character_pepe/1_idle/long_idle/I-17.png",
     "./imgs/2_character_pepe/1_idle/long_idle/I-18.png",
     "./imgs/2_character_pepe/1_idle/long_idle/I-19.png",
-    "./imgs/2_character_pepe/1_idle/long_idle/I-20.png"
+    "./imgs/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
   /**
@@ -60,7 +59,7 @@ class Character extends MovableObject {
     "./imgs/2_character_pepe/2_walk/W-23.png",
     "./imgs/2_character_pepe/2_walk/W-24.png",
     "./imgs/2_character_pepe/2_walk/W-25.png",
-    "./imgs/2_character_pepe/2_walk/W-26.png"
+    "./imgs/2_character_pepe/2_walk/W-26.png",
   ];
 
   /**
@@ -77,7 +76,7 @@ class Character extends MovableObject {
     "./imgs/2_character_pepe/3_jump/J-37.png",
     "./imgs/2_character_pepe/3_jump/J-38.png",
     "./imgs/2_character_pepe/3_jump/J-39.png",
-    "./imgs/2_character_pepe/2_walk/W-26.png"
+    "./imgs/2_character_pepe/2_walk/W-26.png",
   ];
 
   /**
@@ -87,7 +86,7 @@ class Character extends MovableObject {
   IMAGES_HURT = [
     "./imgs/2_character_pepe/4_hurt/H-41.png",
     "./imgs/2_character_pepe/4_hurt/H-42.png",
-    "./imgs/2_character_pepe/4_hurt/H-43.png"
+    "./imgs/2_character_pepe/4_hurt/H-43.png",
   ];
 
   /**
@@ -101,7 +100,7 @@ class Character extends MovableObject {
     "./imgs/2_character_pepe/5_dead/D-54.png",
     "./imgs/2_character_pepe/5_dead/D-55.png",
     "./imgs/2_character_pepe/5_dead/D-56.png",
-    "./imgs/2_character_pepe/5_dead/D-57.png"
+    "./imgs/2_character_pepe/5_dead/D-57.png",
   ];
 
   /** @type {number} Interval ID for animation loop. */
@@ -148,13 +147,13 @@ class Character extends MovableObject {
    * Connects the character with the game world.
    * @param {World} world - The game world instance.
    */
-  setWorld(world) { 
-    this.world = world; 
+  setWorld(world) {
+    this.world = world;
   }
 
   /** Adds a collected bottle to the character’s inventory. */
-  addBottle() { 
-    this.collectedBottles++; 
+  addBottle() {
+    this.collectedBottles++;
   }
 
   /** Starts the main animation loop. */
@@ -170,13 +169,13 @@ class Character extends MovableObject {
   }
 
   /** Pauses the animation loop. */
-  pauseAnimation() { 
-    clearInterval(this.animationInterval); 
+  pauseAnimation() {
+    clearInterval(this.animationInterval);
   }
 
   /** Resumes the animation loop. */
-  resumeAnimation() { 
-    this.animate(); 
+  resumeAnimation() {
+    this.animate();
   }
 
   /** Handles player movement based on input. */
@@ -214,7 +213,9 @@ class Character extends MovableObject {
   }
 
   /** Updates the camera position relative to the character. */
-  updateCamera() { this.world.camera_x = -this.x + 100; }
+  updateCamera() {
+    this.world.camera_x = -this.x + 100;
+  }
 
   /**
    * Selects and plays the appropriate animation for the current state.
@@ -302,8 +303,8 @@ class Character extends MovableObject {
   }
 
   /** Initiates a jump. */
-  jump() { 
-    this.speedY = 33; 
+  jump() {
+    this.speedY = 33;
   }
 
   /**
@@ -316,7 +317,7 @@ class Character extends MovableObject {
       left: o.x + (o.offsetLeft || 0),
       right: o.x + o.width - (o.offsetRight || 0),
       top: o.y + (o.offsetTop || 0),
-      bottom: o.y + o.height - (o.offsetBottom || 0)
+      bottom: o.y + o.height - (o.offsetBottom || 0),
     };
   }
 
@@ -330,7 +331,7 @@ class Character extends MovableObject {
     const en = this.getBox(enemy);
     const xOverlap = meNow.right > en.left && meNow.left < en.right;
     const wasAbove = this.prevBottom <= en.top;
-    const hitTop = meNow.bottom >= en.top; 
+    const hitTop = meNow.bottom >= en.top;
     const result = xOverlap && wasAbove && hitTop;
     return result;
   }

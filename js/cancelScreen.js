@@ -17,7 +17,11 @@ class CancelOverlay {
     CancelOverlay.resetMovementFlags();
 
     if (typeof world !== "undefined" && world && world.running) {
-      try { world.pauseGame(); } catch { /* Intentionally ignored: world may not support pausing in all states. */ }
+      try {
+        world.pauseGame();
+      } catch {
+        /* Intentionally ignored: world may not support pausing in all states. */
+      }
     }
 
     if (typeof SoundManager !== "undefined") {
@@ -51,7 +55,12 @@ class CancelOverlay {
     if (world.running !== true) return false;
     if (typeof gamePaused !== "undefined" && gamePaused) return false;
     if (typeof countdownActive !== "undefined" && countdownActive) return false;
-    if (typeof GameOverScreen !== "undefined" && GameOverScreen.isVisible && GameOverScreen.isVisible()) return false;
+    if (
+      typeof GameOverScreen !== "undefined" &&
+      GameOverScreen.isVisible &&
+      GameOverScreen.isVisible()
+    )
+      return false;
     return true;
   }
 
@@ -96,8 +105,20 @@ class CancelOverlay {
         if (key === "n") CancelOverlay.continueGame();
       };
 
-      btn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); run(); });
-      btn.addEventListener("touchend", (e) => { e.preventDefault(); e.stopPropagation(); run(); }, { passive: false });
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        run();
+      });
+      btn.addEventListener(
+        "touchend",
+        (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          run();
+        },
+        { passive: false }
+      );
     });
 
     overlay._cancelBound = true;
@@ -106,7 +127,11 @@ class CancelOverlay {
   static continueGame() {
     CancelOverlay.hide();
     if (typeof world !== "undefined" && world) {
-      try { world.resumeGame(); } catch { /* Intentionally ignored: world may not support resuming in all states. */ }
+      try {
+        world.resumeGame();
+      } catch {
+        /* Intentionally ignored: world may not support resuming in all states. */
+      }
     }
     if (typeof resumeAudioForWorld === "function") resumeAudioForWorld();
     if (typeof updateUiVisibility === "function") updateUiVisibility();
@@ -121,7 +146,11 @@ class CancelOverlay {
     if (typeof clearAllIntervals === "function") clearAllIntervals();
 
     if (typeof world !== "undefined" && world) {
-      try { world.pauseGame(); } catch { /* Intentionally ignored: world may not support pausing in all states. */ }
+      try {
+        world.pauseGame();
+      } catch {
+        /* Intentionally ignored: world may not support pausing in all states. */
+      }
       world.running = false;
     }
 

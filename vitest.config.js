@@ -4,6 +4,6 @@ module.exports = defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./tests/vitest.setup.js"],
-    include: ["tests/**/*.test.js"]
-  }
+    include: ["tests/**/*.test.js"],
+  },
 });

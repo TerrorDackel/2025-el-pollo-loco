@@ -4,7 +4,6 @@
  * Extends DrawableObject for rendering support.
  */
 class Bottle extends DrawableObject {
-
   /**
    * Initialises a new bottle instance with size and default image.
    */
