@@ -46,6 +46,7 @@ function init(level = level1) {
   world = new World(canvas, keyboard, level);
   window.world = world;
   if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility) CancelOverlay.updateAbortButtonVisibility();
+  if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
 
 /**
@@ -171,26 +172,87 @@ function getKeyCode(e) {
 }
 
 /**
- * Global keydown handler that gates inputs during pause or while prompts are open.
- * Professional: P is blocked when game over is visible.
+ * Returns whether cancel overlay is currently visible.
+ * @returns {boolean} True if visible, otherwise false.
  */
-window.addEventListener("keydown", (e) => {
+function isCancelOverlayVisible() {
+  if (typeof CancelOverlay !== "undefined" && CancelOverlay.isVisible) return CancelOverlay.isVisible();
+  const el = document.getElementById("cancelOverlay");
+  return !!(el && !el.classList.contains("is-hidden"));
+}
+
+/**
+ * Returns whether endscreen overlay is currently visible.
+ * @returns {boolean} True if visible, otherwise false.
+ */
+function isEndscreenVisible() {
+  const el = document.getElementById("endscreenOverlay");
+  return !!(el && !el.classList.contains("overlay-hidden"));
+}
+
+/**
+ * Returns whether pause overlay is currently visible.
+ * @returns {boolean} True if visible, otherwise false.
+ */
+function isPauseOverlayVisible() {
+  const el = document.getElementById("pauseOverlay");
+  return !!(el && !el.classList.contains("pause-overlay-hidden"));
+}
+
+/**
+ * Blocks gameplay keys while overlays are open.
+ * Returns a whitelist of allowed key codes for the currently open overlay.
+ * @returns {number[]|null} Allowed key codes, or null if no overlay blocks gameplay.
+ */
+function getOverlayKeyWhitelist() {
+  if (isCancelOverlayVisible()) return [74, 78]; /* J, N */
+  if (isRestartPromptVisible()) return [74, 78]; /* J, N */
+  if (isEndscreenVisible()) return []; /* no gameplay keys on endscreen */
+  if (isPauseOverlayVisible()) return [80]; /* P only */
+  return null;
+}
+
+/**
+ * Named keydown handler so removeEventListeners() works.
+ * @param {KeyboardEvent} e - The keyboard event.
+ */
+function handleKeyDown(e) {
   noteActivity();
   const code = getKeyCode(e);
-  const promptVisible = isRestartPromptVisible();
+  const whitelist = getOverlayKeyWhitelist();
 
-  /* New gating: when prompt visible → only J or N allowed. */
-  if (world && !world.running) {
-      if (promptVisible) {
-        if (![74, 78].includes(code)) return; // J, N only
-      } else {
-        if (code !== 80) return; // only P
-      }
+  if (whitelist !== null) {
+    if (!whitelist.includes(code)) return;
+  } else {
+    if (gamePaused && code !== 80) return;
   }
 
-  if (gamePaused && code !== 80) return;
   handleKeyDownEvents_code(code);
-});
+}
+
+/**
+ * Named keyup handler so removeEventListeners() works.
+ * @param {KeyboardEvent} e - The keyboard event.
+ */
+function handleKeyUp(e) {
+  handleKeyUpEvents(e);
+}
+
+/* Previously used anonymous listeners; kept disabled to avoid double-binding. */
+/* document.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("keydown", (e) => { ... });
+  window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
+}); */ /* Disabled: replaced by named handlers so removeEventListeners() can work. */
+
+/**
+ * Global keydown handler registration.
+ */
+window.addEventListener("keydown", handleKeyDown);
+
+/**
+ * Global keyup handler registration.
+ */
+window.addEventListener("keyup", handleKeyUp);
 
 /**
  * Processes keydown events by numeric code.
@@ -240,11 +302,6 @@ function handleKeyDownEvents(e) {
     default: break;
   }
 }
-
-/**
- * Global keyup handler.
- */
-window.addEventListener("keyup", (e) => handleKeyUpEvents(e));
 
 /**
  * Sets keyboard flags for keyup events.
@@ -347,13 +404,10 @@ function drawPauseScreen() {
   PauseScreen.showOverlay();
 }
 
-/**
- * Clears pause overlay.
- * Previously forced a redraw; now delegates to PauseScreen.
-  */
-function clearPauseScreen() {
+/* Duplicate clearPauseScreen() existed further below. */
+/* function clearPauseScreen() {
   PauseScreen.clearOverlay();
-}
+} */ /* Disabled: duplicate definition causes ambiguity; earlier definition is the active one. */
 
 /**
  * Wraps a handler so it always calls preventDefault first.
@@ -406,7 +460,6 @@ function updateUiVisibility() {
   updateOrientationBodyClass();
   updateMobileControlsVisibility();
   if (typeof CancelOverlay !== "undefined" && CancelOverlay.updateAbortButtonVisibility) CancelOverlay.updateAbortButtonVisibility();
-
 }
 
 function updateOrientationBodyClass() {

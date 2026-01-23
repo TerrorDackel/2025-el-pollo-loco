@@ -1,4 +1,4 @@
-/**
+/** 
  * Manages the game over overlay (formerly restartPrompt).
  * Encapsulates visibility state, keyboard handling and button wiring.
  */
@@ -12,8 +12,9 @@ class GameOverScreen {
     if (!overlay) return;
 
     overlay.classList.remove("is-hidden");
-    if (typeof updateUiVisibility === "function") updateUiVisibility();
     GameOverScreen._visible = true;
+
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
 
     if (typeof world !== "undefined" && world && world.running) {
         try { world.pauseGame(); } catch (_) {}
@@ -31,8 +32,9 @@ class GameOverScreen {
     if (!overlay) return;
 
     overlay.classList.add("is-hidden");
-    if (typeof updateUiVisibility === "function") updateUiVisibility();
     GameOverScreen._visible = false;
+
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
 
     document.removeEventListener("keydown", GameOverScreen.handleKeyEvent);
   }
@@ -58,19 +60,39 @@ class GameOverScreen {
    * @param {KeyboardEvent} e - The keyboard event.
    */
   static handleKeyEvent(e) {
-    const key = e.key.toLowerCase();
+    if (!GameOverScreen.isVisible()) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const key = (e.key || "").toLowerCase();
     if (key === "j") {
-      GameOverScreen.hide();
-      try { init(createLevel1()); } catch (_) { location.reload(); }
-      if (typeof updateUiVisibility === "function") updateUiVisibility();
+      GameOverScreen.restart();
     } else if (key === "n") {
-      GameOverScreen.hide();
-      returnToStart();
+      GameOverScreen.backToStart();
     }
   }
 
   /**
-   * Wires buttons once; converts clicks to keyboard events.
+   * Restarts the game from level 1.
+   */
+  static restart() {
+    GameOverScreen.hide();
+    try { init(createLevel1()); } catch (_) { location.reload(); }
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
+  }
+
+  /**
+   * Returns to the start screen.
+   */
+  static backToStart() {
+    GameOverScreen.hide();
+    returnToStart();
+    if (typeof updateUiVisibility === "function") updateUiVisibility();
+  }
+
+  /**
+   * Wires buttons once; calls actions directly (no synthetic keyboard events).
    */
   static bindButtons() {
     const overlay = document.getElementById("restartPrompt");
@@ -79,10 +101,14 @@ class GameOverScreen {
 
     const buttons = overlay.querySelectorAll(".restart-btn");
     buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const key = btn.textContent.trim().toLowerCase(); // "j" or "n"
-        document.dispatchEvent(new KeyboardEvent("keydown", { key }));
-      });
+      const run = () => {
+        const key = (btn.textContent || "").trim().toLowerCase();
+        if (key === "j") GameOverScreen.restart();
+        if (key === "n") GameOverScreen.backToStart();
+      };
+
+      btn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); run(); });
+      btn.addEventListener("touchend", (e) => { e.preventDefault(); e.stopPropagation(); run(); }, { passive: false });
     });
 
     overlay._goBound = true;
