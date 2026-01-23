@@ -10,14 +10,14 @@
     "prettier": "^3.8.1",
     "vitest": "^4.0.18"
   },
-    "scripts": {
+  "scripts": {
     "lint": "eslint .",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "prepare": "husky"
   },
-
   "lint-staged": {
     "*.{js,css,html,json,md}": [
       "prettier --write"
