@@ -19,8 +19,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100dvw;
-  height: 100dsvh;
+  width: 100svw;
+  height: 100svh;
   background-color: black;
   background-image: url("../imgs/5_background/desert.png");
   background-size: cover;
@@ -89,7 +89,7 @@ canvas {
   align-items: center;
   background-color: black;
   max-height: 480px;
-  width: 100dvw;
+  width: 100svw;
   height: 100svh;
   max-width: 720px;
   z-index: 10;
@@ -100,7 +100,7 @@ canvas {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100dvw;
+  width: 100svw;
   height: 100svh;
   background: rgba(0, 0, 0, 0.9);
   display: flex;

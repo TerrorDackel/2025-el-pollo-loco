@@ -2,7 +2,7 @@
   display: none;
   position: fixed;
   inset: 0;
-  width: 100vw;
+  width: 100svw;
   height: 100svh;
   background-color: black;
   background-image: url("../imgs/5_background/mobile-rotate-bright.jpg");
