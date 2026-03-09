@@ -4,6 +4,7 @@
  * and then initialising the world.
  */
 async function startGame() {
+  cancelStartButtonIdle();
   const startScreen = document.getElementById("startScreen");
   if (startScreen) startScreen.classList.add("overlay-hidden");
 
@@ -19,6 +20,47 @@ async function startGame() {
   hideLoadingOverlay();
   init(createLevel1());
   if (typeof updateUiVisibility === "function") updateUiVisibility();
+}
+
+let startIdleTimeoutId;
+
+/**
+ * Sets up a gentle idle pulse for the primary start button
+ * after a short period of inactivity on the start screen.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("btn-start-primary");
+  if (!btn) return;
+  btn.classList.add("primary-start");
+
+  const schedule = () => {
+    clearTimeout(startIdleTimeoutId);
+    startIdleTimeoutId = setTimeout(() => {
+      btn.classList.add("is-idle");
+    }, 4000);
+  };
+
+  ["mousemove", "keydown", "click", "touchstart"].forEach((evt) => {
+    window.addEventListener(
+      evt,
+      () => {
+        btn.classList.remove("is-idle");
+        schedule();
+      },
+      { passive: true }
+    );
+  });
+
+  schedule();
+});
+
+/**
+ * Cancels the idle pulse when the game actually starts.
+ */
+function cancelStartButtonIdle() {
+  clearTimeout(startIdleTimeoutId);
+  const btn = document.getElementById("btn-start-primary");
+  if (btn) btn.classList.remove("is-idle");
 }
 
 /**

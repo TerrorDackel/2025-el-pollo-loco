@@ -8,11 +8,8 @@
   max-height: 480px;
   inset: 0;
   opacity: 0;
-  transform: scale(0.7);
-  transition:
-    opacity 2.5s ease-out,
-    transform 2s ease-out;
-  animation: fadeIn 2.5s forwards;
+  transform: translateY(20px) scale(0.96);
+  animation: fadeInStartScreen 800ms ease-out forwards;
   z-index: 15;
   background-image: url("../imgs/5_background/smiling-mexican-girl.jpg");
   background-repeat: no-repeat;
@@ -79,5 +76,79 @@
   background: #f7c25f;
   color: black;
   cursor: pointer;
-  transition: background 0.3s;
+  transition:
+    background 0.2s ease-out,
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+}
+
+.menu-btn-start:hover,
+.menu-btn-start:focus-visible {
+  background: #ffaa00;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+.menu-btn-start:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.menu-btn-start.primary-start {
+  position: relative;
+}
+
+.menu-btn-start.primary-start::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid rgba(255, 208, 0, 0.4);
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.menu-btn-start.primary-start.is-idle {
+  animation: pulseStartButton 1600ms ease-in-out infinite;
+}
+
+.menu-btn-start.primary-start.is-idle::after {
+  animation: pulseStartButtonOutline 1600ms ease-in-out infinite;
+}
+
+@keyframes fadeInStartScreen {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseStartButton {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.03);
+  }
+}
+
+@keyframes pulseStartButtonOutline {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
 }
