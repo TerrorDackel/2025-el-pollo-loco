@@ -1,7 +1,7 @@
 /**
  * Represents a movable object in the game world.
- * Extends {@link DrawableObject} to provide movement, gravity, collision detection,
- * energy states (hit, hurt, dead) and idle behavior.
+ * Extends {@link DrawableObject} to provide movement, gravity, collision detection
+ * and energy states (hit, hurt, dead).
  */
 class MovableObject extends DrawableObject {
   /** @type {number} Horizontal movement speed. */
@@ -58,39 +58,6 @@ class MovableObject extends DrawableObject {
       this.y + this.height - this.offsetBottom >= mo.y + mo.offsetTop &&
       this.y + this.offsetTop <= mo.y + mo.height - mo.offsetBottom
     );
-  }
-
-  /**
-   * Checks if the object is idle (no movement for >3s).
-   * If idle is detected, {@link startIdleMode} is triggered.
-   * @returns {boolean} True if idle, otherwise false.
-   */
-  isIdle() {
-    if (Date.now() - this.world.keyboard.lastMove > 3000 && !this.idleTriggered) {
-      this.startIdleMode();
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Starts idle mode and triggers idle animation + sound.
-   * Automatically stops on the next key press.
-   */
-  startIdleMode() {
-    if (!this.idleTriggered) {
-      this.idleTriggered = true;
-      SoundManager.playSound("idle");
-      this.playAnimation(this.IMAGES_IDLE);
-      document.addEventListener("keydown", () => this.stopIdleMode(), { once: true });
-    }
-  }
-
-  /** Stops idle mode, pauses sound and resets state. */
-  stopIdleMode() {
-    SoundManager.pause("idle");
-    this.idle_sound.currentTime = 0;
-    this.idleTriggered = false;
   }
 
   /**

@@ -39,7 +39,7 @@
       Hinweis zur Barrierefreiheit: Dieses Spiel basiert vollständig auf einer visuellen
       Canvas-Darstellung. Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten,
       ist das Gameplay nur eingeschränkt oder gar nicht zugänglich. Die Spielregeln und das
-      Impressum stehen jedoch als Text zur Verfügung.
+      Impressum stehen als Text zur Verfügung.
     </p>
     <img
       id="soundToggle"
@@ -118,7 +118,7 @@
       aria-labelledby="cancelTitle"
       aria-describedby="cancelQuestion"
     >
-      <div class="cancel-container">
+      <div class="cancel-container" id="cancelScreen">
         <div class="background-container-transparency-cancel">
           <div class="cancel-header">
             <div id="cancelTitle" class="cancel-title">Spiel beenden?</div>
@@ -299,7 +299,8 @@
     </div>
     <div class="rotate-warning" id="rotateWarning" role="alert" aria-live="assertive">
       <div class="rotate-warning-container-logo-txt">
-        <p class="rotate-txt">Drehe bitte dein Gerät ins Querformat.</p>
+        <p class="rotate-txt">Drehe bitte</p>
+        <p class="rotate-txt">dein Handy.</p>
       </div>
     </div>
     <div
@@ -337,7 +338,7 @@
       aria-labelledby="endscreenTitle"
     >
       <div class="endscreen-content">
-        <div class="background-container-transparency-endscreen">
+        <div class="background-container-transparency-end">
           <div class="endscreen-title" id="endscreenTitle">Herzlichen Glückwunsch !</div>
           <div class="endscreen-container-stats">
             <p id="stat-chickens" class="endscreen-stat" aria-live="polite"></p>

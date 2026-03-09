@@ -1,9 +1,6 @@
 .overlay-content-impressum {
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
   max-height: 480px;
   height: 100%;
   max-width: 720px;
@@ -20,17 +17,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 99%;
-  height: 99%;
+  width: 720px;
+  max-width: 100dvw;
+  height: 480px;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 3rem;
+  overflow: hidden;
 }
 
 .header-container-impressum {
   display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   max-width: 600px;
   padding: 0.5rem 1rem;
@@ -40,7 +36,12 @@
 .header-impressum-txt {
   width: 100%;
   display: flex;
-  align-items: center;
+  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
   justify-content: center;
   text-align: center;
   font-size: 4rem;
@@ -51,36 +52,23 @@
 .impressum-content-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: left;
   width: 100%;
   max-width: 600px;
-  padding: 0.5rem 1rem;
-  margin: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  white-space: normal;
-  word-break: keep-all;
-  hyphens: auto;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .impressum-content-txt {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: left;
+  display: block;
   width: 100%;
-  max-width: 600px;
-  padding: 0.5rem 1rem;
-  margin: 0;
+  height: 100%;
   overflow-y: auto;
-  scrollbar-width: none;
   overflow-x: hidden;
-  white-space: normal;
-  word-break: keep-all;
-  hyphens: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5rem;
 }
 
 .impressum-content-txt::-webkit-scrollbar {
@@ -88,9 +76,10 @@
 }
 
 .impressum-headlines {
-  padding: 0.5rem;
-  font-size: 1.4rem;
-  margin-top: 1rem;
+  padding: 0;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
   font-weight: bold;
   font-family: "Helvetica";
   color: #00c3ff;

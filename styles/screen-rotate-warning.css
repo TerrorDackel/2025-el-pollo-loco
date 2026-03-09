@@ -1,9 +1,10 @@
 #rotateWarning {
   display: none;
-  position: fixed;
   inset: 0;
-  width: 100svw;
-  height: 100svh;
+  min-width: 100dvw;
+  max-width: 480px;
+  min-height: 100dvh;
+  max-height: 720px;
   background-color: black;
   background-image: url("../imgs/5_background/mobile-rotate-bright.jpg");
   background-repeat: no-repeat;
@@ -17,6 +18,14 @@ body.is-portrait #rotateWarning {
 }
 
 body.is-portrait #canvas {
+  display: none;
+}
+
+body.is-portrait #cancelScreen {
+  display: none;
+}
+
+body.is-portrait #startScreen {
   display: none;
 }
 
@@ -34,16 +43,21 @@ body.is-portrait #mobileControls {
 }
 
 .rotate-warning-container-logo-txt {
+  width: 100%;
   font-family: "Zabras";
-  font-size: 1.5rem;
+  font-size: 4rem;
   color: #f3a71a;
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3rem;
+  padding: 1rem;
 }
 
 .rotate-txt {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
 @keyframes fadeIn {
