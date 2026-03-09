@@ -1,10 +1,13 @@
 /**
  * Starts the game by hiding the start screen,
- * initialising the world, and enabling mobile controls if applicable.
+ * preloading core assets and then initialising the world.
  */
-function startGame() {
+async function startGame() {
   const startScreen = document.getElementById("startScreen");
   if (startScreen) startScreen.classList.add("overlay-hidden");
+  if (typeof preloadCoreAssets === "function") {
+    await preloadCoreAssets();
+  }
   init(createLevel1());
   if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
