@@ -6,6 +6,9 @@ class AssetLoader {
   /** @type {Promise<void> | null} */
   static _corePromise = null;
 
+  /** @type {Object.<string, HTMLImageElement>} Global image cache shared across game objects. */
+  static imageCache = {};
+
   /**
    * Preloads all given image paths once.
    * @param {string[]} paths
@@ -17,7 +20,10 @@ class AssetLoader {
       (path) =>
         new Promise((resolve) => {
           const img = new Image();
-          img.onload = () => resolve();
+          img.onload = () => {
+            AssetLoader.imageCache[path] = img;
+            resolve();
+          };
           img.onerror = () => resolve();
           img.src = path;
         })

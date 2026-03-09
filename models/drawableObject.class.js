@@ -50,8 +50,18 @@ class DrawableObject {
    * @param {string} path - Path to the image file.
    */
   loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
+    const hasGlobalCache =
+      typeof AssetLoader !== "undefined" && AssetLoader.imageCache && AssetLoader.imageCache[path];
+    if (hasGlobalCache) {
+      this.img = AssetLoader.imageCache[path];
+      return;
+    }
+    const img = new Image();
+    img.src = path;
+    this.img = img;
+    if (typeof AssetLoader !== "undefined" && AssetLoader.imageCache) {
+      AssetLoader.imageCache[path] = img;
+    }
   }
 
   /**
@@ -60,8 +70,17 @@ class DrawableObject {
    */
   loadImages(arr) {
     arr.forEach((path) => {
-      const img = new Image();
-      img.src = path;
+      let img =
+        typeof AssetLoader !== "undefined" && AssetLoader.imageCache
+          ? AssetLoader.imageCache[path]
+          : undefined;
+      if (!img) {
+        img = new Image();
+        img.src = path;
+        if (typeof AssetLoader !== "undefined" && AssetLoader.imageCache) {
+          AssetLoader.imageCache[path] = img;
+        }
+      }
       this.imageCache[path] = img;
     });
   }

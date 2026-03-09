@@ -93,8 +93,17 @@ class MovableObject extends DrawableObject {
    */
   loadImages(arr) {
     arr.forEach((path) => {
-      const img = new Image();
-      img.src = path;
+      let img =
+        typeof AssetLoader !== "undefined" && AssetLoader.imageCache
+          ? AssetLoader.imageCache[path]
+          : undefined;
+      if (!img) {
+        img = new Image();
+        img.src = path;
+        if (typeof AssetLoader !== "undefined" && AssetLoader.imageCache) {
+          AssetLoader.imageCache[path] = img;
+        }
+      }
       this.imageCache[path] = img;
     });
   }
