@@ -1,15 +1,53 @@
 /**
  * Starts the game by hiding the start screen,
- * preloading core assets and then initialising the world.
+ * showing a loading overlay, preloading core assets with progress
+ * and then initialising the world.
  */
 async function startGame() {
   const startScreen = document.getElementById("startScreen");
   if (startScreen) startScreen.classList.add("overlay-hidden");
-  if (typeof preloadCoreAssets === "function") {
+
+  showLoadingOverlay();
+
+  if (typeof preloadCoreAssetsWithProgress === "function") {
+    await preloadCoreAssetsWithProgress((ratio) => updateLoadingBar(ratio));
+  } else if (typeof preloadCoreAssets === "function") {
     await preloadCoreAssets();
+    updateLoadingBar(1);
   }
+
+  hideLoadingOverlay();
   init(createLevel1());
   if (typeof updateUiVisibility === "function") updateUiVisibility();
+}
+
+/**
+ * Shows the loading overlay and resets the bar.
+ */
+function showLoadingOverlay() {
+  const overlay = document.getElementById("loadingOverlay");
+  const fill = document.getElementById("loadingBarFill");
+  if (fill) fill.style.width = "0%";
+  if (overlay) overlay.classList.remove("overlay-hidden");
+}
+
+/**
+ * Updates the width of the loading bar based on ratio 0..1.
+ * @param {number} ratio
+ */
+function updateLoadingBar(ratio) {
+  const fill = document.getElementById("loadingBarFill");
+  if (!fill) return;
+  const clamped = Math.max(0, Math.min(1, ratio || 0));
+  fill.style.width = `${clamped * 100}%`;
+}
+
+/**
+ * Hides the loading overlay.
+ */
+function hideLoadingOverlay() {
+  const overlay = document.getElementById("loadingOverlay");
+  if (overlay) overlay.classList.add("overlay-hidden");
 }
 
 /**

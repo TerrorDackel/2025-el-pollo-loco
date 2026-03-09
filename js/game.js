@@ -26,6 +26,14 @@ function setStoppableInterval(fn, time) {
 document.addEventListener("DOMContentLoaded", () => {
   SoundManager.init();
   EndScreen.init();
+  if (typeof AssetLoader !== "undefined" && AssetLoader.preloadImages) {
+    // leichter Hintergrund-Preload: ein paar zentrale Sprites
+    AssetLoader.preloadImages([
+      "./imgs/2_character_pepe/1_idle/idle/I-1.png",
+      "./imgs/2_character_pepe/2_walk/W-21.png",
+      "./imgs/6_salsa_bottle/1_salsa_bottle_on_ground.png",
+    ]);
+  }
   initMobileControls();
   updateUiVisibility();
   window.addEventListener("resize", updateUiVisibility);

@@ -110,3 +110,39 @@ a:focus-visible,
   align-items: center;
   z-index: 20;
 }
+
+.loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 2rem;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 1.5rem;
+  max-width: 90%;
+}
+
+.loading-text {
+  font-family: "Helvetica", Arial, sans-serif;
+  font-size: 1.2rem;
+  color: #ffd000;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.loading-bar {
+  width: 260px;
+  max-width: 80vw;
+  height: 10px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ffd000, #ff9500);
+  transition: width 0.15s ease-out;
+}
