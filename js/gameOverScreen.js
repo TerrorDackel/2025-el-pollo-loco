@@ -16,9 +16,9 @@ class GameOverScreen {
 
     if (typeof updateUiVisibility === "function") updateUiVisibility();
 
-    if (typeof world !== "undefined" && world && world.running) {
+    if (typeof game !== "undefined" && game.world && game.world.running) {
       try {
-        world.pauseGame();
+        game.world.pauseGame();
       } catch {
         /* Intentionally ignored: world may not support pausing in all states. */
       }

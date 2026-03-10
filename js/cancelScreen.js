@@ -16,9 +16,9 @@ class CancelOverlay {
 
     CancelOverlay.resetMovementFlags();
 
-    if (typeof world !== "undefined" && world && world.running) {
+    if (typeof game !== "undefined" && game.world && game.world.running) {
       try {
-        world.pauseGame();
+        game.world.pauseGame();
       } catch {
         /* Intentionally ignored: world may not support pausing in all states. */
       }
@@ -51,10 +51,10 @@ class CancelOverlay {
   }
 
   static canOpen() {
-    if (typeof world === "undefined" || !world) return false;
-    if (world.running !== true) return false;
-    if (typeof gamePaused !== "undefined" && gamePaused) return false;
-    if (typeof countdownActive !== "undefined" && countdownActive) return false;
+    if (typeof game === "undefined" || !game.world) return false;
+    if (game.world.running !== true) return false;
+    if (typeof game !== "undefined" && game.gamePaused) return false;
+    if (typeof game !== "undefined" && game.countdownActive) return false;
     if (
       typeof GameOverScreen !== "undefined" &&
       GameOverScreen.isVisible &&
@@ -65,12 +65,13 @@ class CancelOverlay {
   }
 
   static resetMovementFlags() {
-    if (typeof keyboard === "undefined" || !keyboard) return;
-    keyboard.RIGHT = false;
-    keyboard.LEFT = false;
-    keyboard.UP = false;
-    keyboard.DOWN = false;
-    keyboard.D = false;
+    if (typeof game === "undefined" || !game.keyboard) return;
+    const k = game.keyboard;
+    k.RIGHT = false;
+    k.LEFT = false;
+    k.UP = false;
+    k.DOWN = false;
+    k.D = false;
   }
 
   static bindKeys() {
@@ -126,9 +127,9 @@ class CancelOverlay {
 
   static continueGame() {
     CancelOverlay.hide();
-    if (typeof world !== "undefined" && world) {
+    if (typeof game !== "undefined" && game.world) {
       try {
-        world.resumeGame();
+        game.world.resumeGame();
       } catch {
         /* Intentionally ignored: world may not support resuming in all states. */
       }
@@ -140,18 +141,20 @@ class CancelOverlay {
   static abortToStart() {
     CancelOverlay.hide();
 
-    if (typeof gamePaused !== "undefined") gamePaused = false;
-    if (typeof countdownActive !== "undefined") countdownActive = false;
+    if (typeof game !== "undefined") {
+      game.state.gamePaused = false;
+      game.state.countdownActive = false;
+    }
 
     if (typeof clearAllIntervals === "function") clearAllIntervals();
 
-    if (typeof world !== "undefined" && world) {
+    if (typeof game !== "undefined" && game.world) {
       try {
-        world.pauseGame();
+        game.world.pauseGame();
       } catch {
         /* Intentionally ignored: world may not support pausing in all states. */
       }
-      world.running = false;
+      game.world.running = false;
     }
 
     if (typeof SoundManager !== "undefined" && !SoundManager.isMuted) {
@@ -168,7 +171,7 @@ class CancelOverlay {
     const btn = document.getElementById("abortToStart");
     if (!btn) return;
 
-    const shouldShow = !!(typeof world !== "undefined" && world && world.running === true);
+    const shouldShow = !!(typeof game !== "undefined" && game.world && game.world.running === true);
     btn.classList.toggle("overlay-hidden", !shouldShow);
   }
 }

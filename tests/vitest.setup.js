@@ -18,6 +18,22 @@ vi.stubGlobal("createLevel1", () => ({}));
 vi.stubGlobal("init", () => {});
 vi.stubGlobal("clearAllIntervals", () => {});
 
+const stubWorld = {
+  running: true,
+  pauseGame: () => {},
+  resumeGame: () => {},
+  level: { boss: null },
+};
+const stubKeyboard = {
+  RIGHT: false,
+  LEFT: false,
+  UP: false,
+  DOWN: false,
+  D: false,
+  lastActivity: 0,
+  SPACE: false,
+};
+
 beforeEach(() => {
   document.body.innerHTML = `
     <img id="abortToStart" class="overlay-hidden" />
@@ -28,21 +44,11 @@ beforeEach(() => {
     <button class="pause-back-to-game-btn"></button>
   `;
 
-  vi.stubGlobal("keyboard", {
-    RIGHT: false,
-    LEFT: false,
-    UP: false,
-    DOWN: false,
-    D: false,
-    lastActivity: 0,
-    SPACE: false,
+  vi.stubGlobal("game", {
+    state: { gamePaused: false, countdownActive: false },
+    world: stubWorld,
+    keyboard: stubKeyboard,
+    gamePaused: false,
+    countdownActive: false,
   });
-  vi.stubGlobal("world", {
-    running: true,
-    pauseGame: () => {},
-    resumeGame: () => {},
-    level: { boss: null },
-  });
-  vi.stubGlobal("gamePaused", false);
-  vi.stubGlobal("countdownActive", false);
 });
