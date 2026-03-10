@@ -1,54 +1,56 @@
 # El Pollo Loco – Jump & Run Game
 
-Side-scrolling jump-and-run game built with object-oriented JavaScript during the Developer Akademie frontend program. You control Pepe, collect bottles and defeat chickens and a final boss.
+A 2D side-scrolling jump-and-run game built with object-oriented JavaScript. Control Pepe, collect bottles, defeat chickens and the final boss.
 
-- Live game: https://www.el-pollo-loco.jennifer-thomas.de/index.html
-- Repository: https://github.com/TerrorDackel/el-pollo-loco-2025
+- **Live:** https://www.el-pollo-loco.jennifer-thomas.de/index.html
+- **Repo:** https://github.com/TerrorDackel/el-pollo-loco-2025
 
 ---
 
 ## Features
 
 - 2D side-scrolling level with platforms, enemies and end boss
-- Collectible items (e.g. bottles) that can be used as projectiles
-- Health system and game-over / win screens
-- Keyboard controls for movement, jumping and throwing
-- Toggleable sound (music on/off) and pause mode
-- Basic responsive behaviour with hint to rotate to landscape on mobile
+- Collectible bottles as projectiles
+- Health system with game-over and win screens
+- Keyboard controls (move, jump, throw)
+- Toggleable sound and pause
+- Responsive layout with rotate-to-landscape hint on mobile
+- **Languages:** German (DE) and English (EN)
 
 ---
 
 ## Tech stack
 
 - **Languages:** JavaScript (OOP), HTML5, CSS
-- **Paradigm:** Object-oriented programming (classes, inheritance, composition)
-- **Tooling:** Git & GitHub, VS Code / Browser DevTools
+- **Paradigm:** Object-oriented (classes, inheritance, composition)
+- **Tooling:** Git, GitHub, npm (build + tests), ESLint, Prettier, Vitest
 
 ---
 
 ## What I focused on
 
-This is a solo project.
+Solo project from the Developer Akademie frontend program. I used it to practice:
 
-I used it to practice:
-
-- Structuring a browser game with multiple JS classes (character, enemies, level, items, status bars, world, etc.)
-- Implementing a game loop and keyboard input handling in plain JavaScript
-- Collision detection between player, enemies and collectables
-- Managing game state (running, paused, game over, victory)
-- Organising assets (images, sounds, level data) into a clear folder structure
-- Simple UI overlays for start screen, instructions, pause, win and game-over states
+- Structuring a browser game with multiple JS classes (character, enemies, level, items, status bars, world)
+- Game loop and keyboard input in plain JavaScript
+- Collision detection (player, enemies, collectables)
+- Game state (running, paused, game over, victory)
+- Asset preloading with progress and error handling
+- Centralised game state (`Game` object), build step (single bundle), and tests
 
 ---
 
-## Project structure (high level)
+## Project structure
 
-- `index.html` – entry point and canvas / layout for the game
-- `styles.css` – global styling for game canvas and overlays
-- `js/` – main game logic (world, character, enemies, keyboard, collisions, sounds, etc.)
-- `levels/` – level configuration
-- `models/` – additional classes and data structures
-- `imgs/`, `fonts/` – images, icons and fonts used in the game
+| Path              | Description                                        |
+| ----------------- | -------------------------------------------------- |
+| `index.html`      | Entry point, canvas and overlay layout             |
+| `styles.css`      | Global styles and screen-specific CSS              |
+| `js/`             | Game logic, screens, asset loader, i18n, events    |
+| `models/`         | Character, enemies, world, level, drawables        |
+| `levels/`         | Level configuration (e.g. `level1.js`)             |
+| `scripts/`        | Build script (concatenates JS to `dist/bundle.js`) |
+| `imgs/`, `fonts/` | Images and fonts                                   |
 
 ---
 
@@ -56,21 +58,26 @@ I used it to practice:
 
 ### Prerequisites
 
-- A modern web browser (Chrome, Firefox, Edge, …)
-- Optionally: a simple local web server (recommended for development)
+- A modern browser (Chrome, Firefox, Edge, …)
+- Node.js (optional, for build and tests)
 
-### Install and run locally
+### Run locally
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/TerrorDackel/el-pollo-loco-2025.git
+   cd el-pollo-loco-2025
+   ```
+2. Open `index.html` in a browser (or use a local server).
+
+The repo includes a pre-built `dist/bundle.js`. To rebuild after changing JS:
 
 ```bash
-# Clone the repository
-git clone https://github.com/TerrorDackel/el-pollo-loco-2025.git
-
-cd el-pollo-loco-2025
-
-## Kurzbeschreibung (Deutsch)
-
-„El Pollo Loco“ ist ein kleines Jump-and-Run-Game, das ich während der Developer-Akademie-Weiterbildung als Einzelprojekt mit JavaScript (OOP), HTML und CSS umgesetzt habe.
-Der Fokus liegt auf objektorientierter Strukturierung (Klassen für Spielfigur, Gegner, Level, Items), Spielschleife, Tastatur-Steuerung, Kollisionserkennung und einem spielbaren Level mit Gegnern, Sammelobjekten, Sound und Pause-Funktion.
+npm run build
 ```
 
-Hook test: 2026-01-23 14:17:29
+### Scripts
+
+- `npm run build` – build `dist/bundle.js` from source
+- `npm run test:run` – run Vitest tests
+- `npm run lint` – run ESLint on `js/`, `models/`, `levels/`

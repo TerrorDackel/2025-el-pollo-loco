@@ -72,9 +72,12 @@ class Coins extends DrawableObject {
       (path) =>
         new Promise((resolve) => {
           const img = new Image();
-          img.src = path;
           img.onload = () => resolve(img);
-          img.onerror = () => console.error(`Error loading image: ${path}`);
+          img.onerror = () => {
+            console.warn("[Coins] Bild konnte nicht geladen werden:", path);
+            resolve(null);
+          };
+          img.src = path;
         })
     );
   }
@@ -85,7 +88,7 @@ class Coins extends DrawableObject {
    */
   initAnimation() {
     Promise.all(this.loadImagePromises).then((images) => {
-      this.images = images;
+      this.images = images.filter(Boolean);
       this.currentImage = 0;
       this.loaded = true;
       this.animate();

@@ -1,7 +1,8 @@
 /**
- * Starts the game by hiding the start screen,
- * showing a loading overlay, preloading core assets with progress
- * and then initialising the world.
+ * Starts the game: hides start screen, shows loading overlay, preloads core assets
+ * with progress, then initialises the world. Idle pulse on the start button is cancelled.
+ * @async
+ * @returns {Promise<void>}
  */
 async function startGame() {
   cancelStartButtonIdle();
@@ -18,6 +19,17 @@ async function startGame() {
   }
 
   hideLoadingOverlay();
+  if (
+    typeof AssetLoader !== "undefined" &&
+    AssetLoader.failedPaths &&
+    AssetLoader.failedPaths.size > 0
+  ) {
+    console.warn(
+      "[El Pollo Loco]",
+      AssetLoader.failedPaths.size,
+      "image(s) failed to load. See console for paths."
+    );
+  }
   init(createLevel1());
   if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
@@ -25,8 +37,8 @@ async function startGame() {
 let startIdleTimeoutId;
 
 /**
- * Sets up a gentle idle pulse for the primary start button
- * after a short period of inactivity on the start screen.
+ * Schedules a gentle idle pulse on the primary start button after 4s of no interaction.
+ * Resets the timer on mousemove, keydown, click, or touchstart.
  */
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("btn-start-primary");
@@ -55,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Cancels the idle pulse when the game actually starts.
+ * Cancels the start-button idle pulse and removes the is-idle class.
  */
 function cancelStartButtonIdle() {
   clearTimeout(startIdleTimeoutId);
@@ -64,7 +76,7 @@ function cancelStartButtonIdle() {
 }
 
 /**
- * Shows the loading overlay and resets the bar.
+ * Shows the loading overlay and resets the progress bar to 0.
  */
 function showLoadingOverlay() {
   const overlay = document.getElementById("loadingOverlay");
@@ -74,8 +86,8 @@ function showLoadingOverlay() {
 }
 
 /**
- * Updates the width of the loading bar based on ratio 0..1.
- * @param {number} ratio
+ * Updates the loading bar fill width from 0 to 100% based on ratio.
+ * @param {number} ratio - Progress from 0 to 1 (clamped).
  */
 function updateLoadingBar(ratio) {
   const fill = document.getElementById("loadingBarFill");
@@ -85,7 +97,7 @@ function updateLoadingBar(ratio) {
 }
 
 /**
- * Hides the loading overlay.
+ * Hides the loading overlay (adds overlay-hidden class).
  */
 function hideLoadingOverlay() {
   const overlay = document.getElementById("loadingOverlay");
@@ -93,7 +105,7 @@ function hideLoadingOverlay() {
 }
 
 /**
- * Displays the rules overlay and hides other overlays.
+ * Shows the rules overlay and hides rules/impressum overlays.
  */
 function showRules() {
   hideAllOverlays();
@@ -102,7 +114,7 @@ function showRules() {
 }
 
 /**
- * Displays the legal notice overlay and hides other overlays.
+ * Shows the legal notice (Impressum) overlay and hides other overlays.
  */
 function showImpressum() {
   hideAllOverlays();
@@ -111,7 +123,7 @@ function showImpressum() {
 }
 
 /**
- * Returns to the start screen and hides overlays.
+ * Returns to the start screen: hides rules/impressum and shows start screen.
  */
 function returnToStart() {
   hideAllOverlays();
@@ -120,7 +132,7 @@ function returnToStart() {
 }
 
 /**
- * Hides all overlays (rules and impressum).
+ * Hides rules and impressum overlays (adds overlay-hidden to both).
  */
 function hideAllOverlays() {
   document.getElementById("rulesOverlay").classList.add("overlay-hidden");

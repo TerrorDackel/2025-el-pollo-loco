@@ -1,18 +1,32 @@
 /**
- * Preloads core image assets (sprites) before the game starts.
- * Ensures that first-time animations (z. B. erste Flasche) nicht „unsichtbar“ sind.
+ * Central asset preloader for game images (sprites). Ensures assets are loaded before play
+ * so that first-time animations (e.g. first bottle throw) are visible.
+ * @class
  */
 class AssetLoader {
-  /** @type {Promise<void> | null} */
+  /** @type {Promise<void> | null} Cached promise for idempotent preloadCoreAssets(). */
   static _corePromise = null;
 
   /** @type {Object.<string, HTMLImageElement>} Global image cache shared across game objects. */
   static imageCache = {};
 
+  /** @type {Set<string>} Paths that failed to load (for logging / UI feedback). */
+  static failedPaths = new Set();
+
   /**
-   * Preloads all given image paths once.
-   * @param {string[]} paths
-   * @returns {Promise<void>}
+   * Logs a load error and records the path. Call from onerror so preload flow can continue.
+   * @param {string} path - Failed image path.
+   * @private
+   */
+  static _handleLoadError(path) {
+    AssetLoader.failedPaths.add(path);
+    console.warn("[AssetLoader] Image failed to load:", path);
+  }
+
+  /**
+   * Preloads all given image paths once; stores loaded images in imageCache.
+   * @param {string[]} paths - Image URLs to load.
+   * @returns {Promise<void>} Resolves when all loads (or errors) have completed.
    */
   static preloadImages(paths) {
     const unique = [...new Set(paths)];
@@ -24,7 +38,10 @@ class AssetLoader {
             AssetLoader.imageCache[path] = img;
             resolve();
           };
-          img.onerror = () => resolve();
+          img.onerror = () => {
+            AssetLoader._handleLoadError(path);
+            resolve();
+          };
           img.src = path;
         })
     );
@@ -32,10 +49,10 @@ class AssetLoader {
   }
 
   /**
-   * Preloads given image paths and meldet Fortschritt zurück.
-   * @param {string[]} paths
-   * @param {(ratio: number) => void} onProgress
-   * @returns {Promise<void>}
+   * Preloads given image paths and reports progress via callback.
+   * @param {string[]} paths - Image URLs to load.
+   * @param {(ratio: number) => void} onProgress - Called with 0..1 as each image completes.
+   * @returns {Promise<void>} Resolves when all loads (or errors) have completed.
    */
   static preloadImagesWithProgress(paths, onProgress) {
     const unique = [...new Set(paths)];
@@ -53,7 +70,6 @@ class AssetLoader {
     const jobs = unique.map(
       (path) =>
         new Promise((resolve) => {
-          // Wenn bereits im Cache, sofort als „geladen“ zählen
           if (AssetLoader.imageCache[path]) {
             loaded++;
             notify();
@@ -68,6 +84,7 @@ class AssetLoader {
             resolve();
           };
           img.onerror = () => {
+            AssetLoader._handleLoadError(path);
             loaded++;
             notify();
             resolve();
@@ -80,9 +97,9 @@ class AssetLoader {
   }
 
   /**
-   * Preloads all zentralen Spiel-Sprites (Charakter, Gegner, Flaschen, Coins).
-   * Idempotent: bei Mehrfachaufruf wird immer dieselbe Promise verwendet.
-   * @returns {Promise<void>}
+   * Preloads all core game sprites (character, enemies, bottles, coins). Idempotent:
+   * repeated calls return the same promise.
+   * @returns {Promise<void>} Resolves when all core assets are loaded or failed.
    */
   static preloadCoreAssets() {
     if (this._corePromise) return this._corePromise;

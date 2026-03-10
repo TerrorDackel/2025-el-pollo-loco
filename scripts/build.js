@@ -9,6 +9,7 @@ const root = path.join(__dirname, "..");
 const distDir = path.join(root, "dist");
 
 const scriptOrder = [
+  "js/i18n.js",
   "models/keyboard.class.js",
   "models/drawableObject.class.js",
   "models/movable.object.class.js",

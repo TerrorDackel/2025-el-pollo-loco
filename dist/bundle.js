@@ -1,3 +1,209 @@
+// === js/i18n.js
+/**
+ * Simple i18n for UI strings. Supports German (DE) and English (EN).
+ * Mark elements with data-i18n="key" for textContent and data-i18n-aria="key" for aria-label;
+ * applyTranslations() runs on DOMContentLoaded and when setLanguage() is called.
+ * Language is persisted in localStorage under key "el-pollo-loco-lang".
+ * @module i18n
+ */
+(function () {
+  const STORAGE_KEY = "el-pollo-loco-lang";
+
+  const I18N = {
+    de: {
+      skip_link: "Direkt zum Spiel springen",
+      a11y_note:
+        "Hinweis zur Barrierefreiheit: Dieses Spiel basiert vollständig auf einer visuellen Canvas-Darstellung. Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten, ist das Gameplay nur eingeschränkt oder gar nicht zugänglich. Die Spielregeln und das Impressum stehen als Text zur Verfügung.",
+      sound_alt: "Musik ein- oder ausschalten",
+      abort_alt: "Spiel abbrechen und zum Startmenü zurückkehren",
+      canvas_aria: "Spieloberfläche des Jump-and-Run Spiels El Pollo Loco",
+      gameover_title: "Game over!",
+      gameover_question: "Traust du dich nochmal?",
+      gameover_restart_aria: "Spiel neu starten (Taste J)",
+      gameover_yes: "\u00a0= Ja, diesen Chicken's werde ich's zeigen!",
+      gameover_no_aria: "Spiel beenden und Spielregeln lesen (Taste N)",
+      gameover_no: "\u00a0= Nein, ich check erst mal die Spielregeln.",
+      cancel_title: "Spiel beenden?",
+      cancel_question: "Willst du wirklich das Spiel aufgeben?",
+      cancel_yes_aria: "Spiel beenden und zum Start zurückkehren (Taste J)",
+      cancel_yes: "\u00a0= ja, das Spiel beenden.",
+      cancel_no_aria: "Weiter spielen (Taste N)",
+      cancel_no: "\u00a0= Nein auf keinen Fall, ich möchte weiter spielen!",
+      start_title: "Willkommen bei\u00a0",
+      start_title2: "El Pollo Loco",
+      btn_start: "▶️ Spiel starten",
+      btn_start_aria: "Spiel starten",
+      btn_rules: "🕹️ Spielregeln",
+      btn_rules_aria: "Spielregeln anzeigen",
+      btn_impressum: "ℹ️ Impressum",
+      btn_impressum_aria: "Impressum anzeigen",
+      loading_text: "Lade Spielgrafiken…",
+      rules_title: "Spielregeln:",
+      rules_1: "⬅️ Pfeil links: Pepe läuft nach links.",
+      rules_2: "➡️ Pfeil rechts: Pepe läuft nach rechts.",
+      rules_3: "⬆️ Pfeil oben: Pepe springt.",
+      rules_4: "SPACE (Leer): Pepe wirft eine Flasche.",
+      rules_5: "🔇 T = Musik aus, 🔊 Z = Musik an.",
+      rules_6: "⏯️ P = Pause starten/beenden.",
+      rules_back: "⬅️ Zurück",
+      rules_back_aria: "Zurück zum Startbildschirm",
+      impressum_title: "Impressum:",
+      impressum_back_aria: "Zurück zum Startbildschirm",
+      pause_title: "PAUSE",
+      pause_line1: "zum beenden der Pause",
+      pause_line2: "und starten des Countdowns",
+      pause_btn_aria: "Pause beenden (Taste P)",
+      pause_line3: "drücken",
+      rotate_1: "Drehe ins Querformat,",
+      rotate_2: "um zu spielen.",
+      mobile_aria: "Mobile Steuerung für El Pollo Loco",
+      btn_left_aria: "Nach links laufen",
+      btn_right_aria: "Nach rechts laufen",
+      btn_throw_aria: "Flasche werfen",
+      btn_jump_aria: "Springen",
+      endscreen_title: "Herzlichen Glückwunsch !",
+      btn_end_back: "⬅️ zurück zum Start",
+      btn_end_back_aria: "Zurück zum Startbildschirm",
+      btn_end_restart: "🔁 Versuch's nochmal",
+      btn_end_restart_aria: "Spiel erneut starten",
+      stat_chickens: "🐓 Normale Hühner:",
+      stat_chickenBigs: "🐔 Große Hühner:",
+      stat_chickenSmalls: "🐥 Kleine Hühner:",
+      stat_hearts: "❤️ Leben:",
+      stat_coins: "🪙 Münzen:",
+      stat_time: "⏱️ Zeit: %s Sekunden",
+      lang_de: "DE",
+      lang_en: "EN",
+      lang_group_aria: "Sprache wählen",
+    },
+    en: {
+      skip_link: "Skip to game",
+      a11y_note:
+        "Accessibility note: This game is entirely visual (canvas). For screen-reader-only users, gameplay may be limited or unavailable. Rules and legal info are available as text.",
+      sound_alt: "Toggle music on or off",
+      abort_alt: "Abort game and return to start menu",
+      canvas_aria: "Game canvas for jump-and-run game El Pollo Loco",
+      gameover_title: "Game over!",
+      gameover_question: "Want to try again?",
+      gameover_restart_aria: "Restart game (key J)",
+      gameover_yes: "\u00a0= Yes, I'll show those chickens!",
+      gameover_no_aria: "End game and read rules (key N)",
+      gameover_no: "\u00a0= No, I'll check the rules first.",
+      cancel_title: "Quit game?",
+      cancel_question: "Do you really want to quit?",
+      cancel_yes_aria: "Quit and return to start (key J)",
+      cancel_yes: "\u00a0= Yes, quit the game.",
+      cancel_no_aria: "Keep playing (key N)",
+      cancel_no: "\u00a0= No way, I want to keep playing!",
+      start_title: "Welcome to\u00a0",
+      start_title2: "El Pollo Loco",
+      btn_start: "▶️ Start game",
+      btn_start_aria: "Start game",
+      btn_rules: "🕹️ Rules",
+      btn_rules_aria: "Show rules",
+      btn_impressum: "ℹ️ Legal",
+      btn_impressum_aria: "Show legal / imprint",
+      loading_text: "Loading game graphics…",
+      rules_title: "Rules:",
+      rules_1: "⬅️ Left arrow: Pepe runs left.",
+      rules_2: "➡️ Right arrow: Pepe runs right.",
+      rules_3: "⬆️ Up arrow: Pepe jumps.",
+      rules_4: "SPACE: Pepe throws a bottle.",
+      rules_5: "🔇 T = Mute, 🔊 Z = Unmute.",
+      rules_6: "⏯️ P = Pause / resume.",
+      rules_back: "⬅️ Back",
+      rules_back_aria: "Back to start screen",
+      impressum_title: "Legal / Imprint:",
+      impressum_back_aria: "Back to start screen",
+      pause_title: "PAUSE",
+      pause_line1: "To end pause",
+      pause_line2: "and start countdown",
+      pause_btn_aria: "End pause (key P)",
+      pause_line3: "press",
+      rotate_1: "Rotate to landscape,",
+      rotate_2: "to play.",
+      mobile_aria: "Mobile controls for El Pollo Loco",
+      btn_left_aria: "Run left",
+      btn_right_aria: "Run right",
+      btn_throw_aria: "Throw bottle",
+      btn_jump_aria: "Jump",
+      endscreen_title: "Congratulations!",
+      btn_end_back: "⬅️ Back to start",
+      btn_end_back_aria: "Back to start screen",
+      btn_end_restart: "🔁 Try again",
+      btn_end_restart_aria: "Restart game",
+      stat_chickens: "🐓 Chickens:",
+      stat_chickenBigs: "🐔 Big chickens:",
+      stat_chickenSmalls: "🐥 Small chickens:",
+      stat_hearts: "❤️ Lives:",
+      stat_coins: "🪙 Coins:",
+      stat_time: "⏱️ Time: %s seconds",
+      lang_de: "DE",
+      lang_en: "EN",
+      lang_group_aria: "Choose language",
+    },
+  };
+
+  let currentLang =
+    (typeof localStorage !== "undefined" && localStorage.getItem(STORAGE_KEY)) || "de";
+  if (I18N[currentLang] === undefined) currentLang = "de";
+
+  /**
+   * Returns the translation for key in the current language.
+   * @param {string} key - Translation key.
+   * @returns {string} Translated string or key if missing.
+   */
+  function t(key) {
+    const map = I18N[currentLang];
+    return (map && map[key]) || key;
+  }
+
+  /**
+   * Sets the UI language and reapplies all translations.
+   * @param {string} lang - 'de' or 'en'.
+   */
+  function setLanguage(lang) {
+    if (!I18N[lang]) return;
+    currentLang = lang;
+    if (typeof localStorage !== "undefined") localStorage.setItem(STORAGE_KEY, lang);
+    document.documentElement.lang = lang === "en" ? "en" : "de";
+    applyTranslations();
+  }
+
+  /**
+   * Applies current language to all elements with data-i18n or data-i18n-aria.
+   */
+  function applyTranslations() {
+    const map = I18N[currentLang];
+    if (!map) return;
+    document.documentElement.lang = currentLang === "en" ? "en" : "de";
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      if (map[key] != null) el.textContent = map[key];
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-aria");
+      if (map[key] == null) return;
+      el.setAttribute("aria-label", map[key]);
+      if (el.alt !== undefined) el.alt = map[key];
+    });
+  }
+
+  if (typeof document !== "undefined" && document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyTranslations);
+  } else if (typeof document !== "undefined") {
+    applyTranslations();
+  }
+
+  window.I18N = I18N;
+  window.t = t;
+  window.setLanguage = setLanguage;
+  window.getLanguage = function () {
+    return currentLang;
+  };
+})();
+
+
 // === models/keyboard.class.js
 /**
  * Represents the keyboard input state for the game.
@@ -148,6 +354,9 @@ class DrawableObject {
       return;
     }
     const img = new Image();
+    img.onerror = () => {
+      console.warn("[DrawableObject] Image failed to load:", path);
+    };
     img.src = path;
     this.img = img;
     if (typeof AssetLoader !== "undefined" && AssetLoader.imageCache) {
@@ -167,6 +376,9 @@ class DrawableObject {
           : undefined;
       if (!img) {
         img = new Image();
+        img.onerror = () => {
+          console.warn("[DrawableObject] Image failed to load:", path);
+        };
         img.src = path;
         if (typeof AssetLoader !== "undefined" && AssetLoader.imageCache) {
           AssetLoader.imageCache[path] = img;
@@ -1471,9 +1683,12 @@ class Coins extends DrawableObject {
       (path) =>
         new Promise((resolve) => {
           const img = new Image();
-          img.src = path;
           img.onload = () => resolve(img);
-          img.onerror = () => console.error(`Error loading image: ${path}`);
+          img.onerror = () => {
+            console.warn("[Coins] Bild konnte nicht geladen werden:", path);
+            resolve(null);
+          };
+          img.src = path;
         })
     );
   }
@@ -1484,7 +1699,7 @@ class Coins extends DrawableObject {
    */
   initAnimation() {
     Promise.all(this.loadImagePromises).then((images) => {
-      this.images = images;
+      this.images = images.filter(Boolean);
       this.currentImage = 0;
       this.loaded = true;
       this.animate();
@@ -2061,20 +2276,34 @@ class Level {
 
 // === js/assetLoader.js
 /**
- * Preloads core image assets (sprites) before the game starts.
- * Ensures that first-time animations (z. B. erste Flasche) nicht „unsichtbar“ sind.
+ * Central asset preloader for game images (sprites). Ensures assets are loaded before play
+ * so that first-time animations (e.g. first bottle throw) are visible.
+ * @class
  */
 class AssetLoader {
-  /** @type {Promise<void> | null} */
+  /** @type {Promise<void> | null} Cached promise for idempotent preloadCoreAssets(). */
   static _corePromise = null;
 
   /** @type {Object.<string, HTMLImageElement>} Global image cache shared across game objects. */
   static imageCache = {};
 
+  /** @type {Set<string>} Paths that failed to load (for logging / UI feedback). */
+  static failedPaths = new Set();
+
   /**
-   * Preloads all given image paths once.
-   * @param {string[]} paths
-   * @returns {Promise<void>}
+   * Logs a load error and records the path. Call from onerror so preload flow can continue.
+   * @param {string} path - Failed image path.
+   * @private
+   */
+  static _handleLoadError(path) {
+    AssetLoader.failedPaths.add(path);
+    console.warn("[AssetLoader] Image failed to load:", path);
+  }
+
+  /**
+   * Preloads all given image paths once; stores loaded images in imageCache.
+   * @param {string[]} paths - Image URLs to load.
+   * @returns {Promise<void>} Resolves when all loads (or errors) have completed.
    */
   static preloadImages(paths) {
     const unique = [...new Set(paths)];
@@ -2086,7 +2315,10 @@ class AssetLoader {
             AssetLoader.imageCache[path] = img;
             resolve();
           };
-          img.onerror = () => resolve();
+          img.onerror = () => {
+            AssetLoader._handleLoadError(path);
+            resolve();
+          };
           img.src = path;
         })
     );
@@ -2094,10 +2326,10 @@ class AssetLoader {
   }
 
   /**
-   * Preloads given image paths and meldet Fortschritt zurück.
-   * @param {string[]} paths
-   * @param {(ratio: number) => void} onProgress
-   * @returns {Promise<void>}
+   * Preloads given image paths and reports progress via callback.
+   * @param {string[]} paths - Image URLs to load.
+   * @param {(ratio: number) => void} onProgress - Called with 0..1 as each image completes.
+   * @returns {Promise<void>} Resolves when all loads (or errors) have completed.
    */
   static preloadImagesWithProgress(paths, onProgress) {
     const unique = [...new Set(paths)];
@@ -2115,7 +2347,6 @@ class AssetLoader {
     const jobs = unique.map(
       (path) =>
         new Promise((resolve) => {
-          // Wenn bereits im Cache, sofort als „geladen“ zählen
           if (AssetLoader.imageCache[path]) {
             loaded++;
             notify();
@@ -2130,6 +2361,7 @@ class AssetLoader {
             resolve();
           };
           img.onerror = () => {
+            AssetLoader._handleLoadError(path);
             loaded++;
             notify();
             resolve();
@@ -2142,9 +2374,9 @@ class AssetLoader {
   }
 
   /**
-   * Preloads all zentralen Spiel-Sprites (Charakter, Gegner, Flaschen, Coins).
-   * Idempotent: bei Mehrfachaufruf wird immer dieselbe Promise verwendet.
-   * @returns {Promise<void>}
+   * Preloads all core game sprites (character, enemies, bottles, coins). Idempotent:
+   * repeated calls return the same promise.
+   * @returns {Promise<void>} Resolves when all core assets are loaded or failed.
    */
   static preloadCoreAssets() {
     if (this._corePromise) return this._corePromise;
@@ -3140,10 +3372,9 @@ class SoundManager {
       targets[n] = targetVolume;
       s.muted = false;
       s.volume = 0;
-      // keine SFX hier anspielen – sie laufen nur über playSound(name)
+      /* Do not play SFX here; they are triggered only via playSound(name). */
     });
 
-    // optionales weiches Einblenden der Lautstärke
     this.fadeIn(targets);
     this.updateIcon(true);
     this.playBackground("music");
@@ -3261,9 +3492,10 @@ class SoundManager {
 
 // === js/startScreen.js
 /**
- * Starts the game by hiding the start screen,
- * showing a loading overlay, preloading core assets with progress
- * and then initialising the world.
+ * Starts the game: hides start screen, shows loading overlay, preloads core assets
+ * with progress, then initialises the world. Idle pulse on the start button is cancelled.
+ * @async
+ * @returns {Promise<void>}
  */
 async function startGame() {
   cancelStartButtonIdle();
@@ -3280,6 +3512,17 @@ async function startGame() {
   }
 
   hideLoadingOverlay();
+  if (
+    typeof AssetLoader !== "undefined" &&
+    AssetLoader.failedPaths &&
+    AssetLoader.failedPaths.size > 0
+  ) {
+    console.warn(
+      "[El Pollo Loco]",
+      AssetLoader.failedPaths.size,
+      "image(s) failed to load. See console for paths."
+    );
+  }
   init(createLevel1());
   if (typeof updateUiVisibility === "function") updateUiVisibility();
 }
@@ -3287,8 +3530,8 @@ async function startGame() {
 let startIdleTimeoutId;
 
 /**
- * Sets up a gentle idle pulse for the primary start button
- * after a short period of inactivity on the start screen.
+ * Schedules a gentle idle pulse on the primary start button after 4s of no interaction.
+ * Resets the timer on mousemove, keydown, click, or touchstart.
  */
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("btn-start-primary");
@@ -3317,7 +3560,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Cancels the idle pulse when the game actually starts.
+ * Cancels the start-button idle pulse and removes the is-idle class.
  */
 function cancelStartButtonIdle() {
   clearTimeout(startIdleTimeoutId);
@@ -3326,7 +3569,7 @@ function cancelStartButtonIdle() {
 }
 
 /**
- * Shows the loading overlay and resets the bar.
+ * Shows the loading overlay and resets the progress bar to 0.
  */
 function showLoadingOverlay() {
   const overlay = document.getElementById("loadingOverlay");
@@ -3336,8 +3579,8 @@ function showLoadingOverlay() {
 }
 
 /**
- * Updates the width of the loading bar based on ratio 0..1.
- * @param {number} ratio
+ * Updates the loading bar fill width from 0 to 100% based on ratio.
+ * @param {number} ratio - Progress from 0 to 1 (clamped).
  */
 function updateLoadingBar(ratio) {
   const fill = document.getElementById("loadingBarFill");
@@ -3347,7 +3590,7 @@ function updateLoadingBar(ratio) {
 }
 
 /**
- * Hides the loading overlay.
+ * Hides the loading overlay (adds overlay-hidden class).
  */
 function hideLoadingOverlay() {
   const overlay = document.getElementById("loadingOverlay");
@@ -3355,7 +3598,7 @@ function hideLoadingOverlay() {
 }
 
 /**
- * Displays the rules overlay and hides other overlays.
+ * Shows the rules overlay and hides rules/impressum overlays.
  */
 function showRules() {
   hideAllOverlays();
@@ -3364,7 +3607,7 @@ function showRules() {
 }
 
 /**
- * Displays the legal notice overlay and hides other overlays.
+ * Shows the legal notice (Impressum) overlay and hides other overlays.
  */
 function showImpressum() {
   hideAllOverlays();
@@ -3373,7 +3616,7 @@ function showImpressum() {
 }
 
 /**
- * Returns to the start screen and hides overlays.
+ * Returns to the start screen: hides rules/impressum and shows start screen.
  */
 function returnToStart() {
   hideAllOverlays();
@@ -3382,7 +3625,7 @@ function returnToStart() {
 }
 
 /**
- * Hides all overlays (rules and impressum).
+ * Hides rules and impressum overlays (adds overlay-hidden to both).
  */
 function hideAllOverlays() {
   document.getElementById("rulesOverlay").classList.add("overlay-hidden");
@@ -3392,13 +3635,12 @@ function hideAllOverlays() {
 
 // === js/endScreen.js
 /**
- * EndScreen handles displaying the end screen overlay
- * with game statistics and navigation buttons.
+ * Handles the victory/end screen overlay: shows stats and wires back/restart buttons.
+ * Stats and labels use the current i18n language when available.
  */
 class EndScreen {
   /**
-   * Wires up static buttons once after DOM is ready.
-   * Uses static HTML buttons; no dynamic creation.
+   * Wires back and restart buttons once when DOM is ready. No dynamic DOM creation.
    */
   static init() {
     const back = document.getElementById("btn-end-back");
@@ -3408,13 +3650,14 @@ class EndScreen {
   }
 
   /**
-   * Shows the end screen with stats and buttons.
-   * @param {Object} stats - Game statistics.
-   * @param {number} stats.chickens - Number of chickens killed.
-   * @param {number} stats.chickenBigs - Number of big chickens killed.
-   * @param {number} stats.chickenSmalls - Number of small chickens killed.
-   * @param {number} stats.hearts - Remaining player hearts (energy).
-   * @param {number} stats.coins - Collected coins.
+   * Shows the end screen overlay and fills stat placeholders from the given stats.
+   * Uses window.t (i18n) for labels when available.
+   * @param {Object} stats - Game statistics to display.
+   * @param {number} stats.chickens - Normal chickens defeated.
+   * @param {number} stats.chickenBigs - Big chickens defeated.
+   * @param {number} stats.chickenSmalls - Small chickens defeated.
+   * @param {number} stats.hearts - Remaining hearts (energy).
+   * @param {number} stats.coins - Coins collected.
    * @param {number} stats.time - Total play time in seconds.
    */
   static show(stats) {
@@ -3422,27 +3665,27 @@ class EndScreen {
     overlay.classList.remove("overlay-hidden");
     if (typeof updateUiVisibility === "function") updateUiVisibility();
 
-    /* Update stats */
-    document.getElementById("stat-chickens").textContent = `🐓 Normale Hühner: ${stats.chickens}`;
+    /* Update stats (use t() from i18n when available) */
+    const t = typeof window !== "undefined" && window.t ? window.t : (k) => k;
+    document.getElementById("stat-chickens").textContent = `${t("stat_chickens")} ${stats.chickens}`;
     document.getElementById("stat-chickenBigs").textContent =
-      `🐔 Große Hühner: ${stats.chickenBigs}`;
+      `${t("stat_chickenBigs")} ${stats.chickenBigs}`;
     document.getElementById("stat-chickenSmalls").textContent =
-      `🐥 Kleine Hühner: ${stats.chickenSmalls}`;
-    document.getElementById("stat-hearts").textContent = `❤️ Leben: ${stats.hearts}`;
-    document.getElementById("stat-coins").textContent = `🪙 Münzen: ${stats.coins}`;
-    document.getElementById("stat-time").textContent = `⏱️ Zeit: ${stats.time} Sekunden`;
+      `${t("stat_chickenSmalls")} ${stats.chickenSmalls}`;
+    document.getElementById("stat-hearts").textContent = `${t("stat_hearts")} ${stats.hearts}`;
+    document.getElementById("stat-coins").textContent = `${t("stat_coins")} ${stats.coins}`;
+    document.getElementById("stat-time").textContent = t("stat_time").replace("%s", stats.time);
   }
 
   /**
-   * Deprecated helper kept for compatibility. No dynamic creation anymore.
-   * Leaves static HTML buttons in place.
+   * Deprecated; kept for compatibility. Static buttons are wired in init().
    */
   static backBtn() {
-    /* intentionally left minimal: static buttons are wired in init() */
+    /* no-op */
   }
 
   /**
-   * Returns to the start screen and hides the endscreen.
+   * Hides the end screen and shows the start screen again.
    */
   static goToStart() {
     const startScreen = document.getElementById("startScreen");
@@ -3453,7 +3696,7 @@ class EndScreen {
   }
 
   /**
-   * Hides the endscreen and restarts level 1 without page reload.
+   * Hides the end screen, clears intervals, and restarts level 1 (no page reload).
    */
   static restartGame() {
     const endScreen = document.getElementById("endscreenOverlay");
@@ -4338,9 +4581,15 @@ function togglePause() {
 
 // === js/eventBindings.js
 /**
- * Central event bindings for UI elements. Replaces inline onclick/onkeydown in HTML.
+ * Central event bindings for UI elements (start, rules, impressum, sound, abort, language).
+ * Replaces inline onclick/onkeydown in HTML. Runs once on DOMContentLoaded.
+ * @module eventBindings
  */
 (function () {
+  /**
+   * Attaches click/keydown listeners to all relevant buttons and controls.
+   * @private
+   */
   function bindOnceReady() {
     const soundToggle = document.getElementById("soundToggle");
     if (soundToggle) {
@@ -4368,30 +4617,31 @@ function togglePause() {
       btnStart.addEventListener("click", startGame);
     }
 
-    const startScreen = document.getElementById("startScreen");
-    if (startScreen) {
-      const rulesBtn = startScreen.querySelector('[aria-label="Spielregeln anzeigen"]');
-      if (rulesBtn && typeof showRules === "function") {
-        rulesBtn.addEventListener("click", showRules);
-      }
-      const impressumBtn = startScreen.querySelector('[aria-label="Impressum anzeigen"]');
-      if (impressumBtn && typeof showImpressum === "function") {
-        impressumBtn.addEventListener("click", showImpressum);
-      }
+    const rulesBtn = document.getElementById("btn-rules");
+    if (rulesBtn && typeof showRules === "function") {
+      rulesBtn.addEventListener("click", showRules);
+    }
+    const impressumBtn = document.getElementById("btn-impressum");
+    if (impressumBtn && typeof showImpressum === "function") {
+      impressumBtn.addEventListener("click", showImpressum);
     }
 
-    const rulesBackBtns = document.querySelectorAll(
-      '#rulesOverlay [aria-label="Zurück zum Startbildschirm"]'
-    );
+    const langDe = document.getElementById("lang-de");
+    const langEn = document.getElementById("lang-en");
+    if (langDe && typeof setLanguage === "function") {
+      langDe.addEventListener("click", () => setLanguage("de"));
+    }
+    if (langEn && typeof setLanguage === "function") {
+      langEn.addEventListener("click", () => setLanguage("en"));
+    }
+
+    const rulesBackBtns = document.querySelectorAll(".rules-menu-button-rules-close");
     rulesBackBtns.forEach((btn) => {
       if (btn && typeof returnToStart === "function") {
         btn.addEventListener("click", returnToStart);
       }
     });
-
-    const impressumBackBtns = document.querySelectorAll(
-      '#impressumOverlay [aria-label="Zurück zum Startbildschirm"]'
-    );
+    const impressumBackBtns = document.querySelectorAll(".impressum-menu-button-close");
     impressumBackBtns.forEach((btn) => {
       if (btn && typeof returnToStart === "function") {
         btn.addEventListener("click", returnToStart);

@@ -1,11 +1,10 @@
 /**
- * EndScreen handles displaying the end screen overlay
- * with game statistics and navigation buttons.
+ * Handles the victory/end screen overlay: shows stats and wires back/restart buttons.
+ * Stats and labels use the current i18n language when available.
  */
 class EndScreen {
   /**
-   * Wires up static buttons once after DOM is ready.
-   * Uses static HTML buttons; no dynamic creation.
+   * Wires back and restart buttons once when DOM is ready. No dynamic DOM creation.
    */
   static init() {
     const back = document.getElementById("btn-end-back");
@@ -15,13 +14,14 @@ class EndScreen {
   }
 
   /**
-   * Shows the end screen with stats and buttons.
-   * @param {Object} stats - Game statistics.
-   * @param {number} stats.chickens - Number of chickens killed.
-   * @param {number} stats.chickenBigs - Number of big chickens killed.
-   * @param {number} stats.chickenSmalls - Number of small chickens killed.
-   * @param {number} stats.hearts - Remaining player hearts (energy).
-   * @param {number} stats.coins - Collected coins.
+   * Shows the end screen overlay and fills stat placeholders from the given stats.
+   * Uses window.t (i18n) for labels when available.
+   * @param {Object} stats - Game statistics to display.
+   * @param {number} stats.chickens - Normal chickens defeated.
+   * @param {number} stats.chickenBigs - Big chickens defeated.
+   * @param {number} stats.chickenSmalls - Small chickens defeated.
+   * @param {number} stats.hearts - Remaining hearts (energy).
+   * @param {number} stats.coins - Coins collected.
    * @param {number} stats.time - Total play time in seconds.
    */
   static show(stats) {
@@ -29,27 +29,27 @@ class EndScreen {
     overlay.classList.remove("overlay-hidden");
     if (typeof updateUiVisibility === "function") updateUiVisibility();
 
-    /* Update stats */
-    document.getElementById("stat-chickens").textContent = `🐓 Normale Hühner: ${stats.chickens}`;
+    /* Update stats (use t() from i18n when available) */
+    const t = typeof window !== "undefined" && window.t ? window.t : (k) => k;
+    document.getElementById("stat-chickens").textContent = `${t("stat_chickens")} ${stats.chickens}`;
     document.getElementById("stat-chickenBigs").textContent =
-      `🐔 Große Hühner: ${stats.chickenBigs}`;
+      `${t("stat_chickenBigs")} ${stats.chickenBigs}`;
     document.getElementById("stat-chickenSmalls").textContent =
-      `🐥 Kleine Hühner: ${stats.chickenSmalls}`;
-    document.getElementById("stat-hearts").textContent = `❤️ Leben: ${stats.hearts}`;
-    document.getElementById("stat-coins").textContent = `🪙 Münzen: ${stats.coins}`;
-    document.getElementById("stat-time").textContent = `⏱️ Zeit: ${stats.time} Sekunden`;
+      `${t("stat_chickenSmalls")} ${stats.chickenSmalls}`;
+    document.getElementById("stat-hearts").textContent = `${t("stat_hearts")} ${stats.hearts}`;
+    document.getElementById("stat-coins").textContent = `${t("stat_coins")} ${stats.coins}`;
+    document.getElementById("stat-time").textContent = t("stat_time").replace("%s", stats.time);
   }
 
   /**
-   * Deprecated helper kept for compatibility. No dynamic creation anymore.
-   * Leaves static HTML buttons in place.
+   * Deprecated; kept for compatibility. Static buttons are wired in init().
    */
   static backBtn() {
-    /* intentionally left minimal: static buttons are wired in init() */
+    /* no-op */
   }
 
   /**
-   * Returns to the start screen and hides the endscreen.
+   * Hides the end screen and shows the start screen again.
    */
   static goToStart() {
     const startScreen = document.getElementById("startScreen");
@@ -60,7 +60,7 @@ class EndScreen {
   }
 
   /**
-   * Hides the endscreen and restarts level 1 without page reload.
+   * Hides the end screen, clears intervals, and restarts level 1 (no page reload).
    */
   static restartGame() {
     const endScreen = document.getElementById("endscreenOverlay");

@@ -80,10 +80,9 @@ class SoundManager {
       targets[n] = targetVolume;
       s.muted = false;
       s.volume = 0;
-      // keine SFX hier anspielen – sie laufen nur über playSound(name)
+      /* Do not play SFX here; they are triggered only via playSound(name). */
     });
 
-    // optionales weiches Einblenden der Lautstärke
     this.fadeIn(targets);
     this.updateIcon(true);
     this.playBackground("music");

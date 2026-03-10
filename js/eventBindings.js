@@ -1,7 +1,13 @@
 /**
- * Central event bindings for UI elements. Replaces inline onclick/onkeydown in HTML.
+ * Central event bindings for UI elements (start, rules, impressum, sound, abort, language).
+ * Replaces inline onclick/onkeydown in HTML. Runs once on DOMContentLoaded.
+ * @module eventBindings
  */
 (function () {
+  /**
+   * Attaches click/keydown listeners to all relevant buttons and controls.
+   * @private
+   */
   function bindOnceReady() {
     const soundToggle = document.getElementById("soundToggle");
     if (soundToggle) {
@@ -29,30 +35,31 @@
       btnStart.addEventListener("click", startGame);
     }
 
-    const startScreen = document.getElementById("startScreen");
-    if (startScreen) {
-      const rulesBtn = startScreen.querySelector('[aria-label="Spielregeln anzeigen"]');
-      if (rulesBtn && typeof showRules === "function") {
-        rulesBtn.addEventListener("click", showRules);
-      }
-      const impressumBtn = startScreen.querySelector('[aria-label="Impressum anzeigen"]');
-      if (impressumBtn && typeof showImpressum === "function") {
-        impressumBtn.addEventListener("click", showImpressum);
-      }
+    const rulesBtn = document.getElementById("btn-rules");
+    if (rulesBtn && typeof showRules === "function") {
+      rulesBtn.addEventListener("click", showRules);
+    }
+    const impressumBtn = document.getElementById("btn-impressum");
+    if (impressumBtn && typeof showImpressum === "function") {
+      impressumBtn.addEventListener("click", showImpressum);
     }
 
-    const rulesBackBtns = document.querySelectorAll(
-      '#rulesOverlay [aria-label="Zurück zum Startbildschirm"]'
-    );
+    const langDe = document.getElementById("lang-de");
+    const langEn = document.getElementById("lang-en");
+    if (langDe && typeof setLanguage === "function") {
+      langDe.addEventListener("click", () => setLanguage("de"));
+    }
+    if (langEn && typeof setLanguage === "function") {
+      langEn.addEventListener("click", () => setLanguage("en"));
+    }
+
+    const rulesBackBtns = document.querySelectorAll(".rules-menu-button-rules-close");
     rulesBackBtns.forEach((btn) => {
       if (btn && typeof returnToStart === "function") {
         btn.addEventListener("click", returnToStart);
       }
     });
-
-    const impressumBackBtns = document.querySelectorAll(
-      '#impressumOverlay [aria-label="Zurück zum Startbildschirm"]'
-    );
+    const impressumBackBtns = document.querySelectorAll(".impressum-menu-button-close");
     impressumBackBtns.forEach((btn) => {
       if (btn && typeof returnToStart === "function") {
         btn.addEventListener("click", returnToStart);

@@ -55,6 +55,41 @@
   padding: 0.5rem;
 }
 
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0 0.75rem;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffd000;
+  background: transparent;
+  border: 1px solid rgba(255, 208, 0, 0.6);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.lang-btn:hover,
+.lang-btn:focus-visible {
+  background: rgba(255, 208, 0, 0.2);
+  color: #fff;
+}
+
+.lang-sep {
+  color: rgba(255, 208, 0, 0.7);
+  font-weight: bold;
+}
+
 .buttons-container-start {
   display: flex;
   justify-content: center;

@@ -11,17 +11,13 @@
     <script src="./dist/bundle.js"></script>
   </head>
   <body>
-    <a href="#canvas" class="skip-link"> Direkt zum Spiel springen </a>
-    <p class="visually-hidden" aria-live="polite" id="a11yNote">
-      Hinweis zur Barrierefreiheit: Dieses Spiel basiert vollständig auf einer visuellen
-      Canvas-Darstellung. Für Nutzerinnen und Nutzer, die ausschließlich mit Screenreader arbeiten,
-      ist das Gameplay nur eingeschränkt oder gar nicht zugänglich. Die Spielregeln und das
-      Impressum stehen als Text zur Verfügung.
-    </p>
+    <a href="#canvas" class="skip-link" data-i18n="skip_link">Direkt zum Spiel springen</a>
+    <p class="visually-hidden" aria-live="polite" id="a11yNote" data-i18n="a11y_note"></p>
     <img
       id="soundToggle"
       src="./imgs/logos/musicOff.png"
-      alt="Musik ein- oder ausschalten"
+      data-i18n-aria="sound_alt"
+      alt=""
       role="button"
       tabindex="0"
     />
@@ -29,15 +25,12 @@
       id="abortToStart"
       class="overlay-hidden"
       src="./imgs/logos/close-btn-red.png"
-      alt="Spiel abbrechen und zum Startmenü zurückkehren"
+      data-i18n-aria="abort_alt"
+      alt=""
       role="button"
       tabindex="0"
     />
-    <canvas
-      id="canvas"
-      aria-label="Spieloberfläche des Jump-and-Run Spiels El Pollo Loco"
-      aria-describedby="a11yNote"
-    ></canvas>
+    <canvas id="canvas" data-i18n-aria="canvas_aria" aria-describedby="a11yNote"></canvas>
     <div
       id="restartPrompt"
       class="restart-prompt is-hidden"
@@ -50,25 +43,23 @@
       <div class="restart-box">
         <div class="background-container-transparency-gameover">
           <div class="restart-header">
-            <div id="restartTitle" class="restart-title">Game over!</div>
+            <div id="restartTitle" class="restart-title" data-i18n="gameover_title"></div>
           </div>
           <div class="restart-hint">
-            <div id="restartQuestion" class="restart-question-txt">Traust du dich nochmal?</div>
+            <div
+              id="restartQuestion"
+              class="restart-question-txt"
+              data-i18n="gameover_question"
+            ></div>
             <div class="restart-btn-txt-container">
-              <button class="restart-btn" type="button" aria-label="Spiel neu starten (Taste J)">
+              <button class="restart-btn" type="button" data-i18n-aria="gameover_restart_aria">
                 J
               </button>
-              <div class="restart-txt">&nbsp;= Ja, diesen Chicken's werde ich's zeigen!</div>
+              <div class="restart-txt" data-i18n="gameover_yes"></div>
             </div>
             <div class="restart-btn-txt-container">
-              <button
-                class="restart-btn"
-                type="button"
-                aria-label="Spiel beenden und Spielregeln lesen (Taste N)"
-              >
-                N
-              </button>
-              <div class="restart-txt">&nbsp;= Nein, ich check erst mal die Spielregeln.</div>
+              <button class="restart-btn" type="button" data-i18n-aria="gameover_no_aria">N</button>
+              <div class="restart-txt" data-i18n="gameover_no"></div>
             </div>
           </div>
         </div>
@@ -86,27 +77,17 @@
       <div class="cancel-container" id="cancelScreen">
         <div class="background-container-transparency-cancel">
           <div class="cancel-header">
-            <div id="cancelTitle" class="cancel-title">Spiel beenden?</div>
+            <div id="cancelTitle" class="cancel-title" data-i18n="cancel_title"></div>
           </div>
           <div class="cancel-hint">
-            <div id="cancelQuestion" class="cancel-question-txt">
-              Willst du wirklich das Spiel aufgeben?
+            <div id="cancelQuestion" class="cancel-question-txt" data-i18n="cancel_question"></div>
+            <div class="cancel-btn-txt-container">
+              <button class="cancel-btn" type="button" data-i18n-aria="cancel_yes_aria">J</button>
+              <div class="cancel-txt" data-i18n="cancel_yes"></div>
             </div>
             <div class="cancel-btn-txt-container">
-              <button
-                class="cancel-btn"
-                type="button"
-                aria-label="Spiel beenden und zum Start zurückkehren (Taste J)"
-              >
-                J
-              </button>
-              <div class="cancel-txt">&nbsp;= ja, das Spiel beenden.</div>
-            </div>
-            <div class="cancel-btn-txt-container">
-              <button class="cancel-btn" type="button" aria-label="Weiter spielen (Taste N)">
-                N
-              </button>
-              <div class="cancel-txt">&nbsp;= Nein auf keinen Fall, ich möchte weiter spielen!</div>
+              <button class="cancel-btn" type="button" data-i18n-aria="cancel_no_aria">N</button>
+              <div class="cancel-txt" data-i18n="cancel_no"></div>
             </div>
           </div>
         </div>
@@ -121,22 +102,44 @@
     >
       <div class="overlay-content-start">
         <div class="header-container-start">
-          <div class="header-txt-start" id="startScreenTitle">Willkommen bei&nbsp;</div>
-          <div class="header-txt-start">El Pollo Loco</div>
+          <div class="header-txt-start" id="startScreenTitle" data-i18n="start_title"></div>
+          <div class="header-txt-start" data-i18n="start_title2"></div>
+        </div>
+        <div class="lang-switcher" role="group" data-i18n-aria="lang_group_aria">
+          <button type="button" class="lang-btn" id="lang-de" data-lang="de" data-i18n="lang_de">
+            DE
+          </button>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <button type="button" class="lang-btn" id="lang-en" data-lang="en" data-i18n="lang_en">
+            EN
+          </button>
         </div>
         <div class="buttons-container-start">
           <button
             class="menu-btn-start"
             type="button"
-            aria-label="Spiel starten"
             id="btn-start-primary"
+            data-i18n="btn_start"
+            data-i18n-aria="btn_start_aria"
           >
             ▶️ Spiel starten
           </button>
-          <button class="menu-btn-start" type="button" aria-label="Spielregeln anzeigen">
+          <button
+            class="menu-btn-start"
+            type="button"
+            id="btn-rules"
+            data-i18n="btn_rules"
+            data-i18n-aria="btn_rules_aria"
+          >
             🕹️ Spielregeln
           </button>
-          <button class="menu-btn-start" type="button" aria-label="Impressum anzeigen">
+          <button
+            class="menu-btn-start"
+            type="button"
+            id="btn-impressum"
+            data-i18n="btn_impressum"
+            data-i18n-aria="btn_impressum_aria"
+          >
             ℹ️ Impressum
           </button>
         </div>
@@ -144,7 +147,7 @@
     </div>
     <div id="loadingOverlay" class="overlay overlay-hidden" role="status" aria-live="polite">
       <div class="loading-box">
-        <div class="loading-text">Lade Spielgrafiken…</div>
+        <div class="loading-text" data-i18n="loading_text"></div>
         <div class="loading-bar">
           <div id="loadingBarFill" class="loading-bar-fill"></div>
         </div>
@@ -160,23 +163,24 @@
       <div class="overlay-content-rules">
         <div class="background-container-transparency-rules">
           <div class="header-container-rules">
-            <div class="header-rules" id="rulesTitle">Spielregeln:</div>
+            <div class="header-rules" id="rulesTitle" data-i18n="rules_title"></div>
           </div>
           <div class="rules-content">
             <div class="rules-content-txt-button-container">
               <div class="rules-content-txt-container">
-                <p class="rules-txt">⬅️ Pfeil links: Pepe läuft nach links.</p>
-                <p class="rules-txt">➡️ Pfeil rechts: Pepe läuft nach rechts.</p>
-                <p class="rules-txt">⬆️ Pfeil oben: Pepe springt.</p>
-                <p class="rules-txt">SPACE (Leer): Pepe wirft eine Flasche.</p>
-                <p class="rules-txt">🔇 T = Musik aus, 🔊 Z = Musik an.</p>
-                <p class="rules-txt">⏯️ P = Pause starten/beenden.</p>
+                <p class="rules-txt" data-i18n="rules_1"></p>
+                <p class="rules-txt" data-i18n="rules_2"></p>
+                <p class="rules-txt" data-i18n="rules_3"></p>
+                <p class="rules-txt" data-i18n="rules_4"></p>
+                <p class="rules-txt" data-i18n="rules_5"></p>
+                <p class="rules-txt" data-i18n="rules_6"></p>
               </div>
               <div class="rules-menu-btn-container-alignement">
                 <button
                   class="rules-menu-button-rules-close"
                   type="button"
-                  aria-label="Zurück zum Startbildschirm"
+                  data-i18n="rules_back"
+                  data-i18n-aria="rules_back_aria"
                 >
                   ⬅️ Zurück
                 </button>
@@ -196,7 +200,7 @@
       <div class="overlay-content-impressum">
         <div class="background-container-transparency-impressum">
           <div class="header-container-impressum">
-            <div class="header-impressum-txt" id="impressumTitle">Impressum:</div>
+            <div class="header-impressum-txt" id="impressumTitle" data-i18n="impressum_title"></div>
           </div>
           <div class="impressum-content-container">
             <div class="impressum-content-txt">
@@ -228,7 +232,8 @@
                 <button
                   class="impressum-menu-button-close"
                   type="button"
-                  aria-label="Zurück zum Startbildschirm"
+                  data-i18n="rules_back"
+                  data-i18n-aria="impressum_back_aria"
                 >
                   ⬅️ Zurück
                 </button>
@@ -246,46 +251,47 @@
       aria-labelledby="pauseTxt"
     >
       <div class="pause-content">
-        <div id="pauseTxt" class="pause-header">PAUSE</div>
-        <div class="pause-description">zum beenden der Pause</div>
-        <div class="pause-description">und starten des Countdowns</div>
+        <div id="pauseTxt" class="pause-header" data-i18n="pause_title"></div>
+        <div class="pause-description" data-i18n="pause_line1"></div>
+        <div class="pause-description" data-i18n="pause_line2"></div>
         <div class="pause-description">
-          <button class="pause-back-to-game-btn" type="button" aria-label="Pause beenden (Taste P)">
+          <button class="pause-back-to-game-btn" type="button" data-i18n-aria="pause_btn_aria">
             P
           </button>
           <div id="pauseCountdown" class="pause-countdown-txt" aria-live="polite"></div>
         </div>
-        <div class="pause-description">drücken</div>
+        <div class="pause-description" data-i18n="pause_line3"></div>
       </div>
     </div>
     <div class="rotate-warning" id="rotateWarning" role="alert" aria-live="assertive">
       <div class="rotate-warning-container-logo-txt">
-        <p class="rotate-txt">Drehe ins Querformat,</p>
-        <p class="rotate-txt">um zu spielen.</p>
+        <p class="rotate-txt" data-i18n="rotate_1"></p>
+        <p class="rotate-txt" data-i18n="rotate_2"></p>
       </div>
     </div>
     <div
       id="mobileControls"
       class="mobile-controls-buttons-container overlay-hidden"
-      aria-label="Mobile Steuerung für El Pollo Loco"
+      data-i18n-aria="mobile_aria"
     >
       <div class="control-left-right">
-        <button id="btn-left" class="btn-left" type="button" aria-label="Nach links laufen">
+        <button id="btn-left" class="btn-left" type="button" data-i18n-aria="btn_left_aria">
           <div class="button-sign-left">⬅️</div>
         </button>
-        <button id="btn-right" class="btn-right" type="button" aria-label="Nach rechts laufen">
+        <button id="btn-right" class="btn-right" type="button" data-i18n-aria="btn_right_aria">
           <div class="button-sign-right">➡️</div>
         </button>
       </div>
       <div class="control-throw-jump">
-        <button id="btn-throw" class="btn-throw" type="button" aria-label="Flasche werfen">
+        <button id="btn-throw" class="btn-throw" type="button" data-i18n-aria="btn_throw_aria">
           <img
             class="button-sign-throw"
             src="./imgs/6_salsa_bottle/2_salsa_bottle_on_ground.png"
-            alt="Flasche werfen"
+            alt=""
+            data-i18n-aria="btn_throw_aria"
           />
         </button>
-        <button id="btn-jump" class="btn-jump" type="button" aria-label="Springen">
+        <button id="btn-jump" class="btn-jump" type="button" data-i18n-aria="btn_jump_aria">
           <div class="button-sign-jump">⬆️</div>
         </button>
       </div>
@@ -300,7 +306,7 @@
     >
       <div class="endscreen-content">
         <div class="background-container-transparency-end">
-          <div class="endscreen-title" id="endscreenTitle">Herzlichen Glückwunsch !</div>
+          <div class="endscreen-title" id="endscreenTitle" data-i18n="endscreen_title"></div>
           <div class="endscreen-container-stats">
             <p id="stat-chickens" class="endscreen-stat" aria-live="polite"></p>
             <p id="stat-chickenBigs" class="endscreen-stat" aria-live="polite"></p>
@@ -314,7 +320,8 @@
               id="btn-end-back"
               class="endscreen-button"
               type="button"
-              aria-label="Zurück zum Startbildschirm"
+              data-i18n="btn_end_back"
+              data-i18n-aria="btn_end_back_aria"
             >
               ⬅️ zurück zum Start
             </button>
@@ -322,7 +329,8 @@
               id="btn-end-restart"
               class="endscreen-button"
               type="button"
-              aria-label="Spiel erneut starten"
+              data-i18n="btn_end_restart"
+              data-i18n-aria="btn_end_restart_aria"
             >
               🔁 Versuch's nochmal
             </button>

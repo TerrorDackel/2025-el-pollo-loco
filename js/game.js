@@ -395,10 +395,15 @@ const Game = (function () {
 
 window.game = Game;
 
+/**
+ * Initialises the game with the given level. Exposed globally for HTML/event handlers.
+ * @param {Level} [level=level1] - Level instance to run.
+ */
 function init(level = level1) {
   Game.init(level);
 }
 
+/** Resets the game and restarts level 1. */
 function resetGame() {
   Game.resetGame();
 }

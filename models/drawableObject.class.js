@@ -57,6 +57,9 @@ class DrawableObject {
       return;
     }
     const img = new Image();
+    img.onerror = () => {
+      console.warn("[DrawableObject] Image failed to load:", path);
+    };
     img.src = path;
     this.img = img;
     if (typeof AssetLoader !== "undefined" && AssetLoader.imageCache) {
@@ -76,6 +79,9 @@ class DrawableObject {
           : undefined;
       if (!img) {
         img = new Image();
+        img.onerror = () => {
+          console.warn("[DrawableObject] Image failed to load:", path);
+        };
         img.src = path;
         if (typeof AssetLoader !== "undefined" && AssetLoader.imageCache) {
           AssetLoader.imageCache[path] = img;
