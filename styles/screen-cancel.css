@@ -11,7 +11,7 @@
   margin: 0;
   z-index: 40;
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: center center;
   background-size: cover;
   background-image: url("../imgs/9_intro_outro_screens/cancel/cancel.jpg");
 }
@@ -22,8 +22,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 3rem;
-  width: 99%;
-  height: 99%;
+  min-width: 100dvw;
+  max-width: 720px;
+  min-height: 100dvh;
+  max-height: 480px;
 }
 
 .background-container-transparency-cancel {
