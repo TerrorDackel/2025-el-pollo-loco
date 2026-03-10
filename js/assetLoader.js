@@ -203,6 +203,16 @@ class AssetLoader {
       "./imgs/4_enemie_boss_chicken/5_dead/G26.png",
     ];
 
+    const overlayBackgrounds = [
+      "./imgs/9_intro_outro_screens/pause/pause-screen.png",
+      "./imgs/9_intro_outro_screens/cancel/cancel.jpg",
+      "./imgs/9_intro_outro_screens/game_over/game-over.jpg",
+      "./imgs/5_background/happy-mexican.jpg",
+      "./imgs/5_background/mex skulls.jpg",
+      "./imgs/5_background/mexican-pyramide-night.jpg",
+      "./imgs/5_background/smiling-mexican-girl.jpg",
+    ];
+
     const all = [
       ...characterImages,
       ...bottleImages,
@@ -210,6 +220,7 @@ class AssetLoader {
       ...chickenImages,
       ...bigChickenImages,
       ...endbossImages,
+      ...overlayBackgrounds,
     ];
 
     this._corePromise = this.preloadImages(all);
@@ -339,6 +350,16 @@ class AssetLoader {
       "./imgs/4_enemie_boss_chicken/5_dead/G26.png",
     ];
 
+    const overlayBackgrounds = [
+      "./imgs/9_intro_outro_screens/pause/pause-screen.png",
+      "./imgs/9_intro_outro_screens/cancel/cancel.jpg",
+      "./imgs/9_intro_outro_screens/game_over/game-over.jpg",
+      "./imgs/5_background/happy-mexican.jpg",
+      "./imgs/5_background/mex skulls.jpg",
+      "./imgs/5_background/mexican-pyramide-night.jpg",
+      "./imgs/5_background/smiling-mexican-girl.jpg",
+    ];
+
     const all = [
       ...characterImages,
       ...bottleImages,
@@ -346,6 +367,7 @@ class AssetLoader {
       ...chickenImages,
       ...bigChickenImages,
       ...endbossImages,
+      ...overlayBackgrounds,
     ];
 
     return this.preloadImagesWithProgress(all, onProgress);

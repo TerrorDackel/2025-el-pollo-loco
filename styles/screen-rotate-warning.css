@@ -1,16 +1,37 @@
 #rotateWarning {
   display: none;
+  position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100%;
   min-width: 100dvw;
-  max-width: 480px;
+  max-width: 720px;
   min-height: 100dvh;
-  max-height: 720px;
+  max-height: 480px;
+  margin: 0;
   background-color: black;
+  z-index: 50;
+}
+
+#rotateWarning::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image: url("../imgs/5_background/mobile-rotate-bright.jpg");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: contain;
-  z-index: 30;
+  background-size: 80%;
+  border-radius: 3rem;
+  overflow: hidden;
+  z-index: 0;
+}
+
+#rotateWarning::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 1;
 }
 
 body.is-portrait #rotateWarning {
@@ -40,17 +61,24 @@ body.is-portrait #mobileControls {
   justify-content: center;
   width: 100%;
   height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .rotate-warning-container-logo-txt {
-  width: 100%;
+  display: grid;
+  grid-template-rows: 30% 1fr 30%;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  height: 100%;
   font-family: "Zabras";
   font-size: 4rem;
   color: #f3a71a;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 3rem;
-  padding: 1rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .rotate-txt {
@@ -58,6 +86,11 @@ body.is-portrait #mobileControls {
   align-items: center;
   justify-content: center;
   padding: 0;
+  margin: 0;
+}
+
+.rotate-txt:last-child {
+  grid-row: 3;
 }
 
 @keyframes fadeIn {
