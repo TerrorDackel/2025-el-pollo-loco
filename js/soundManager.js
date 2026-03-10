@@ -70,20 +70,20 @@ class SoundManager {
     this.updateIcon(false);
   }
 
-  /** Gradually unmutes all sounds by fading them in. */
+  /** Gradually unmutes all sounds by fading them in, without triggering SFX. */
   static unmuteAll() {
     this.isMuted = false;
 
     const targets = {};
     Object.entries(this.sounds).forEach(([n, s]) => {
-      targets[n] = this.volumeSettings[n] || 0.2;
+      const targetVolume = this.volumeSettings[n] || 0.2;
+      targets[n] = targetVolume;
       s.muted = false;
       s.volume = 0;
-      if (n !== "music" && n !== "bossMusic") {
-        s.play().catch(() => {});
-      }
+      // keine SFX hier anspielen – sie laufen nur über playSound(name)
     });
 
+    // optionales weiches Einblenden der Lautstärke
     this.fadeIn(targets);
     this.updateIcon(true);
     this.playBackground("music");
