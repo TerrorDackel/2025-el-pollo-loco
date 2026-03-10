@@ -509,7 +509,11 @@ function updateUiVisibility() {
  * Used to drive CSS rules for rotate warning and canvas visibility.
  */
 function updateOrientationBodyClass() {
-  document.body.classList.toggle("is-portrait", window.innerHeight > window.innerWidth);
+  const mq = window.matchMedia("(orientation: landscape)");
+  const isLandscapeByMedia = mq.matches;
+  const isPortraitByRatio = window.innerHeight > window.innerWidth;
+  const treatAsPortrait = !isLandscapeByMedia && isPortraitByRatio;
+  document.body.classList.toggle("is-portrait", treatAsPortrait);
 }
 
 /**
