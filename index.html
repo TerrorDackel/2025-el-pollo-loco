@@ -8,31 +8,7 @@
     <title>El Pollo Loco</title>
     <link href="./styles.css" rel="stylesheet" />
 
-    <script src="./models/keyboard.class.js"></script>
-    <script src="./models/drawableObject.class.js"></script>
-    <script src="./models/movable.object.class.js"></script>
-    <script src="./models/character.class.js"></script>
-    <script src="./models/throwableObjects.class.js"></script>
-    <script src="./models/chicken.class.js"></script>
-    <script src="./models/chickensmall.class.js"></script>
-    <script src="./models/chickenBig.class.js"></script>
-    <script src="./models/cloud.class.js"></script>
-    <script src="./models/backgroundobjects.class.js"></script>
-    <script src="./models/coins.class.js"></script>
-    <script src="./models/bottles.class.js"></script>
-    <script src="./models/endboss.class.js"></script>
-    <script src="./models/statusBar.class.js"></script>
-    <script src="./models/level.class.js"></script>
-    <script src="./levels/level1.js"></script>
-    <script src="./models/world.class.js"></script>
-    <script src="./js/soundManager.js"></script>
-    <script src="./js/assetLoader.js"></script>
-    <script src="./js/startScreen.js"></script>
-    <script src="./js/endScreen.js"></script>
-    <script src="./js/pauseScreen.js"></script>
-    <script src="./js/gameOverScreen.js"></script>
-    <script src="./js/cancelScreen.js"></script>
-    <script src="./js/game.js"></script>
+    <script src="./dist/bundle.js"></script>
   </head>
   <body>
     <a href="#canvas" class="skip-link"> Direkt zum Spiel springen </a>
@@ -48,12 +24,6 @@
       alt="Musik ein- oder ausschalten"
       role="button"
       tabindex="0"
-      onkeydown="
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          this.click();
-        }
-      "
     />
     <img
       id="abortToStart"
@@ -62,12 +32,6 @@
       alt="Spiel abbrechen und zum Startmenü zurückkehren"
       role="button"
       tabindex="0"
-      onkeydown="
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          this.click();
-        }
-      "
     />
     <canvas
       id="canvas"
@@ -164,26 +128,15 @@
           <button
             class="menu-btn-start"
             type="button"
-            onclick="startGame()"
             aria-label="Spiel starten"
             id="btn-start-primary"
           >
             ▶️ Spiel starten
           </button>
-          <button
-            class="menu-btn-start"
-            type="button"
-            onclick="showRules()"
-            aria-label="Spielregeln anzeigen"
-          >
+          <button class="menu-btn-start" type="button" aria-label="Spielregeln anzeigen">
             🕹️ Spielregeln
           </button>
-          <button
-            class="menu-btn-start"
-            type="button"
-            onclick="showImpressum()"
-            aria-label="Impressum anzeigen"
-          >
+          <button class="menu-btn-start" type="button" aria-label="Impressum anzeigen">
             ℹ️ Impressum
           </button>
         </div>
@@ -223,7 +176,6 @@
                 <button
                   class="rules-menu-button-rules-close"
                   type="button"
-                  onclick="returnToStart()"
                   aria-label="Zurück zum Startbildschirm"
                 >
                   ⬅️ Zurück
@@ -276,7 +228,6 @@
                 <button
                   class="impressum-menu-button-close"
                   type="button"
-                  onclick="returnToStart()"
                   aria-label="Zurück zum Startbildschirm"
                 >
                   ⬅️ Zurück

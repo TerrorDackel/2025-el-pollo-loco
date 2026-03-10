@@ -1,4 +1,4 @@
-﻿{
+{
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "eslint": "^9.39.2",
@@ -12,6 +12,7 @@
   },
   "scripts": {
     "prepare": "husky",
+    "build": "node scripts/build.js",
     "lint": "eslint js models levels",
     "format": "prettier . --write",
     "format:check": "prettier \"js/**/*.js\" \"models/**/*.js\" \"levels/**/*.js\" \"styles/**/*.css\" \"index.html\" \"eslint.config.js\" \"vitest.config.js\" \".prettierrc.json\" --check",

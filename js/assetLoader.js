@@ -391,3 +391,7 @@ function preloadCoreAssetsWithProgress(onProgress) {
   return AssetLoader.preloadCoreAssetsWithProgress(onProgress);
 }
 
+if (typeof window !== "undefined") {
+  window.AssetLoader = AssetLoader;
+}
+
