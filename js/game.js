@@ -218,7 +218,7 @@ const Game = (function () {
   }
 
   function resumeAfterCountdown() {
-    speak("GO!");
+    if (!SoundManager.isMuted) speak("GO!");
     if (state.world) state.world.resumeGame();
     state.gamePaused = false;
     state.countdownActive = false;

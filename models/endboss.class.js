@@ -60,7 +60,7 @@ class Endboss extends MovableObject {
     "./imgs/4_enemie_boss_chicken/4_hurt/G23.png",
   ];
 
-  /** @type {string[]} Angry animation image paths. */
+  /** @type {string[]} Angry animation: alert (G5–G12) then walk (G1–G4) for a continuous “angry walking” loop. */
   IMAGES_ANGRY = [
     "./imgs/4_enemie_boss_chicken/2_alert/G5.png",
     "./imgs/4_enemie_boss_chicken/2_alert/G6.png",
