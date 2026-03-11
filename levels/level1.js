@@ -161,3 +161,7 @@ function createBackgroundObjects() {
  * @type {Level}
  */
 const level1 = createLevel1();
+
+if (typeof window !== "undefined") {
+  window.createLevel1 = createLevel1;
+}

@@ -36,21 +36,39 @@ Solo project from the Developer Akademie frontend program. I used it to practice
 - Collision detection (player, enemies, collectables)
 - Game state (running, paused, game over, victory)
 - Asset preloading with progress and error handling
-- Centralised game state (`Game` object), build step (single bundle), and tests
+- Centralised game state (`Game` object), build step (single bundle), and unit/integration tests (Vitest)
+
+---
+
+## Testing
+
+Tests run in Vitest with jsdom. Run all tests with `npm run test:run`.
+
+| Suite                  | What is tested                                                            |
+| ---------------------- | ------------------------------------------------------------------------- |
+| **smoke**              | Test runner and environment                                               |
+| **build**              | Build script produces `dist/bundle.js` with expected content              |
+| **game & AssetLoader** | Bundle exposes `game` (state) and `AssetLoader` (cache, preload)          |
+| **i18n**               | Language API (`t`, `setLanguage`, `getLanguage`), DE/EN keys, DOM updates |
+| **level**              | `createLevel1()` returns level with enemies, clouds, boss                 |
+| **keyboard**           | `game.state.keyboard` and `isAnyActionPressed()` behaviour                |
+
+There are **23 tests** in total (6 suites).
 
 ---
 
 ## Project structure
 
-| Path              | Description                                        |
-| ----------------- | -------------------------------------------------- |
-| `index.html`      | Entry point, canvas and overlay layout             |
-| `styles.css`      | Global styles and screen-specific CSS              |
-| `js/`             | Game logic, screens, asset loader, i18n, events    |
-| `models/`         | Character, enemies, world, level, drawables        |
-| `levels/`         | Level configuration (e.g. `level1.js`)             |
-| `scripts/`        | Build script (concatenates JS to `dist/bundle.js`) |
-| `imgs/`, `fonts/` | Images and fonts                                   |
+| Path                        | Description                                                          |
+| --------------------------- | -------------------------------------------------------------------- |
+| `index.html`                | Entry point, canvas and overlay layout                               |
+| `styles.css`                | Global styles and screen-specific CSS                                |
+| `js/`                       | Game logic, screens, asset loader, i18n, events                      |
+| `models/`                   | Character, enemies, world, level, drawables                          |
+| `levels/`                   | Level configuration (e.g. `level1.js`)                               |
+| `scripts/`                  | Build script (concatenates JS to `dist/bundle.js`)                   |
+| `tests/`                    | Vitest tests (smoke, build, i18n, level, keyboard, game/AssetLoader) |
+| `imgs/`, `audio/`, `fonts/` | Images, sounds and fonts                                             |
 
 ---
 
@@ -79,5 +97,8 @@ npm run build
 ### Scripts
 
 - `npm run build` – build `dist/bundle.js` from source
-- `npm run test:run` – run Vitest tests
+- `npm run test:run` – run all Vitest tests (23 tests)
+- `npm run test` – run Vitest in watch mode
 - `npm run lint` – run ESLint on `js/`, `models/`, `levels/`
+- `npm run format` – format code with Prettier
+- `npm run format:check` – check formatting without writing
