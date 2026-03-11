@@ -187,6 +187,17 @@
       el.setAttribute("aria-label", map[key]);
       if (el.alt !== undefined) el.alt = map[key];
     });
+    updateLangActiveState();
+  }
+
+  /**
+   * Sets .active on the current language button, removes it from the other.
+   */
+  function updateLangActiveState() {
+    const langDe = document.getElementById("lang-de");
+    const langEn = document.getElementById("lang-en");
+    if (langDe) langDe.classList.toggle("active", currentLang === "de");
+    if (langEn) langEn.classList.toggle("active", currentLang === "en");
   }
 
   if (typeof document !== "undefined" && document.readyState === "loading") {
@@ -4526,10 +4537,15 @@ const Game = (function () {
 
 window.game = Game;
 
+/**
+ * Initialises the game with the given level. Exposed globally for HTML/event handlers.
+ * @param {Level} [level=level1] - Level instance to run.
+ */
 function init(level = level1) {
   Game.init(level);
 }
 
+/** Resets the game and restarts level 1. */
 function resetGame() {
   Game.resetGame();
 }

@@ -186,6 +186,17 @@
       el.setAttribute("aria-label", map[key]);
       if (el.alt !== undefined) el.alt = map[key];
     });
+    updateLangActiveState();
+  }
+
+  /**
+   * Sets .active on the current language button, removes it from the other.
+   */
+  function updateLangActiveState() {
+    const langDe = document.getElementById("lang-de");
+    const langEn = document.getElementById("lang-en");
+    if (langDe) langDe.classList.toggle("active", currentLang === "de");
+    if (langEn) langEn.classList.toggle("active", currentLang === "en");
   }
 
   if (typeof document !== "undefined" && document.readyState === "loading") {

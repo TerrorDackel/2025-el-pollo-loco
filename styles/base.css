@@ -54,6 +54,7 @@ button {
 
 button:focus-visible,
 a:focus-visible,
+.lang-btn:focus-visible,
 #soundToggle:focus-visible,
 #abortToStart:focus-visible {
   outline: 3px solid #ffd000;
@@ -64,26 +65,66 @@ a:focus-visible,
   display: none !important;
 }
 
-#soundToggle {
+.top-right-controls {
   position: fixed;
-  top: 1rem;
+  top: calc(1rem + 60px);
   right: 1rem;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(0.5rem + 10px);
+}
+
+.lang-switcher {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffd000;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 208, 0, 0.6);
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  min-width: 2.5rem;
+  text-align: center;
+}
+
+.lang-btn:hover,
+.lang-btn:focus-visible {
+  background: rgba(255, 208, 0, 0.25);
+  color: #fff;
+}
+
+.lang-btn.active {
+  background: #ffd000;
+  color: #000;
+  border-color: #ffd000;
+}
+
+#soundToggle {
   width: 50px;
   height: 50px;
   cursor: pointer;
   object-fit: contain;
-  z-index: 30;
 }
 
 #abortToStart {
-  position: fixed;
-  top: calc(1rem + 50px + 1rem);
-  right: 1.5rem;
   width: 50px;
   height: 50px;
   cursor: pointer;
   object-fit: contain;
-  z-index: 30;
 }
 
 #canvas {
@@ -151,4 +192,32 @@ a:focus-visible,
   border-radius: inherit;
   background: linear-gradient(90deg, #ffd000, #ff9500);
   transition: width 0.15s ease-out;
+}
+
+@media (max-width: 834px) {
+  .top-right-controls #soundToggle,
+  .top-right-controls #abortToStart {
+    width: 37.5px;
+    height: 37.5px;
+  }
+  .lang-btn {
+    font-size: 1rem;
+  }
+}
+
+@media (max-height: 400px) {
+  .top-right-controls {
+    top: calc(0.5rem + 60px);
+    right: 0.5rem;
+    gap: calc(0.25rem + 10px);
+  }
+  .lang-btn {
+    font-size: 1rem;
+    padding: 0.15rem 0.3rem;
+  }
+  #soundToggle,
+  #abortToStart {
+    width: 37.5px;
+    height: 37.5px;
+  }
 }

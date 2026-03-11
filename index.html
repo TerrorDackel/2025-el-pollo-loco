@@ -13,23 +13,33 @@
   <body>
     <a href="#canvas" class="skip-link" data-i18n="skip_link">Direkt zum Spiel springen</a>
     <p class="visually-hidden" aria-live="polite" id="a11yNote" data-i18n="a11y_note"></p>
-    <img
-      id="soundToggle"
-      src="./imgs/logos/musicOff.png"
-      data-i18n-aria="sound_alt"
-      alt=""
-      role="button"
-      tabindex="0"
-    />
-    <img
-      id="abortToStart"
-      class="overlay-hidden"
-      src="./imgs/logos/close-btn-red.png"
-      data-i18n-aria="abort_alt"
-      alt=""
-      role="button"
-      tabindex="0"
-    />
+    <div class="top-right-controls">
+      <div class="lang-switcher" role="group" data-i18n-aria="lang_group_aria">
+        <button type="button" class="lang-btn" id="lang-de" data-lang="de" data-i18n="lang_de">
+          DE
+        </button>
+        <button type="button" class="lang-btn" id="lang-en" data-lang="en" data-i18n="lang_en">
+          EN
+        </button>
+      </div>
+      <img
+        id="soundToggle"
+        src="./imgs/logos/musicOff.png"
+        data-i18n-aria="sound_alt"
+        alt=""
+        role="button"
+        tabindex="0"
+      />
+      <img
+        id="abortToStart"
+        class="overlay-hidden"
+        src="./imgs/logos/close-btn-red.png"
+        data-i18n-aria="abort_alt"
+        alt=""
+        role="button"
+        tabindex="0"
+      />
+    </div>
     <canvas id="canvas" data-i18n-aria="canvas_aria" aria-describedby="a11yNote"></canvas>
     <div
       id="restartPrompt"
@@ -104,15 +114,6 @@
         <div class="header-container-start">
           <div class="header-txt-start" id="startScreenTitle" data-i18n="start_title"></div>
           <div class="header-txt-start" data-i18n="start_title2"></div>
-        </div>
-        <div class="lang-switcher" role="group" data-i18n-aria="lang_group_aria">
-          <button type="button" class="lang-btn" id="lang-de" data-lang="de" data-i18n="lang_de">
-            DE
-          </button>
-          <span class="lang-sep" aria-hidden="true">|</span>
-          <button type="button" class="lang-btn" id="lang-en" data-lang="en" data-i18n="lang_en">
-            EN
-          </button>
         </div>
         <div class="buttons-container-start">
           <button
