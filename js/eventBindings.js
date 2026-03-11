@@ -12,10 +12,12 @@
     const soundToggle = document.getElementById("soundToggle");
     if (soundToggle) {
       soundToggle.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === "Enter") {
           e.preventDefault();
           soundToggle.click();
         }
+        /* Do NOT use Space (e.key === " ") here: Space is reserved for throwing bottles.
+           When the sound button has focus, Space would otherwise toggle sound instead of throw. */
       });
     }
 
