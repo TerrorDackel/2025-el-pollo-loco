@@ -55,10 +55,14 @@ button {
 button:focus-visible,
 a:focus-visible,
 .lang-btn:focus-visible,
-#soundToggle:focus-visible,
 #abortToStart:focus-visible {
   outline: 3px solid #ffd000;
   outline-offset: 2px;
+}
+
+#soundToggle:focus,
+#soundToggle:focus-visible {
+  outline: none;
 }
 
 .overlay-hidden {
